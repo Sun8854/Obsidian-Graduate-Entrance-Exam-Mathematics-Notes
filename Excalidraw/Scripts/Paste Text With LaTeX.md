@@ -10,11 +10,26 @@ try {
   ea.setView && ea.setView("active", true);
   new Notice("开始转换…", 4000);
 
+  const settings = ea.getScriptSettings ? ea.getScriptSettings() : {};
+  if (!settings["成功后删除原文本"]) {
+    settings["成功后删除原文本"] = {
+      value: false,
+      description: "转换成功后删除选中的原文本元素",
+    };
+    ea.setScriptSettings && ea.setScriptSettings(settings);
+  }
+  const DELETE_ORIGINAL = settings["成功后删除原文本"].value === true;
+
   const GAP_X = 6;
   const GAP_Y = 8;
   const DEFAULT_LINE_HEIGHT = 24;
+  const prevStroke = ea.style.strokeColor;
+  const prevOpacity = ea.style.opacity;
+  ea.style.strokeColor = "#000000";
+  ea.style.opacity = 100;
 
 const selected = ea.getViewSelectedElements().filter((el) => el.type === "text");
+const originalIds = selected.map((el) => el.id);
 if (selected.length === 0) {
   new Notice("请先选中文本元素");
   return;
@@ -108,10 +123,11 @@ for (const line of lines) {
   for (let i = 0; i < tokens.length; i++) {
     const token = tokens[i];
     const size = measurements[i] ?? { width: 0, height: 0 };
+    const yAligned = cursorY + (lineHeight - (size.height || DEFAULT_LINE_HEIGHT)) / 2;
 
     if (token.type === "text") {
       if (token.value) {
-        const id = ea.addText(cursorX, cursorY, token.value);
+        const id = ea.addText(cursorX, yAligned, token.value);
         createdIds.push(id);
       }
       cursorX += size.width + GAP_X;
@@ -125,16 +141,16 @@ for (const line of lines) {
           cursorX = startX - size.width / 2;
         }
         try {
-          const id = await ea.addLaTex(cursorX, cursorY, token.value);
+          const id = await ea.addLaTex(cursorX, yAligned, token.value);
           if (id) {
             createdIds.push(id);
           } else {
-            const fallbackId = ea.addText(cursorX, cursorY, `$${token.value}$`);
+            const fallbackId = ea.addText(cursorX, yAligned, `$${token.value}$`);
             createdIds.push(fallbackId);
             hasFailure = true;
           }
         } catch (e) {
-          const fallbackId = ea.addText(cursorX, cursorY, `$${token.value}$`);
+          const fallbackId = ea.addText(cursorX, yAligned, `$${token.value}$`);
           createdIds.push(fallbackId);
           hasFailure = true;
         }
@@ -146,14 +162,17 @@ for (const line of lines) {
   cursorY += lineHeight + GAP_Y;
 }
 
-await ea.addElementsToView(false, false, true);
+await ea.addElementsToView(false, true, true);
 if (createdIds.length > 0) {
   ea.selectElementsInView(createdIds);
 }
 
-let createdView = ea.getViewSelectedElements();
+const viewElements = ea.getViewElements();
+let createdView = viewElements.filter((el) => createdIds.includes(el.id));
 if (createdIds.length > 0 && createdView.length === 0) {
-  new Notice("未能选中新生成的元素，已取消删除原文本");
+  new Notice("未找到新生成的元素，已取消删除原文本");
+  ea.style.strokeColor = prevStroke;
+  ea.style.opacity = prevOpacity;
   return;
 }
 
@@ -175,14 +194,28 @@ if (createdView.length > 0) {
     el.x += dx;
     el.y += dy;
   });
-  await ea.addElementsToView(false, false, true);
+  await ea.addElementsToView(false, true, true);
   ea.selectElementsInView(createdIds);
+
+  const api = ea.getExcalidrawAPI && ea.getExcalidrawAPI();
+  if (api && api.zoomToFit) {
+    api.zoomToFit(createdView, 0.9);
+  }
 }
 
 if (createdIds.length > 0) {
-  ea.copyViewElementsToEAforEditing(selected);
-  ea.getElements().forEach((el) => (el.isDeleted = true));
-  await ea.addElementsToView(false, false, true);
+  if (DELETE_ORIGINAL) {
+    const originalsInView = ea
+      .getViewElements()
+      .filter((el) => originalIds.includes(el.id));
+    if (originalsInView.length > 0) {
+      ea.copyViewElementsToEAforEditing(originalsInView);
+      ea.getElements().forEach((el) => (el.isDeleted = true));
+      await ea.addElementsToView(false, true, true);
+    }
+  } else {
+    new Notice("已生成新元素，原文本已保留");
+  }
 }
 
 if (hasFailure) {
@@ -190,6 +223,8 @@ if (hasFailure) {
 }
 
 new Notice("转换完成", 4000);
+ea.style.strokeColor = prevStroke;
+ea.style.opacity = prevOpacity;
 } catch (e) {
   new Notice(`脚本错误: ${e?.message ?? e}`, 8000);
 }
