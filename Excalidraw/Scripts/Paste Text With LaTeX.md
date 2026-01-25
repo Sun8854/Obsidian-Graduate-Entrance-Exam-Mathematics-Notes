@@ -1,18 +1,18 @@
-````md
 /*
 Paste Text With LaTeX
-
-- 选中包含 $...$ / $$...$$ 的文本
-- 自动把公式渲染为 LaTeX 元素，其余为普通文本
-- 按行排版
+}
 
 使用：选中已有文本后运行脚本。
 
 ```javascript
 */
-const GAP_X = 6;
-const GAP_Y = 8;
-const DEFAULT_LINE_HEIGHT = 24;
+try {
+  ea.setView && ea.setView("active", true);
+  new Notice("开始转换…", 4000);
+
+  const GAP_X = 6;
+  const GAP_Y = 8;
+  const DEFAULT_LINE_HEIGHT = 24;
 
 const selected = ea.getViewSelectedElements().filter((el) => el.type === "text");
 if (selected.length === 0) {
@@ -35,6 +35,7 @@ let cursorY = bounds.topY;
 
 const lines = raw.replace(/\r\n/g, "\n").split("\n");
 const createdIds = [];
+let hasFailure = false;
 
 const tokenize = (line) => {
   const tokens = [];
@@ -84,8 +85,20 @@ for (const line of lines) {
         measurements.push({ width: 0, height: 0 });
         continue;
       }
-      const d = await ea.tex2dataURL(tex, 4);
-      measurements.push({ width: d.size.width, height: d.size.height, display: token.display });
+      try {
+        const d = await ea.tex2dataURL(tex, 4);
+        if (!d) {
+          const fallback = ea.measureText(`$${tex}$`);
+          measurements.push({ width: fallback.width, height: fallback.height, display: token.display });
+          hasFailure = true;
+        } else {
+          measurements.push({ width: d.size.width, height: d.size.height, display: token.display });
+        }
+      } catch (e) {
+        const fallback = ea.measureText(`$${tex}$`);
+        measurements.push({ width: fallback.width, height: fallback.height, display: token.display });
+        hasFailure = true;
+      }
     }
   }
 
@@ -111,8 +124,20 @@ for (const line of lines) {
           // 若整行仅有一个 $$...$$，居中显示
           cursorX = startX - size.width / 2;
         }
-        const id = await ea.addLaTex(cursorX, cursorY, token.value);
-        createdIds.push(id);
+        try {
+          const id = await ea.addLaTex(cursorX, cursorY, token.value);
+          if (id) {
+            createdIds.push(id);
+          } else {
+            const fallbackId = ea.addText(cursorX, cursorY, `$${token.value}$`);
+            createdIds.push(fallbackId);
+            hasFailure = true;
+          }
+        } catch (e) {
+          const fallbackId = ea.addText(cursorX, cursorY, `$${token.value}$`);
+          createdIds.push(fallbackId);
+          hasFailure = true;
+        }
       }
       cursorX += size.width + GAP_X;
     }
@@ -124,5 +149,48 @@ for (const line of lines) {
 await ea.addElementsToView(false, false, true);
 if (createdIds.length > 0) {
   ea.selectElementsInView(createdIds);
+}
+
+let createdView = ea.getViewSelectedElements();
+if (createdIds.length > 0 && createdView.length === 0) {
+  new Notice("未能选中新生成的元素，已取消删除原文本");
+  return;
+}
+
+if (createdView.length > 0) {
+  const createdBox = ea.getBoundingBox(createdView);
+  const targetCenter = {
+    x: bounds.topX + bounds.width / 2,
+    y: bounds.topY + bounds.height / 2,
+  };
+  const createdCenter = {
+    x: createdBox.topX + createdBox.width / 2,
+    y: createdBox.topY + createdBox.height / 2,
+  };
+  const dx = targetCenter.x - createdCenter.x;
+  const dy = targetCenter.y - createdCenter.y;
+
+  ea.copyViewElementsToEAforEditing(createdView);
+  ea.getElements().forEach((el) => {
+    el.x += dx;
+    el.y += dy;
+  });
+  await ea.addElementsToView(false, false, true);
+  ea.selectElementsInView(createdIds);
+}
+
+if (createdIds.length > 0) {
+  ea.copyViewElementsToEAforEditing(selected);
+  ea.getElements().forEach((el) => (el.isDeleted = true));
+  await ea.addElementsToView(false, false, true);
+}
+
+if (hasFailure) {
+  new Notice("部分公式未能渲染，已以文本回退显示");
+}
+
+new Notice("转换完成", 4000);
+} catch (e) {
+  new Notice(`脚本错误: ${e?.message ?? e}`, 8000);
 }
 ````
