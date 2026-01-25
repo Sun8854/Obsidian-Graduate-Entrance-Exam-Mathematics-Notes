@@ -205,13 +205,22 @@ if (createdView.length > 0) {
 
 if (createdIds.length > 0) {
   if (DELETE_ORIGINAL) {
-    const originalsInView = ea
-      .getViewElements()
-      .filter((el) => originalIds.includes(el.id));
-    if (originalsInView.length > 0) {
-      ea.copyViewElementsToEAforEditing(originalsInView);
-      ea.getElements().forEach((el) => (el.isDeleted = true));
-      await ea.addElementsToView(false, true, true);
+    const api = ea.getExcalidrawAPI && ea.getExcalidrawAPI();
+    if (api && api.getSceneElements && api.updateScene) {
+      const scene = api.getSceneElements();
+      const updated = scene.map((el) =>
+        originalIds.includes(el.id) ? { ...el, isDeleted: true } : el,
+      );
+      api.updateScene({ elements: updated });
+    } else {
+      const originalsInView = ea
+        .getViewElements()
+        .filter((el) => originalIds.includes(el.id));
+      if (originalsInView.length > 0) {
+        ea.copyViewElementsToEAforEditing(originalsInView);
+        ea.getElements().forEach((el) => (el.isDeleted = true));
+        await ea.addElementsToView(false, true, true);
+      }
     }
   } else {
     new Notice("已生成新元素，原文本已保留");
