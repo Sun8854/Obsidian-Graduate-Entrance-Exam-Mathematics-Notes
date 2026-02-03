@@ -1,7 +1,7 @@
 `````markdown
 /*
 Smart Straight Line
-}
+*/
 
 使用：
 - 用画笔绘制线条后立即运行脚本（建议绑定快捷键）
@@ -13,6 +13,7 @@ Smart Straight Line
 
 ```javascript
 */
+(async () => {
 try {
   ea.setView && ea.setView("active", true);
 
@@ -183,6 +184,7 @@ try {
 } catch (e) {
   new Notice(`脚本错误: ${e?.message ?? e}`, 8000);
 }
+})();
 `````
 
 `````
