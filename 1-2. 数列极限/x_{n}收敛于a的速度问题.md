@@ -10,3 +10,6 @@
 **如**：  $x_{n} = \frac{1}{n},y_{n} = \frac{1}{\sqrt{n}},\lim_{n\to \infty}x_{n} = \lim_{n\to \infty}y_{n} = 0$  ，故  $I = \lim_{n\to \infty}\frac{\left|\frac{1}{n} - 0\right|}{\left|\frac{1}{\sqrt{n}} - 0\right|} = 0$  ，于是  $x_{n}$  比  $y_{n}$  收敛于0的速度快.
 
 数列极限定义为  $\lim_{n\to \infty}x_n = a\Leftrightarrow$  任意  $\varepsilon >0$  ，存在  $N > 0$  ，当  $n > N$  时，恒有  $\left|x_{n} - a\right| <   \varepsilon$  .此定义中不体现收敛速度，这是命制选择题的理论依据.
+[例2.16](Excalidraw/例题/第二讲例题.md#^V3lTAY4E)
+[例2.17](Excalidraw/例题/第二讲例题.md#^gILb6gGa)
+[例2.18](Excalidraw/例题/第二讲例题.md#^9kmYu75y)
