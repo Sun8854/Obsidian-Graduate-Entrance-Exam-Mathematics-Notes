@@ -23,4 +23,6 @@ Thumbs.db
 
 # 忽略垃圾箱文件夹
 .trash/
+
+.obsidian\plugins\obsidian-git
 ```
