@@ -7,7 +7,7 @@
 - 例题、习题、1000 题手写解答过程
 - 从第四讲开始的题目知识点详细总结（如果有时间的话会将前面的也补充完整）
 ## 内容展示
-![](assets/README/file-20260328132200408.png)
+<img width="1150" height="847" alt="屏幕截图 2026-03-28 132135" src="https://github.com/user-attachments/assets/1b5d9dc0-e577-4bdf-bf26-4a15a34fdfac" />
 ## 内容范围
 
 - 高等数学
