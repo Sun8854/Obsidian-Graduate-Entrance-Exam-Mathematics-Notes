@@ -70,6 +70,9 @@
   - Mehrmaid(必须要有)
   - LaTeX Suite
   - Outliner
+## 更新时间
+
+固定在每周一进行更新
 
 
 ## 与原项目的关系与致谢
