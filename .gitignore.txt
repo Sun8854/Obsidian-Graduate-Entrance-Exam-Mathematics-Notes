@@ -1,4 +1,4 @@
-```
+
 # 忽略操作系统自动生成的文件
 .DS_Store
 Thumbs.db
@@ -23,4 +23,3 @@ Thumbs.db
 
 # 忽略垃圾箱文件夹
 .trash/
-```
