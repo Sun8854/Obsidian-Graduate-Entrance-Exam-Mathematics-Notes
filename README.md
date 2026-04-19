@@ -62,6 +62,23 @@
 	- `线性代数主目录.md`
 4. 在图谱视图中查看知识点之间的双链关系，结合题目与手写过程进行复习。
 
+## QMD 语义背景（可选）
+
+如果你使用 [QMD](https://github.com/tobi/qmd) 进行本地语义检索，可直接使用仓库内配置：
+
+- 说明文档：`QMD语义背景配置.md`
+- 批量脚本：`qmd-context-bootstrap.ps1`
+
+建议在仓库根目录执行：
+
+```powershell
+./qmd-context-bootstrap.ps1
+qmd update
+qmd embed
+```
+
+如果以中文内容检索为主，建议按 `QMD语义背景配置.md` 中的说明切换多语言嵌入模型后再强制重嵌入。
+
 ## 推荐环境
 
 - Obsidian 最新稳定版
