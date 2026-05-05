@@ -21,11 +21,11 @@ $$\Gamma (\alpha) = 2 \int^{+\infty}_{0} t^{2\alpha-1} e^{-t^{2}} \mathrm{d}t ~ 
 
 ## 递推式
 
-$$\Gamma (\alpha) = \int^{+\infty}_{0} x^{\alpha-1} e^{-x} \mathrm{d}x$$
+$$\Gamma (\alpha) = \int^{+\infty}_{0} x^{\alpha-1} e^{-x} \mathrm{d}x= 2 \int^{+\infty}_{0} t^{2\alpha-1} e^{-t^{2}} \mathrm{d}t ~ (x,t>0)$$
 
-$$\Gamma (\alpha - 1) = \int^{+\infty}_{0} x^{\alpha} e^{-x} \mathrm{d}x = \alpha \Gamma(\alpha)$$
+$$\Gamma (\alpha + 1) = \int^{+\infty}_{0} x^{\alpha} e^{-x} \mathrm{d}x = \alpha \Gamma(\alpha)$$
 
-### 若 $x$ 为整数
+### 若 $\alpha$ 为整数
 
 后一项是前一项的 $\alpha$ 倍，即 $\Gamma (\alpha - 1) = \alpha \Gamma(\alpha)$ ，所以找第一项：
 
@@ -35,7 +35,7 @@ $$\Rightarrow~ \Gamma (2) = 1,~ \Gamma (3) = 2 \cdot 1 ,~ \Gamma (4) = 3 \cdot 2
 
 $$\Rightarrow \Gamma (n+1) = n!$$
 
-### 若 $x$ 为分数
+### 若 $\alpha$ 为分数
 
 $$\Gamma \left(\frac{1}{2}\right) = \sqrt{\pi}$$
 
@@ -55,9 +55,9 @@ $$\Rightarrow \Gamma \left(\frac{5}{2}\right)= \frac{3}{2} \cdot \frac{1}{2} \cd
 
 ## 高斯曲线
 
-$$y = e^{t^{2}}$$
+$$y = e^{-t^{2}}$$
 
-曲线下围成的面积为 $\sqrt{\pi}$ ，一半为 $\frac{\sqrt{\pi}}{2}$ 。
+曲线下围成的**面积**为 $\sqrt{\pi}$ ，一半为 $\frac{\sqrt{\pi}}{2}$ 。
 
 ![gaussian curve](assets/gaussian_curve.png)
 
