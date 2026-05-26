@@ -35,6 +35,9 @@ $$\Rightarrow~ \Gamma (2) = 1,~ \Gamma (3) = 2 \cdot 1 ,~ \Gamma (4) = 3 \cdot 2
 
 $$\Rightarrow \Gamma (n+1) = n!$$
 
+> [!summary] 使用方法
+> 将被积函数转化为 $\alpha^ne^{-\alpha}$ 的形式, $\int^{+\infty}_{0}\alpha^ne^{-\alpha}d \alpha=n!$ ^lywfl9
+
 ### 若 $\alpha$ 为分数
 
 $$\Gamma \left(\frac{1}{2}\right) = \sqrt{\pi}$$
