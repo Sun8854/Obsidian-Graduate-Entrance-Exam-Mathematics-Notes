@@ -66,7 +66,7 @@
 ## 推荐环境
 
 - Obsidian 最新稳定版
-- 已启用（仓库内有配置）的部分插件包含：
+- 已启用的部分插件包含：
   - Excalidraw(必须要有)
   - Mehrmaid(必须要有)
   - LaTeX Suite
