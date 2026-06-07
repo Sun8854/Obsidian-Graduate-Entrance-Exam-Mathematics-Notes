@@ -1,0 +1,791 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>横放圆柱抽水 · 液面下降速率</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&family=Newsreader:ital,wght@1,400;1,500&display=swap"
+    rel="stylesheet"
+  />
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css"
+  />
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+  <style>
+    /* ============================================================
+       tokens — single source of truth, no scattered hardcodes
+       ============================================================ */
+    :root {
+      --ink: #16181d;
+      --ink-2: #3b3f48;
+      --ink-3: #6b7280;
+      --ink-4: #9ca3af;
+      --rule: #e5e7eb;
+      --rule-soft: #eef0f3;
+      --surface: #fafbfc;
+      --surface-2: #f3f5f8;
+      --surface-3: #e9ecf1;
+      --accent: #2f4858;          /* deep slate-blue, single accent */
+      --accent-soft: #d9e1e8;
+      --accent-emph: #1e3445;     /* slightly deeper variant for the one
+                                     'rate of change' emphasis. SAME hue. */
+      --code-bg: #1a1d23;
+      --code-ink: #e6e8ee;
+      --max: 1320px;
+      --pad: clamp(1.25rem, 3vw, 2.25rem);
+      --radius: 6px;
+      --radius-pill: 999px;
+    }
+
+    *,
+    *::before,
+    *::after { box-sizing: border-box; }
+
+    html, body { margin: 0; padding: 0; }
+
+    body {
+      background: var(--surface);
+      color: var(--ink);
+      font-family: "Geist", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", system-ui, sans-serif;
+      font-size: 15.5px;
+      line-height: 1.7;
+      font-feature-settings: "ss01", "cv11";
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+
+    .katex { font-size: 1.02em; }
+
+    /* ============================================================
+       layout — single column editorial, no marketing hero
+       ============================================================ */
+    .shell {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 0 var(--pad);
+    }
+
+    /* ----- top meta strip ----- */
+    .meta {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 1.5rem;
+      padding: 1.25rem 0 0.5rem;
+      border-bottom: 1px solid var(--rule);
+      font-family: "Geist Mono", ui-monospace, monospace;
+      font-size: 11.5px;
+      letter-spacing: 0.04em;
+      color: var(--ink-3);
+      text-transform: uppercase;
+    }
+    .meta .left { display: flex; gap: 1.25rem; flex-wrap: wrap; }
+    .meta .right { color: var(--ink-4); }
+
+    /* ----- title block ----- */
+    .title-block {
+      padding: 2.5rem 0 1.75rem;
+      border-bottom: 1px solid var(--rule);
+    }
+    .title-block .eyebrow {
+      font-family: "Geist Mono", ui-monospace, monospace;
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      color: var(--accent);
+      text-transform: uppercase;
+      margin-bottom: 0.85rem;
+    }
+    .title-block h1 {
+      font-size: clamp(1.65rem, 3vw, 2.1rem);
+      line-height: 1.18;
+      font-weight: 600;
+      letter-spacing: -0.015em;
+      margin: 0 0 0.6rem;
+    }
+    .title-block .lede {
+      color: var(--ink-2);
+      max-width: 64ch;
+      font-size: 15px;
+      line-height: 1.7;
+    }
+
+    /* ----- two-column main: left rail removed, content centered ----- */
+    .main {
+      max-width: 720px;
+      margin: 2.5rem auto 4rem;
+      padding: 0 0.25rem;
+    }
+    @media (max-width: 800px) {
+      .main { padding: 0 1rem; }
+    }
+
+    .nav-rail { display: none; }
+
+    /* ----- section ----- */
+    section {
+      margin-bottom: 3rem;
+    }
+    section h2 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      letter-spacing: -0.005em;
+      margin: 0 0 0.4rem;
+      display: flex;
+      align-items: baseline;
+      gap: 0.65rem;
+    }
+    section h2 .num {
+      font-family: "Geist Mono", ui-monospace, monospace;
+      font-size: 0.78em;
+      color: var(--accent);
+      letter-spacing: 0.06em;
+    }
+    section h3 {
+      font-size: 0.96rem;
+      font-weight: 600;
+      margin: 1.5rem 0 0.4rem;
+      color: var(--ink);
+    }
+    section .h-sub {
+      color: var(--ink-3);
+      font-size: 13.5px;
+      margin: 0 0 1.1rem;
+      font-family: "Geist Mono", ui-monospace, monospace;
+      letter-spacing: 0.02em;
+    }
+    section p { margin: 0 0 0.85rem; }
+    section ul, section ol { margin: 0.4rem 0 1rem 1.25rem; padding: 0; }
+    section li { margin-bottom: 0.35rem; }
+
+    /* ----- callout ----- */
+    .callout {
+      border: 1px solid var(--rule);
+      border-left: 3px solid var(--accent);
+      background: var(--surface-2);
+      padding: 1rem 1.15rem;
+      margin: 1.1rem 0;
+      border-radius: var(--radius);
+      font-size: 14.5px;
+    }
+    .callout .tag {
+      font-family: "Geist Mono", ui-monospace, monospace;
+      font-size: 10.5px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.3rem;
+    }
+    .callout p:last-child { margin-bottom: 0; }
+
+    .callout.warn { border-left-color: var(--accent-emph); }
+    .callout.warn .tag { color: var(--accent-emph); }
+
+    /* ----- equation block ----- */
+    .eq {
+      background: var(--surface-2);
+      border: 1px solid var(--rule);
+      border-radius: var(--radius);
+      padding: 0.9rem 1.1rem;
+      margin: 0.75rem 0 1rem;
+      overflow-x: auto;
+    }
+    .eq .label {
+      display: block;
+      font-family: "Geist Mono", ui-monospace, monospace;
+      font-size: 10.5px;
+      color: var(--ink-3);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 0.4rem;
+    }
+
+    /* ----- diagram box ----- */
+    .diagram {
+      border: 1px solid var(--rule);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      background: #ffffff;
+      margin: 1rem 0 1.1rem;
+    }
+    .diagram .cap {
+      display: block;
+      font-family: "Geist Mono", ui-monospace, monospace;
+      font-size: 11px;
+      color: var(--ink-3);
+      letter-spacing: 0.08em;
+      margin-bottom: 0.75rem;
+      text-transform: uppercase;
+    }
+    .diagram svg { display: block; max-width: 100%; height: auto; margin: 0 auto; }
+
+    /* ----- two-up comparison (for the two coordinate-system readings) ----- */
+    .two-up {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin: 1rem 0 1.1rem;
+    }
+    @media (max-width: 700px) {
+      .two-up { grid-template-columns: 1fr; }
+    }
+    .two-up .panel {
+      border: 1px solid var(--rule);
+      border-radius: var(--radius);
+      padding: 1rem 1.1rem;
+      background: #ffffff;
+    }
+    .two-up .panel h4 {
+      margin: 0 0 0.5rem;
+      font-size: 14px;
+      font-weight: 600;
+    }
+    .two-up .panel .role {
+      font-family: "Geist Mono", ui-monospace, monospace;
+      font-size: 10.5px;
+      color: var(--ink-3);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 0.4rem;
+    }
+    .two-up .panel.muted { background: var(--surface-2); }
+    .two-up .panel .kv {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 0.3rem 0.7rem;
+      font-size: 13.5px;
+      margin-top: 0.4rem;
+    }
+    .two-up .panel .kv dt { color: var(--ink-3); font-family: "Geist Mono", monospace; font-size: 12px; }
+    .two-up .panel .kv dd { margin: 0; color: var(--ink); }
+
+    /* ----- steps ----- */
+    .steps {
+      counter-reset: stp;
+      list-style: none;
+      margin: 0.5rem 0 1.25rem;
+      padding: 0;
+      border-top: 1px solid var(--rule-soft);
+    }
+    .steps > li {
+      counter-increment: stp;
+      padding: 1rem 0 1.1rem;
+      border-bottom: 1px solid var(--rule-soft);
+      display: grid;
+      grid-template-columns: 2.5rem 1fr;
+      gap: 0.5rem 1.1rem;
+      align-items: baseline;
+    }
+    .steps > li::before {
+      content: counter(stp, decimal-leading-zero);
+      font-family: "Geist Mono", ui-monospace, monospace;
+      font-size: 11.5px;
+      color: var(--accent);
+      letter-spacing: 0.05em;
+      padding-top: 0.15rem;
+    }
+    .steps > li .head {
+      font-weight: 600;
+      font-size: 15px;
+      margin-bottom: 0.35rem;
+    }
+    .steps > li p { margin: 0 0 0.55rem; color: var(--ink-2); }
+    .steps > li p:last-child { margin-bottom: 0; }
+
+    /* ----- result strip ----- */
+    .result {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 1.1rem 1.5rem;
+      align-items: start;
+      padding: 1.1rem 1.25rem;
+      margin: 1.1rem 0;
+      background: #ffffff;
+      border: 1px solid var(--rule);
+      border-left: 3px solid var(--accent);
+      border-radius: var(--radius);
+    }
+    .result .num {
+      font-family: "Geist Mono", ui-monospace, monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.18em;
+      color: var(--accent);
+      text-transform: uppercase;
+      padding-top: 0.4rem;
+    }
+    .result .body p { margin: 0 0 0.5rem; }
+    .result .body p:last-child { margin-bottom: 0; }
+    .result.warn { border-left-color: var(--accent-emph); }
+    .result.warn .num { color: var(--accent-emph); }
+
+    /* ----- quick facts row ----- */
+    .facts {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      background: var(--rule);
+      border: 1px solid var(--rule);
+      border-radius: var(--radius);
+      overflow: hidden;
+      margin: 1rem 0 1.25rem;
+    }
+    @media (max-width: 700px) {
+      .facts { grid-template-columns: repeat(2, 1fr); }
+    }
+    .fact {
+      background: #ffffff;
+      padding: 0.85rem 1rem;
+    }
+    .fact .k {
+      font-family: "Geist Mono", ui-monospace, monospace;
+      font-size: 10.5px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--ink-3);
+      margin-bottom: 0.25rem;
+    }
+    .fact .v {
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: var(--ink);
+      letter-spacing: -0.01em;
+    }
+    .fact .u {
+      font-size: 12px;
+      color: var(--ink-3);
+      margin-left: 0.2rem;
+    }
+
+    /* ----- takeaway grid ----- */
+    .takeaways {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.8rem;
+      margin-top: 0.75rem;
+    }
+    @media (max-width: 700px) { .takeaways { grid-template-columns: 1fr; } }
+    .takeaway {
+      background: #ffffff;
+      border: 1px solid var(--rule);
+      border-radius: var(--radius);
+      padding: 0.85rem 1rem;
+    }
+    .takeaway .k {
+      font-family: "Geist Mono", ui-monospace, monospace;
+      font-size: 10.5px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.25rem;
+    }
+    .takeaway p { margin: 0; font-size: 14px; line-height: 1.6; color: var(--ink-2); }
+
+    /* ----- footer ----- */
+    footer {
+      border-top: 1px solid var(--rule);
+      padding: 1.5rem 0 2.5rem;
+      color: var(--ink-3);
+      font-family: "Geist Mono", ui-monospace, monospace;
+      font-size: 11.5px;
+      letter-spacing: 0.04em;
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+      text-transform: uppercase;
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <!-- ============== META STRIP ============== -->
+    <div class="meta">
+      <div class="left">
+        <span>数学二 / 一元函数积分学物理应用</span>
+        <span style="color: var(--ink-4)">·</span>
+        <span>横放圆柱抽水</span>
+      </div>
+      <div class="right">题型: 相关变化率 + 微元法</div>
+    </div>
+
+    <!-- ============== TITLE ============== -->
+    <header class="title-block">
+    <div class="eyebrow">第 12 讲 · 物理应用 · 02</div>
+    <h1>横放圆柱抽水：液面下降速率怎么求</h1>
+    <p class="lede">
+      容器是水平横放的圆柱，半径 1 m，柱长 1 m。当液面在
+      \(y = 0\) 高度时（恰好装到圆心那一条水平线），
+      已知液体以 0.2 m<sup>3</sup>/min 的速率被抽出。
+      求此时液面下降的速率 \(dy/dt\)。
+    </p>
+    </header>
+
+    <!-- ============== MAIN GRID ============== -->
+    <div class="main">
+    <!-- ====== content ====== -->
+    <main>
+      <!-- ===================== S1 坐标系 ===================== -->
+      <section id="s1">
+        <h2><span class="num">§01</span>坐标系与几何</h2>
+        <p class="h-sub">先把"横放"翻译成坐标语言</p>
+
+        <p>
+          "横放" = 圆柱的<strong>长轴</strong>是水平的，重力方向沿 y 轴向下。
+          按教参标准设置：长轴沿 <strong>z 轴</strong>（从 \(z = 0\) 到 \(z = 1\)，指向纸面外），
+          圆截面落在 xy 平面里。圆心放在原点，半径为 1。
+        </p>
+
+        <div class="diagram">
+          <span class="cap">图 1 · 坐标系（横放圆柱 · 长轴沿 z）</span>
+          <!-- inline SVG: long axis along z (perpendicular to page),
+               circular cross-section visible in xy-plane, level markers.
+               z axis is shown as a small circle/dot at origin to indicate
+               "into/out of the page" -->
+          <svg viewBox="0 0 460 320" role="img" aria-label="横放圆柱坐标系 长轴沿z">
+            <defs>
+              <pattern id="hatch" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(35)">
+                <line x1="0" y1="0" x2="0" y2="6" stroke="#16181d" stroke-width="0.6" />
+              </pattern>
+              <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+                <path d="M0,0 L10,5 L0,10 z" fill="#16181d" />
+              </marker>
+              <marker id="arrA" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+                <path d="M0,0 L10,5 L0,10 z" fill="#2f4858" />
+              </marker>
+            </defs>
+
+            <!-- y axis (vertical) -->
+            <line x1="230" y1="290" x2="230" y2="20" stroke="#16181d" stroke-width="1.1" marker-end="url(#arr)" />
+            <text x="220" y="18" font-family="Geist Mono" font-size="13">y</text>
+            <!-- x axis (horizontal) -->
+            <line x1="60" y1="160" x2="450" y2="160" stroke="#16181d" stroke-width="1.1" marker-end="url(#arr)" />
+            <text x="455" y="164" font-family="Geist Mono" font-size="13">x</text>
+
+            <!-- origin label -->
+            <text x="218" y="178" font-family="Geist Mono" font-size="11" fill="#6b7280">O</text>
+
+            <!-- unit ticks: y -->
+            <line x1="227" y1="60" x2="233" y2="60" stroke="#16181d" />
+            <text x="240" y="64" font-family="Geist Mono" font-size="11" fill="#6b7280">1</text>
+            <line x1="227" y1="160" x2="233" y2="160" stroke="#16181d" />
+            <text x="240" y="164" font-family="Geist Mono" font-size="11" fill="#6b7280">0</text>
+            <line x1="227" y1="260" x2="233" y2="260" stroke="#16181d" />
+            <text x="240" y="264" font-family="Geist Mono" font-size="11" fill="#6b7280">-1</text>
+
+            <!-- unit ticks: x -->
+            <line x1="330" y1="157" x2="330" y2="163" stroke="#16181d" />
+            <text x="322" y="178" font-family="Geist Mono" font-size="11" fill="#6b7280">1</text>
+            <line x1="130" y1="157" x2="130" y2="163" stroke="#16181d" />
+            <text x="122" y="178" font-family="Geist Mono" font-size="11" fill="#6b7280">-1</text>
+
+            <!-- z axis indicator: a circle with a dot (⊗) at origin meaning "into page" -->
+            <circle cx="80" cy="290" r="13" fill="none" stroke="#2f4858" stroke-width="1.1" />
+            <line x1="71" y1="299" x2="89" y2="281" stroke="#2f4858" stroke-width="1.1" />
+            <line x1="71" y1="281" x2="89" y2="299" stroke="#2f4858" stroke-width="1.1" />
+            <text x="100" y="295" font-family="Geist Mono" font-size="12" fill="#2f4858">z (长轴方向, 0→1)</text>
+
+            <!--
+              The cylinder side view:
+              long axis is INTO the page (z). So we see the front circular face.
+              Circle of radius 1, centered at (230, 160), drawn as 100px radius ellipse
+              (we use a circle since we're looking head-on).
+            -->
+            <circle cx="230" cy="160" r="100" fill="none" stroke="#16181d" stroke-width="1.3" />
+
+            <!--
+              Liquid region: lower half (y in [-1, 0]) of the front face.
+              Use a path that is the lower half of the circle, filled with hatch.
+            -->
+            <path
+              d="M 130 160 A 100 100 0 0 0 330 160 Z"
+              fill="url(#hatch)"
+              stroke="#16181d"
+              stroke-width="1.3"
+            />
+
+            <!--
+              Back end-cap hint: a slightly offset ellipse to suggest depth.
+              Drawn lighter and dashed.
+            -->
+            <ellipse
+              cx="244"
+              cy="160"
+              rx="6"
+              ry="100"
+              fill="none"
+              stroke="#16181d"
+              stroke-width="0.8"
+              stroke-dasharray="3 3"
+              opacity="0.55"
+            />
+            <!-- depth indicator arrow on the right -->
+            <line x1="378" y1="160" x2="402" y2="160" stroke="#2f4858" stroke-width="1.1" marker-end="url(#arrA)" />
+            <text x="383" y="151" font-family="Geist Mono" font-size="10" fill="#2f4858">z</text>
+
+            <!-- water surface line y = 0, highlighted -->
+            <line x1="130" y1="160" x2="330" y2="160" stroke="#2f4858" stroke-width="1.4" stroke-dasharray="4 3" />
+            <text x="338" y="156" font-family="Geist Mono" font-size="11" fill="#2f4858">y = 0  液面（半满）</text>
+
+            <!-- h arrow: from y=0 up to y=1 -->
+            <line x1="350" y1="160" x2="350" y2="60" stroke="#1e3445" stroke-width="1.3" marker-end="url(#arr)" />
+            <text x="358" y="115" font-family="Geist Mono" font-size="11" fill="#1e3445">高度 h</text>
+
+            <!-- small label inside liquid -->
+            <text x="195" y="230" font-family="Geist Mono" font-size="10" fill="#6b7280">水（占 y∈[-1,0]）</text>
+          </svg>
+        </div>
+
+        <div class="callout">
+          <div class="tag">几何约定</div>
+          <p>
+            <strong>水平方向直径</strong> = 2 m（在 x 轴上），
+            <strong>竖直方向直径</strong> = 2 m（在 y 轴上），
+            <strong>长度方向</strong> = 1 m（沿 z 轴）。
+            液面高度 \(h \in [-1, 1]\)，本题要的是 <strong>\(h = 0\)</strong> 这一时刻的 \(\dfrac{dh}{dt}\)。
+          </p>
+        </div>
+      </section>
+
+        <!-- ===================== S2 物理量 ===================== -->
+        <section id="s2">
+          <h2><span class="num">§02</span>物理量与符号</h2>
+          <p class="h-sub">先把题目里的"东西"和"动作"对齐</p>
+
+          <div class="facts">
+            <div class="fact">
+              <div class="k">半径 R</div>
+              <div class="v">1<span class="u">m</span></div>
+            </div>
+            <div class="fact">
+              <div class="k">柱长 L</div>
+              <div class="v">1<span class="u">m</span></div>
+            </div>
+            <div class="fact">
+              <div class="k">抽出速率</div>
+              <div class="v">0.2<span class="u">m³/min</span></div>
+            </div>
+            <div class="fact">
+              <div class="k">求</div>
+              <div class="v">|dy/dt|</div>
+            </div>
+          </div>
+
+          <p>
+            设液面高度为 \(y = h(t)\)，容器里液体的体积是 \(V(t)\)。
+            抽出液体 = 体积减少，所以
+          </p>
+          <div class="eq">
+            <span class="label">符号约定</span>
+            \(\displaystyle \frac{dV}{dt} = -0.2\ \text{m}^3/\text{min}\)
+          </div>
+          <p>
+            负号表示 \(V\) 在变小。题目问的是
+            "<strong>液面下降的速率</strong>"，是不带符号的速率大小，
+            所以最后要取绝对值（或用下降方向为正来写）。
+          </p>
+        </section>
+
+        <!-- ===================== S3 V ===================== -->
+        <section id="s3">
+          <h2><span class="num">§03</span>核心关系: V 是 y 的函数</h2>
+          <p class="h-sub">容器形状定了，V 就只跟液面高度 y 有关</p>
+
+          <p>
+            取液面在高度 \(y\) 时，下方是一个
+            <strong>弓形 (segment)</strong> + 沿 z 方向拉伸 1 m 的体积。
+            用圆方程 \(x^2 + y^2 = 1\)，在高度 \(y\) 处的水平
+            "半弦长" 为
+          </p>
+          <div class="eq">
+            <span class="label">水平半弦长（用 z 方向）</span>
+            \(\displaystyle \ell(y) = \sqrt{1 - y^2}\)
+          </div>
+          <p>
+            取一个厚度为 \(dy\) 的水平薄层（位于 \([y, y+dy]\)），
+            它近似一个长 \(\ell(y)\)、宽 \(\ell(y)\)、高 \(dy\) 的薄板，
+            再沿 z 方向拉伸 1 m：
+          </p>
+          <div class="eq">
+            <span class="label">体积微元（横向薄层）</span>
+            \(\displaystyle dV = \underbrace{2\sqrt{1 - y^2}}_{\text{水平宽度}}\ \cdot\ \underbrace{1}_{\text{沿 z 长度}}\ \cdot\ dy\)
+          </div>
+          <p>
+            积分从容器底 \(-1\) 积到当前液面 \(h\)：
+          </p>
+          <div class="eq">
+            <span class="label">液体体积</span>
+            \(\displaystyle V(h) = \int_{-1}^{h} 2\sqrt{1 - y^2}\ dy\)
+          </div>
+
+          <div class="callout">
+            <div class="tag">几何观察</div>
+            <p>
+              \(\int_{-1}^{h} 2\sqrt{1-y^2}\,dy\)
+              = 半径 1 的<strong>上半圆</strong>面积（从 \(-1\) 到 \(h\) 部分）。
+              当 \(h = 1\) 时，\(V = \pi\)（满容器，\(V_{\max} = \pi R^2 L = \pi \cdot 1 \cdot 1 = \pi\)）。
+              当 \(h = 0\) 时，\(V = \pi / 2\)（恰好装一半），符合"半满"的几何直觉。
+            </p>
+          </div>
+        </section>
+
+        <!-- ===================== S4 V' ===================== -->
+        <section id="s4">
+          <h2><span class="num">§04</span>求 V'(h)：用变上限积分求导</h2>
+          <p class="h-sub">把 V(h) 对 h 求导，被积函数直接代入上限</p>
+
+          <p>
+            对 \(V(h) = \displaystyle\int_{-1}^{h} 2\sqrt{1 - y^2}\,dy\) 两边对 \(h\) 求导，
+            由<strong>变上限积分求导公式</strong> \(\dfrac{d}{dh}\displaystyle\int_a^h f(y)\,dy = f(h)\)：
+          </p>
+          <div class="eq">
+            <span class="label">求导结果</span>
+            \(\displaystyle \frac{dV}{dh} = 2\sqrt{1 - h^2}\)
+          </div>
+          <p>
+            这一步的物理含义：液面在高度 \(h\) 时，液体表面
+            （沿 x 方向看是一个长 \(2\sqrt{1-h^2}\) 的线段，再沿 z 方向拉伸 1 m 形成的矩形）的面积，
+            正好就是 \(\dfrac{dV}{dh}\)。
+            <br>这是<strong>微元法的逆向视角</strong>：
+            \(dV = (\text{表面面积}) \cdot dh\)，所以 \(\dfrac{dV}{dh}\) 就是表面面积。
+          </p>
+
+          <div class="callout warn">
+            <div class="tag">⚠ 易错</div>
+            <p>
+              别把上限定成常数。\(h\) 是变量，\(\sqrt{1-h^2}\) 要<strong>保持</strong>含 \(h\)，
+              不能把 \(h=0\) 直接代入后再求导。求导 <em>之后</em>才能把具体的 \(h\) 值代进去。
+            </p>
+          </div>
+        </section>
+
+        <!-- ===================== S5 套相关变化率 ===================== -->
+        <section id="s5">
+          <h2><span class="num">§05</span>套"相关变化率"链条</h2>
+          <p class="h-sub">V 随 t 变，V 随 h 变，h 随 t 变，用链式法则串起来</p>
+
+          <p>
+            V 同时是 t 的函数（液体在减少）和 h 的函数（液面在下降），
+            链式法则给出
+          </p>
+          <div class="eq">
+            <span class="label">链式法则</span>
+            \(\displaystyle \frac{dV}{dt} = \frac{dV}{dh} \cdot \frac{dh}{dt}\)
+          </div>
+          <p>代入 \(dV/dh = 2\sqrt{1-h^2}\)，解出 \(dh/dt\)：</p>
+          <div class="eq">
+            <span class="label">解出 dy/dt</span>
+            \(\displaystyle \frac{dh}{dt} = \frac{\dfrac{dV}{dt}}{2\sqrt{1-h^2}} = \frac{-0.2}{2\sqrt{1-h^2}}\)
+          </div>
+          <p>把 \(h = 0\) 代入（这正是题目给定的液面位置）：</p>
+          <div class="eq">
+            <span class="label">代入 h = 0</span>
+            \(\displaystyle \left.\frac{dh}{dt}\right|_{h=0} = \frac{-0.2}{2 \cdot 1} = -0.1\ \text{m/min}\)
+          </div>
+
+          <div class="result warn">
+            <div class="num">结果</div>
+            <div class="body">
+              <p>
+                \(\dfrac{dh}{dt} = -0.1\ \text{m/min}\)。负号表示液面在下降。
+              </p>
+              <p>
+                <strong>液面下降的速率（题目问的大小）</strong> = 
+                \(\left|\dfrac{dh}{dt}\right| = 0.1\ \text{m/min}\)。
+              </p>
+            </div>
+          </div>
+
+          <ol class="steps">
+            <li>
+              <div>
+                <div class="head">把"动作"翻译成符号</div>
+                <p>抽水 ⇒ \(\dfrac{dV}{dt} = -0.2\)；求下降速率 ⇒ 求 \(\left|\dfrac{dh}{dt}\right|\)。</p>
+              </div>
+            </li>
+            <li>
+              <div>
+                <div class="head">写 V 跟 h 的关系</div>
+                <p>\(V(h) = \displaystyle\int_{-1}^{h} 2\sqrt{1-y^2}\,dy\)，这是弓形拉伸出来的体积。</p>
+              </div>
+            </li>
+            <li>
+              <div>
+                <div class="head">对 h 求导（变上限积分求导）</div>
+                <p>\(\dfrac{dV}{dh} = 2\sqrt{1-h^2}\)。<strong>不要先代 h=0 再求导</strong>。</p>
+              </div>
+            </li>
+            <li>
+              <div>
+                <div class="head">链式法则串起来</div>
+                <p>\(\dfrac{dV}{dt} = \dfrac{dV}{dh} \cdot \dfrac{dh}{dt}\)，解出 \(\dfrac{dh}{dt}\)。</p>
+              </div>
+            </li>
+            <li>
+              <div>
+                <div class="head">代入 h = 0，并取绝对值</div>
+                <p>\(\dfrac{dh}{dt} = -0.1\) m/min ⇒ 下降速率 \(0.1\) m/min。</p>
+              </div>
+            </li>
+          </ol>
+        </section>
+
+        <!-- ===================== S6 常见错点 ===================== -->
+        <section id="s6">
+          <h2><span class="num">§06</span>常见错点</h2>
+          <p class="h-sub">刷题时容易翻车的地方，列出来防一下</p>
+
+          <div class="takeaways">
+            <div class="takeaway">
+              <div class="k">错点 1 · 上下限写反</div>
+              <p>积分从 \(-1\) 到 \(h\)（液体所在区间），不是从 \(h\) 到 1。写反了 V 会算成"上方空气的体积"。</p>
+            </div>
+            <div class="takeaway">
+              <div class="k">错点 2 · 求导前先代值</div>
+              <p>不要把 \(h=0\) 代入 \(\sqrt{1-h^2}\) 后再对 h 求导。要先求导（得到含 h 的式子），再代值。</p>
+            </div>
+            <div class="takeaway">
+              <div class="k">错点 3 · 漏掉绝对值</div>
+              <p>题目问"下降速率大小"，是 \(|dh/dt|\)；问"变化率"才可能保留符号。读题看单位（m/min，永远非负）。</p>
+            </div>
+            <div class="takeaway">
+              <div class="k">错点 4 · 半径当直径</div>
+              <p>圆方程写 \(x^2 + y^2 = R^2\)，R = 1（不是 2）。薄层宽度 \(2\sqrt{R^2 - y^2} = 2\sqrt{1 - y^2}\)。</p>
+            </div>
+            <div class="takeaway">
+              <div class="k">错点 5 · 漏掉柱长 L</div>
+              <p>薄层再<strong>沿长轴方向</strong>拉 1 m 才得到 dV。少乘 L，答案会差 1 倍。</p>
+            </div>
+            <div class="takeaway">
+              <div class="k">错点 6 · 微元方向取错</div>
+              <p>沿<strong>水平方向</strong>取薄层（厚度 dy）才能用 \(\sqrt{1-y^2}\)。如果沿竖直取就回到另一道题了。</p>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <footer>
+      <div>横放圆柱抽水 · 液面下降速率</div>
+      <div>题型 / 相关变化率 + 微元法</div>
+    </footer>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      renderMathInElement(document.body, {
+        delimiters: [
+          { left: "$$", right: "$$", display: true },
+          { left: "$", right: "$", display: false },
+          { left: "\\(", right: "\\)", display: false },
+          { left: "\\[", right: "\\]", display: true },
+        ],
+        throwOnError: false,
+      });
+    });
+  </script>
+</body>
+</html>
