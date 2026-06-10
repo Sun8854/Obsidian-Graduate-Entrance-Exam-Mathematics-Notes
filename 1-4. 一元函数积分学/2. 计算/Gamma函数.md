@@ -61,6 +61,9 @@ $$\Rightarrow \Gamma \left(\frac{5}{2}\right)= \frac{3}{2} \cdot \frac{1}{2} \cd
 $$y = e^{-t^{2}}$$
 
 曲线下围成的**面积**为 $\sqrt{\pi}$ ，一半为 $\frac{\sqrt{\pi}}{2}$ 。
+$$
+\int^{\infty}_{0} e^{-x^2}dx=\frac{\sqrt{ \pi }}{2}
+$$
 
 ![gaussian curve](assets/gaussian_curve.png)
 
