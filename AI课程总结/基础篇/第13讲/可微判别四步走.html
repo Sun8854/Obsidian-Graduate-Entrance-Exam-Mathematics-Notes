@@ -12,7 +12,6 @@
   />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" />
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
-  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
   <style>
     :root {
       --ink: #16181d;
@@ -23,14 +22,10 @@
       --rule-soft: #eef0f3;
       --surface: #fafbfc;
       --surface-2: #f3f5f8;
-      --surface-3: #e9ecf1;
       --accent: #2f4858;
-      --accent-soft: #d9e1e8;
       --accent-emph: #1e3445;
-      --accent-warm: #b87333;
-      --accent-cool: #4a7a8c;
-      --code-bg: #1a1d23;
-      --code-ink: #e6e8ee;
+      --accent-warm: #b87333;     /* 误差专用橙 */
+      --accent-cool: #4a7a8c;     /* 切平面专用蓝 */
       --radius: 6px;
     }
     *, *::before, *::after { box-sizing: border-box; }
@@ -38,18 +33,18 @@
     body {
       background: var(--surface);
       color: var(--ink);
-      font-family: "Geist", "Noto Sans SC", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Source Han Sans CN", "WenQuanYi Micro Hei", "Heiti SC", "SimHei", system-ui, -apple-system, sans-serif;
+      font-family: "Geist", "Noto Sans SC", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", system-ui, -apple-system, sans-serif;
       font-size: 15.5px;
       line-height: 1.75;
       -webkit-font-smoothing: antialiased;
       text-rendering: optimizeLegibility;
     }
-    .katex { font-size: 1.02em; }
-    .shell { max-width: 1180px; margin: 0 auto; padding: 0 clamp(1.25rem, 3vw, 2.25rem); }
+    .katex { font-size: 1.05em; }
+    .shell { max-width: 1100px; margin: 0 auto; padding: 0 clamp(1.25rem, 3vw, 2.25rem); }
     .meta {
       display: flex; align-items: baseline; justify-content: space-between; gap: 1.5rem;
       padding: 1.25rem 0 0.5rem; border-bottom: 1px solid var(--rule);
-      font-family: "Geist Mono", ui-monospace, monospace; font-size: 11.5px;
+      font-family: "Geist Mono", monospace; font-size: 11.5px;
       letter-spacing: 0.04em; color: var(--ink-3); text-transform: uppercase;
     }
     .meta .left { display: flex; gap: 1.25rem; flex-wrap: wrap; }
@@ -87,7 +82,7 @@
 
     /* Main layout */
     .stage {
-      display: grid; grid-template-columns: 1.4fr 1fr; gap: 1.5rem;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;
       margin: 1.5rem 0 2rem;
     }
     @media (max-width: 900px) { .stage { grid-template-columns: 1fr; } }
@@ -95,39 +90,37 @@
     /* SVG stage */
     .stage-vis {
       border: 1px solid var(--rule); border-radius: var(--radius);
-      background: #ffffff; padding: 1.25rem; position: relative;
-      min-height: 480px;
+      background: #ffffff; padding: 1.25rem;
     }
     .stage-vis .cap {
       display: block; font-family: "Geist Mono", monospace;
       font-size: 11px; color: var(--ink-3); letter-spacing: 0.08em;
       margin-bottom: 0.5rem; text-transform: uppercase;
     }
-    .stage-vis svg { display: block; width: 100%; height: auto; max-height: 520px; }
+    .stage-vis svg { display: block; width: 100%; height: auto; max-height: 460px; }
     .stage-vis .legend {
-      display: flex; gap: 1.25rem; flex-wrap: wrap; margin-top: 0.5rem;
+      display: flex; gap: 1.25rem; flex-wrap: wrap; margin-top: 0.6rem;
       font-family: "Geist Mono", monospace; font-size: 11px; color: var(--ink-2);
     }
     .stage-vis .legend .swatch {
-      display: inline-block; width: 12px; height: 3px; vertical-align: middle;
-      margin-right: 0.35rem;
+      display: inline-block; width: 18px; height: 4px; vertical-align: middle;
+      margin-right: 0.35px;
     }
 
     /* Side panel */
-    .stage-side {
-      display: flex; flex-direction: column; gap: 1rem;
-    }
+    .stage-side { display: flex; flex-direction: column; gap: 1rem; }
     .step-title {
-      font-size: 1.4rem; font-weight: 600; letter-spacing: -0.01em;
+      font-size: 1.35rem; font-weight: 600; letter-spacing: -0.01em;
       margin: 0; display: flex; align-items: baseline; gap: 0.6rem;
     }
     .step-title .num {
-      font-family: "Geist Mono", monospace; font-size: 0.75em;
+      font-family: "Geist Mono", monospace; font-size: 0.7em;
       color: var(--accent); letter-spacing: 0.06em;
     }
     .step-sub {
-      color: var(--ink-3); font-size: 13px; margin: 0;
+      color: var(--ink-3); font-size: 12.5px; margin: 0;
       font-family: "Geist Mono", monospace; letter-spacing: 0.02em;
+      text-transform: uppercase;
     }
     .eq-box {
       background: var(--surface-2); border: 1px solid var(--rule);
@@ -140,11 +133,10 @@
     }
     .eq-box .live {
       font-family: "Geist Mono", monospace; font-size: 13px; color: var(--ink-2);
-      margin-top: 0.5rem; padding-top: 0.5rem; border-top: 1px dashed var(--rule);
+      margin-top: 0.6rem; padding-top: 0.6rem; border-top: 1px dashed var(--rule);
+      line-height: 1.9;
     }
-    .eq-box .live .num {
-      color: var(--accent-emph); font-weight: 600;
-    }
+    .eq-box .live .num { color: var(--accent-emph); font-weight: 600; }
     .eq-box .live .warm { color: var(--accent-warm); font-weight: 600; }
     .eq-box .live .cool { color: var(--accent-cool); font-weight: 600; }
 
@@ -153,26 +145,21 @@
       background: #ffffff; padding: 1rem 1.15rem;
     }
     .explain h4 {
-      margin: 0 0 0.5rem; font-size: 14px; font-weight: 600;
-      color: var(--accent); display: flex; align-items: center; gap: 0.4rem;
+      margin: 0 0 0.5rem; font-size: 13.5px; font-weight: 600;
+      color: var(--accent); font-family: "Geist Mono", monospace;
+      letter-spacing: 0.1em; text-transform: uppercase;
     }
-    .explain h4 .tag {
-      font-family: "Geist Mono", monospace; font-size: 10.5px;
-      letter-spacing: 0.16em; text-transform: uppercase;
-    }
-    .explain p { margin: 0 0 0.7rem; color: var(--ink-2); font-size: 14px; }
+    .explain p { margin: 0 0 0.6rem; color: var(--ink-2); font-size: 14px; }
     .explain p:last-child { margin-bottom: 0; }
-    .explain ul { margin: 0; padding-left: 1.2rem; color: var(--ink-2); font-size: 14px; }
-    .explain li { margin-bottom: 0.3rem; }
 
     /* Slider */
     .slider-row {
-      display: grid; grid-template-columns: 80px 1fr 60px; gap: 0.8rem;
-      align-items: center; padding: 0.6rem 0;
+      display: grid; grid-template-columns: 60px 1fr 60px; gap: 0.8rem;
+      align-items: center; padding: 0.5rem 0;
     }
     .slider-row .label {
-      font-family: "Geist Mono", monospace; font-size: 12px;
-      color: var(--ink-2); letter-spacing: 0.04em;
+      font-family: "Geist Mono", monospace; font-size: 13px;
+      color: var(--ink-2); font-weight: 600;
     }
     .slider-row .val {
       font-family: "Geist Mono", monospace; font-size: 13px;
@@ -184,32 +171,32 @@
       outline: none;
     }
     input[type="range"]::-webkit-slider-thumb {
-      -webkit-appearance: none; appearance: none; width: 18px; height: 18px;
+      -webkit-appearance: none; appearance: none; width: 20px; height: 20px;
       background: var(--accent); border-radius: 50%; cursor: pointer;
-      border: 3px solid #fff; box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+      border: 3px solid #fff; box-shadow: 0 1px 3px rgba(0,0,0,0.18);
     }
     input[type="range"]::-moz-range-thumb {
-      width: 18px; height: 18px; background: var(--accent);
+      width: 20px; height: 20px; background: var(--accent);
       border-radius: 50%; cursor: pointer; border: 3px solid #fff;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.18);
     }
     .slider-section {
       border: 1px solid var(--rule); border-radius: var(--radius);
-      background: #ffffff; padding: 0.6rem 1.1rem;
+      background: #ffffff; padding: 0.7rem 1.1rem;
     }
     .slider-section h4 {
-      margin: 0 0 0.4rem; font-size: 12px; font-weight: 600;
-      font-family: "Geist Mono", monospace; letter-spacing: 0.1em;
+      margin: 0 0 0.4rem; font-size: 11.5px; font-weight: 600;
+      font-family: "Geist Mono", monospace; letter-spacing: 0.12em;
       color: var(--ink-3); text-transform: uppercase;
     }
     .slider-section .hint {
       font-family: "Geist Mono", monospace; font-size: 11px;
-      color: var(--ink-4); margin-top: 0.3rem;
+      color: var(--ink-4); margin-top: 0.4rem; line-height: 1.55;
     }
 
     /* Navigation buttons */
     .nav-row {
-      display: flex; gap: 0.6rem; justify-content: space-between; margin-top: 1rem;
+      display: flex; gap: 0.6rem; justify-content: space-between; margin-top: 0.5rem;
     }
     .btn {
       font-family: inherit; font-size: 13.5px; font-weight: 500;
@@ -224,9 +211,7 @@
     }
     .btn.primary:hover { background: var(--accent-emph); border-color: var(--accent-emph); color: #fff; }
     .btn:disabled { opacity: 0.35; cursor: not-allowed; }
-    .btn:disabled:hover { border-color: var(--rule); color: var(--ink-2); }
 
-    /* Bottom sections */
     section.bottom { margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--rule); }
     section.bottom h2 {
       font-size: 1.2rem; font-weight: 600; margin: 0 0 0.5rem;
@@ -269,27 +254,26 @@
       margin-top: 2rem;
     }
 
-    /* SVG shared styles */
+    /* ===== SVG 共享样式 ===== */
     .axis { stroke: #9ca3af; stroke-width: 1; fill: none; }
     .axis-arrow { fill: #9ca3af; }
-    .axis-label { font-family: "Geist Mono", monospace; font-size: 11px; fill: #3b3f48; }
-    .grid-tick { stroke: #d1d5db; stroke-width: 0.8; }
-    .surf-line { stroke: #2f4858; stroke-width: 1.4; fill: none; opacity: 0.9; }
-    .surf-fill { fill: #2f4858; opacity: 0.06; }
-    .plane-line { stroke: #4a7a8c; stroke-width: 1.4; fill: none; opacity: 0.85; stroke-dasharray: 4,3; }
-    .plane-fill { fill: #4a7a8c; opacity: 0.10; }
-    .point { fill: #1e3445; }
-    .point-blue { fill: #4a7a8c; }
-    .arrow-acc { stroke: #2f4858; stroke-width: 2; fill: none; }
-    .arrow-plane { stroke: #4a7a8c; stroke-width: 2; fill: none; }
-    .arrow-err { stroke: #b87333; stroke-width: 2.2; fill: none; }
-    .arrow-rho { stroke: #1e3445; stroke-width: 1.5; fill: none; }
-    .label-eq { font-family: "Geist Mono", monospace; font-size: 11px; fill: #3b3f48; }
-    .label-warm { font-family: "Geist Mono", monospace; font-size: 11px; fill: #b87333; }
-    .label-cool { font-family: "Geist Mono", monospace; font-size: 11px; fill: #4a7a8c; }
-    .label-strong { font-family: "Geist Mono", monospace; font-size: 11px; fill: #1e3445; font-weight: 600; }
-
-    .dash-line { stroke: #6b7280; stroke-width: 0.8; stroke-dasharray: 3,3; fill: none; }
+    .axis-label { font-family: "Geist Mono", monospace; font-size: 12px; fill: #3b3f48; font-weight: 600; }
+    .grid-tick { stroke: #d1d5db; stroke-width: 1; }
+    .grid-light { stroke: #e5e7eb; stroke-width: 0.8; }
+    .curve-real { stroke: #2f4858; stroke-width: 2.5; fill: none; }  /* 真实曲线/曲面深蓝 */
+    .curve-tangent { stroke: #4a7a8c; stroke-width: 2.5; fill: none; stroke-dasharray: 6,4; }  /* 切线/切平面蓝虚线 */
+    .err-line { stroke: #b87333; stroke-width: 3.5; fill: none; }  /* 误差粗橙 */
+    .err-fill { fill: #b87333; opacity: 0.18; }  /* 误差区域填充 */
+    .surf-fill { fill: #2f4858; opacity: 0.08; }
+    .plane-fill { fill: #4a7a8c; opacity: 0.18; }
+    .surf-grid { stroke: #2f4858; stroke-width: 1; fill: none; opacity: 0.65; }
+    .point-real { fill: #1e3445; stroke: #fff; stroke-width: 2; }
+    .point-tangent { fill: #4a7a8c; stroke: #fff; stroke-width: 2; }
+    .point-tangent-on-surface { fill: #b87333; stroke: #fff; stroke-width: 2; }
+    .label-real { font-family: "Geist Mono", monospace; font-size: 12px; fill: var(--accent-emph); font-weight: 600; }
+    .label-tangent { font-family: "Geist Mono", monospace; font-size: 12px; fill: var(--accent-cool); font-weight: 600; }
+    .label-err { font-family: "Geist Mono", monospace; font-size: 12px; fill: var(--accent-warm); font-weight: 600; }
+    .label-light { font-family: "Geist Mono", monospace; font-size: 11px; fill: #6b7280; }
 
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after { animation: none !important; transition: none !important; }
@@ -309,162 +293,69 @@
 
     <header class="title-block">
       <div class="eyebrow">交互式讲解</div>
-      <h1>可微判别四步走 · 自己滑动试试</h1>
+      <h1>可微判别四步走</h1>
       <p class="lede">
-        以曲面 $z = x^2 + y^2$ 为例, 点 $P_0 = (1, 1)$. 拖动下面的滑块改变 $\Delta x$、$\Delta y$, 看四个步骤的箭头和公式怎么变化. 一边滑, 一边理解每一步在做什么.
+        以曲面 <span style="font-family:'Geist Mono',monospace;font-size:14px;">z = x² + y²</span> 在 P₀=(1,1) 处为例. 拖动滑块改变 Δx 和 Δy, 看俯视图的等高线、当前点、误差区怎么变化.
+        <strong>真增量 - 切增量 = 误差</strong>; <strong>误差 / 距离 → 0</strong> ⇒ 可微.
       </p>
     </header>
 
-    <!-- Tab bar -->
     <div class="tabbar" role="tablist">
       <button class="tab active" data-step="1" role="tab">
-        <span class="step-num">STEP 01</span>写 $\Delta z$
+        <span class="step-num">STEP 01</span>写 Δz (全增量)
       </button>
       <button class="tab" data-step="2" role="tab">
-        <span class="step-num">STEP 02</span>写 $dz$
+        <span class="step-num">STEP 02</span>写 dz (切平面)
       </button>
       <button class="tab" data-step="3" role="tab">
-        <span class="step-num">STEP 03</span>作差
+        <span class="step-num">STEP 03</span>作差 (Δz − dz)
       </button>
       <button class="tab" data-step="4" role="tab">
-        <span class="step-num">STEP 04</span>取极限
+        <span class="step-num">STEP 04</span>取极限 (误差/ρ)
       </button>
     </div>
 
-    <!-- Stage: SVG + side -->
     <div class="stage">
       <div class="stage-vis">
-        <span class="cap" id="svgCap">图 · 曲面与切平面 (初始)</span>
-        <svg id="visSvg" viewBox="0 0 580 460" role="img" aria-label="可微判别四步走可视化">
-          <defs>
-            <marker id="mAcc" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
-              <path d="M 0,0 L 10,5 L 0,10 z" fill="#2f4858"/>
-            </marker>
-            <marker id="mPlane" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
-              <path d="M 0,0 L 10,5 L 0,10 z" fill="#4a7a8c"/>
-            </marker>
-            <marker id="mErr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
-              <path d="M 0,0 L 10,5 L 0,10 z" fill="#b87333"/>
-            </marker>
-            <marker id="mRho" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
-              <path d="M 0,0 L 10,5 L 0,10 z" fill="#1e3445"/>
-            </marker>
-          </defs>
-
-          <!-- 3D 坐标系基底 -->
-          <!-- X 轴 (向右下) -->
-          <line x1="80" y1="380" x2="500" y2="380" class="axis"/>
-          <polygon points="508,380 498,376 498,384" class="axis-arrow"/>
-          <text x="510" y="384" class="axis-label">x</text>
-
-          <!-- Y 轴 (向左下) -->
-          <line x1="80" y1="380" x2="80" y2="100" class="axis"/>
-          <polygon points="80,92 76,102 84,102" class="axis-arrow"/>
-          <text x="60" y="92" class="axis-label">z</text>
-
-          <!-- Y 轴 (向左上) - 透视感 -->
-          <line x1="80" y1="380" x2="200" y2="430" class="axis"/>
-          <polygon points="208,432 196,430 200,438" class="axis-arrow"/>
-          <text x="210" y="438" class="axis-label">y</text>
-
-          <!-- 原点 -->
-          <text x="62" y="398" class="axis-label">O</text>
-
-          <!-- 曲面 z = x² + y² (在 xOz 平面切片) - 用两条母线表示 -->
-          <!-- 母线 1: 沿 x 方向 (y=0) -->
-          <path id="surfCurve1" d="" class="surf-line"/>
-          <!-- 母线 2: 沿 x 方向 (y=Δy) -->
-          <path id="surfCurve2" d="" class="surf-line" style="opacity:0.55"/>
-          <!-- 母线 3: 沿 y 方向 (x=0) -->
-          <path id="surfCurve3" d="" class="surf-line" style="opacity:0.4"/>
-          <!-- 母线 4: 沿 y 方向 (x=Δx) -->
-          <path id="surfCurve4" d="" class="surf-line" style="opacity:0.55"/>
-
-          <!-- 曲面填充 (透视近似) -->
-          <path id="surfFill" d="" class="surf-fill"/>
-
-          <!-- 切平面 (在 P₀ 处) -->
-          <path id="tangentPlane" d="" class="plane-fill"/>
-          <path id="tangentEdge" d="" class="plane-line"/>
-
-          <!-- 网格地平面 (示意) -->
-          <path d="M 80,380 L 80+0*14-0*16,380-0*14+0*16 M 80,380 L 200,430" class="grid-tick"/>
-          <line x1="120" y1="365" x2="120" y2="395" class="grid-tick"/>
-          <line x1="160" y1="350" x2="160" y2="410" class="grid-tick"/>
-          <line x1="200" y1="335" x2="200" y2="425" class="grid-tick"/>
-
-          <!-- P₀ (基准点, 投影到地平面 + 垂直拉到曲面) -->
-          <line id="p0Proj" x1="0" y1="0" x2="0" y2="0" class="dash-line"/>
-          <line id="p0ToSurf" x1="0" y1="0" x2="0" y2="0" stroke="#1e3445" stroke-width="1" stroke-dasharray="2,2"/>
-
-          <!-- P₁ (新点) -->
-          <line id="p1Proj" x1="0" y1="0" x2="0" y2="0" class="dash-line"/>
-          <line id="p1ToSurf" x1="0" y1="0" x2="0" y2="0" stroke="#1e3445" stroke-width="1" stroke-dasharray="2,2"/>
-
-          <!-- ρ 距离箭头 (在地平面上) -->
-          <line id="rhoArrow" x1="0" y1="0" x2="0" y2="0" class="arrow-rho"/>
-
-          <!-- Δz 箭头 (曲面上 P₀ → P₁, 纵向) -->
-          <line id="dzSurfArrow" x1="0" y1="0" x2="0" y2="0" class="arrow-acc" style="display:none"/>
-          <text id="dzSurfLabel" class="label-strong" style="display:none">Δz</text>
-
-          <!-- dz 箭头 (切平面上 P₀ → P₁, 纵向) -->
-          <line id="dzPlaneArrow" x1="0" y1="0" x2="0" y2="0" class="arrow-plane" style="display:none"/>
-          <text id="dzPlaneLabel" class="label-cool" style="display:none">dz</text>
-
-          <!-- 误差箭头 (切平面顶 → 曲面顶) -->
-          <line id="errArrow" x1="0" y1="0" x2="0" y2="0" class="arrow-err" style="display:none"/>
-          <text id="errLabel" class="label-warm" style="display:none">Δz − dz</text>
-
-          <!-- P₀ 点 -->
-          <circle id="p0Point" cx="0" cy="0" r="4" class="point"/>
-          <text id="p0Label" class="label-strong" x="0" y="0">P₀</text>
-
-          <!-- P₁ 点 -->
-          <circle id="p1Point" cx="0" cy="0" r="4" class="point-blue" style="display:none"/>
-          <text id="p1Label" class="label-cool" x="0" y="0" style="display:none">P₁</text>
+        <span class="cap" id="svgCap">图 · 矩形面积的全增量分解</span>
+        <svg id="visSvg" viewBox="0 0 560 420" role="img" aria-label="可微判别四步走可视化">
+          <!-- 内容由 JS 动态填充 -->
         </svg>
-
         <div class="legend" id="legend">
-          <span><span class="swatch" style="background:#2f4858"></span>曲面 z=x²+y²</span>
-          <span><span class="swatch" style="background:#4a7a8c; opacity:0.7"></span>切平面</span>
-          <span><span class="swatch" style="background:#b87333"></span>误差 Δz−dz</span>
-          <span><span class="swatch" style="background:#1e3445"></span>距离 ρ</span>
+          <span><span class="swatch" style="background:#2f4858"></span><span id="legendReal">真实曲面 / 真实增量 Δz</span></span>
+          <span><span class="swatch" style="background:#4a7a8c"></span><span id="legendTan">切平面 / 切增量 dz</span></span>
+          <span><span class="swatch" style="background:#b87333"></span><span id="legendErr">误差 Δz − dz</span></span>
         </div>
       </div>
 
       <div class="stage-side">
-        <h3 class="step-title" id="stepTitle"><span class="num">§04</span>第 1 步: 写全增量 $\Delta z$</h3>
-        <p class="step-sub" id="stepSub">REAL INCREMENT · 曲面真实增量</p>
+        <h3 class="step-title" id="stepTitle"><span class="num">STEP 01</span>写全增量 Δz</h3>
+        <p class="step-sub" id="stepSub">REAL INCREMENT</p>
 
         <div class="eq-box">
           <span class="label" id="eqLabel">公式</span>
-          <div id="eqBody">$$\Delta z = f(x_0+\Delta x,\ y_0+\Delta y) - f(x_0,\ y_0)$$</div>
-          <div class="live" id="liveVals">
-            <span>代入 $z=x^2+y^2$, $P_0=(1,1)$: 当前 $\Delta x =$<span class="num" id="dxNum">0.50</span>, $\Delta y =$<span class="num" id="dyNum">0.50</span></span><br>
-            $\Delta z =$<span class="num" id="dzNum">2.50</span>
-          </div>
+          <div id="eqBody" style="font-size: 16px; margin-top: 0.3rem;"></div>
+          <div class="live" id="liveVals"></div>
         </div>
 
-        <div class="explain" id="explain">
-          <h4><span class="tag">这一步在做什么</span></h4>
-          <p>把新点 $(x_0+\Delta x, y_0+\Delta y)$ 代入函数, 减去原点的函数值, 得到曲面上两点的真实高度差.</p>
-          <p><strong>看图:</strong> 黑色箭头从 $P_0$ 垂直指向 $P_1$ 在曲面上的位置, 这就是 $\Delta z$.</p>
+        <div class="explain">
+          <h4 id="explainTitle">这一步在做什么</h4>
+          <div id="explain"></div>
         </div>
 
         <div class="slider-section">
-          <h4>滑动控制 · 试试看</h4>
+          <h4>滑动控制 · 自己试试</h4>
           <div class="slider-row">
-            <span class="label">$\Delta x$</span>
-            <input type="range" id="dxSlider" min="-0.8" max="0.8" step="0.05" value="0.5">
-            <span class="val" id="dxVal">0.50</span>
+            <span class="label">Δx</span>
+            <input type="range" id="dxSlider" min="0" max="2" step="0.05" value="0.6">
+            <span class="val" id="dxVal">0.60</span>
           </div>
           <div class="slider-row">
-            <span class="label">$\Delta y$</span>
-            <input type="range" id="dySlider" min="-0.8" max="0.8" step="0.05" value="0.5">
-            <span class="val" id="dyVal">0.50</span>
+            <span class="label">Δy</span>
+            <input type="range" id="dySlider" min="0" max="2" step="0.05" value="0.4">
+            <span class="val" id="dyVal">0.40</span>
           </div>
-          <p class="hint" id="sliderHint">拖动滑块看 $\Delta z$ 箭头怎么变</p>
+          <p class="hint" id="sliderHint"></p>
         </div>
 
         <div class="nav-row">
@@ -474,18 +365,14 @@
       </div>
     </div>
 
-    <!-- Bottom: summary + pitfalls -->
     <section class="bottom">
       <h2>一句话总结</h2>
       <p class="h-sub">四步走浓缩成一句话</p>
       <div class="pull">
         <div class="tag">四步走的本质</div>
-        <p style="margin: 0; font-size: 15.5px; line-height: 1.75;">
-          <strong>拿偏导数算出来的"理论切平面", 去和真实曲面对比, 看误差是不是比距离消失得更快.</strong>
+        <p style="margin: 0; font-size: 15.5px;">
+          <strong>真增量 - 切增量 = 误差</strong>; <strong>误差 / 距离 → 0</strong> ⇒ 可微.
           四步对应"曲面真实增量 → 切平面增量 → 作差 → 除以距离取极限", 每一步都直接对应可微定义里的一个符号.
-        </p>
-        <p style="margin: 0.8rem 0 0; font-size: 13.5px; color: var(--ink-3); font-family: 'Geist Mono', monospace;">
-          口诀: 真增量 - 切增量 = 误差, 误差 / 距离 → 0 ⇒ 可微
         </p>
       </div>
     </section>
@@ -496,27 +383,27 @@
       <div class="takeaways">
         <div class="takeaway">
           <div class="k">错点 1 · 中途代值</div>
-          <p>在第 1 步或第 3 步把 $(0,0)$ 代入, 导致 $\Delta z - dz = 0$, 假判可微. $\Delta x$、$\Delta y$ 始终保持为符号.</p>
+          <p>在第 1 步或第 3 步把 (0,0) 代入, 导致 Δz - dz = 0, 假判可微. Δx、Δy 始终保持为符号.</p>
         </div>
         <div class="takeaway">
           <div class="k">错点 2 · A, B 取错</div>
-          <p>$A$、$B$ 必须是<strong>该点的偏导数</strong>, 不能是别的数. 这是可微必要条件直接推出来的.</p>
+          <p>A、B 必须是该点的偏导数, 不能是别的数. 这是可微必要条件直接推出来的.</p>
         </div>
         <div class="takeaway">
           <div class="k">错点 3 · 分母用错</div>
-          <p>第 4 步的分母是 $\rho = \sqrt{(\Delta x)^2 + (\Delta y)^2}$, <strong>不是</strong> $\Delta x$、$\Delta y$、也不是 $(\Delta x)^2 + (\Delta y)^2$.</p>
+          <p>第 4 步的分母是 ρ = √(Δx² + Δy²), 不是 Δx、Δy、也不是 Δx² + Δy².</p>
         </div>
         <div class="takeaway">
-          <div class="k">错点 4 · 路径法漏分正负</div>
-          <p>含绝对值的函数用路径法时, <strong>必须分正负讨论</strong>. 沿 $y=x$ 路径左右极限不相等是最常见的否定套路.</p>
+          <div class="k">错点 4 · dz = 0 误判</div>
+          <p>dz = 0 完全合法, 表示切平面就是 xOy 面. 不要因为它"看起来简单"就怀疑计算.</p>
         </div>
         <div class="takeaway">
-          <div class="k">错点 5 · dz = 0 误判</div>
-          <p>$dz = 0$ 完全合法, 表示切平面就是 $xOy$ 面. <strong>不要</strong>因为它"看起来简单"就怀疑计算.</p>
+          <div class="k">错点 5 · 求导对象错</div>
+          <p>第 2 步要求的是该点的偏导数值. 用定义法或先代值再求导, 不能搞反.</p>
         </div>
         <div class="takeaway">
-          <div class="k">错点 6 · 求导对象错</div>
-          <p>第 2 步要求的是<strong>该点</strong>的偏导数值. 题目问"在 $(0,0)$ 处", 用定义法更稳; 公式法要先代值再求导, <strong>不能搞反</strong>.</p>
+          <div class="k">错点 6 · 路径法漏分正负</div>
+          <p>含绝对值的函数用路径法时必须分正负讨论, 沿 y=x 路径左右极限不等是最常见否定套路.</p>
         </div>
       </div>
     </section>
@@ -529,420 +416,437 @@
 
   <script>
     // ============================================================
-    // 核心: 实时计算与可视化
+    // 配置: 当前滑块的 Δx、Δy 和 step
     // ============================================================
-    // 曲面 z = x² + y², P₀ = (1, 1)
-    // 3D 投影: 屏幕坐标 = (x, y)
-    //   x_screen = base_x + (x - y) * sx  (x 越右, y 越左)
-    //   z_screen = base_z - z * sz         (z 越高, 屏幕位置越高)
-
-    const X0 = 1, Y0 = 1;     // P₀ 坐标
-    const Z0 = X0*X0 + Y0*Y0; // = 2
-    const BASE_X = 280;       // 屏幕原点 (投影后 P₀ 的位置)
-    const BASE_Y = 300;
-    const SX = 60;            // x 每单位屏幕像素
-    const SY = 60;            // y 每单位屏幕像素
-    const SZ = 70;            // z 每单位屏幕像素 (向上为负)
-
-    // 把 3D 点 (x, y, z) 投影到 2D 屏幕坐标
-    function proj(x, y, z) {
-      return {
-        sx: BASE_X + (x - y) * 0 + x * SX - y * (SX * 0.3),
-        sy: BASE_Y - z * SZ - x * (SY * 0.15) + y * (SY * 0.15)
-      };
-    }
-
-    // 简化版投影: 等距投影, 忽略透视
-    function proj2(x, y, z) {
-      return {
-        sx: BASE_X + x * SX - y * (SX * 0.4),
-        sy: BASE_Y - z * SZ - x * (SY * 0.2) + y * (SY * 0.2)
-      };
-    }
-
-    // 计算函数值
-    function f(x, y) { return x*x + y*y; }
-
-    // ============================================================
-    // 渲染: 曲面和切平面
-    // ============================================================
-    let currentDx = 0.5, currentDy = 0.5;
+    let currentDx = 0.6, currentDy = 0.4;
     let currentStep = 1;
 
-    function renderSurface() {
-      const x1 = X0 + currentDx, y1 = Y0 + currentDy;
+    // 画布尺寸
+    const W = 560, H = 420;
 
-      // 曲面四条母线 (沿 x 和 y 方向的切片)
-      const drawCurve = (param, axis) => {
-        // axis: 'x' 或 'y'
-        const path = [];
-        const steps = 30;
-        for (let i = 0; i <= steps; i++) {
-          const t = i / steps;
-          let x, y, z;
-          if (axis === 'x') {
-            x = param.x_min + t * (param.x_max - param.x_min);
-            y = param.y;
-            z = f(x, y);
-          } else {
-            x = param.x;
-            y = param.y_min + t * (param.y_max - param.y_min);
-            z = f(x, y);
-          }
-          const p = proj2(x, y, z);
-          path.push((i === 0 ? 'M' : 'L') + p.sx.toFixed(1) + ',' + p.sy.toFixed(1));
+    // ============================================================
+    // 工具函数
+    // ============================================================
+    function f(x, y) { return x * y; }   // 矩形面积
+
+    // SVG 命名空间创建元素
+    const NS = 'http://www.w3.org/2000/svg';
+    function el(tag, attrs, parent) {
+      const e = document.createElementNS(NS, tag);
+      if (attrs) for (const k in attrs) e.setAttribute(k, attrs[k]);
+      if (parent) parent.appendChild(e);
+      return e;
+    }
+
+    function clearSvg() {
+      const svg = document.getElementById('visSvg');
+      while (svg.firstChild) svg.removeChild(svg.firstChild);
+    }
+
+    function drawAxes(svg, opts) {
+      const { ox, oy, w, h, xLabel, yLabel, showGrid } = opts;
+      // 坐标轴
+      el('line', { x1: ox, y1: oy + h, x2: ox + w, y2: oy + h, class: 'axis' }, svg);
+      el('polygon', { points: `${ox+w+8},${oy+h} ${ox+w},${oy+h-4} ${ox+w},${oy+h+4}`, class: 'axis-arrow' }, svg);
+      el('line', { x1: ox, y1: oy + h, x2: ox, y2: oy, class: 'axis' }, svg);
+      el('polygon', { points: `${ox},${oy-8} ${ox-4},${oy} ${ox+4},${oy}`, class: 'axis-arrow' }, svg);
+      el('text', { x: ox + w + 12, y: oy + h + 5, class: 'axis-label' }, svg).textContent = xLabel;
+      el('text', { x: ox - 8, y: oy - 5, class: 'axis-label', 'text-anchor': 'end' }, svg).textContent = yLabel;
+      el('text', { x: ox - 8, y: oy + h + 14, class: 'axis-label' }, svg).textContent = 'O';
+      // 网格 (可选)
+      if (showGrid) {
+        for (let i = 1; i <= 5; i++) {
+          const gx = ox + (w * i / 5);
+          el('line', { x1: gx, y1: oy, x2: gx, y2: oy + h, class: 'grid-light' }, svg);
         }
-        return path.join(' ');
-      };
-
-      // 母线 1: y = 0 (x 方向)
-      const curve1 = drawCurve({x_min: -0.5, x_max: 2.5, y: Y0}, 'x');
-      document.getElementById('surfCurve1').setAttribute('d', curve1);
-
-      // 母线 2: y = y1 (x 方向)
-      const curve2 = drawCurve({x_min: -0.5, x_max: 2.5, y: y1}, 'x');
-      document.getElementById('surfCurve2').setAttribute('d', curve2);
-
-      // 母线 3: x = 0 (y 方向)
-      const curve3 = drawCurve({x: X0, y_min: -0.5, y_max: 2.5}, 'y');
-      document.getElementById('surfCurve3').setAttribute('d', curve3);
-
-      // 母线 4: x = x1 (y 方向)
-      const curve4 = drawCurve({x: x1, y_min: -0.5, y_max: 2.5}, 'y');
-      document.getElementById('surfCurve4').setAttribute('d', curve4);
-    }
-
-    function renderTangentPlane() {
-      // 切平面在 P₀: z - Z0 = f_x(P₀)(x - X0) + f_y(P₀)(y - Y0)
-      // f_x = 2x, f_y = 2y, 在 (1,1) 处 f_x=2, f_y=2
-      // 即 z = 2 + 2(x-1) + 2(y-1) = 2x + 2y - 2
-
-      // 画切平面的四个角, 范围: x ∈ [X0-1, X0+1], y ∈ [Y0-1, Y0+1]
-      const corners = [
-        proj2(X0 - 1, Y0 - 1, 2*(X0-1) + 2*(Y0-1) - 2),
-        proj2(X0 + 1, Y0 - 1, 2*(X0+1) + 2*(Y0-1) - 2),
-        proj2(X0 + 1, Y0 + 1, 2*(X0+1) + 2*(Y0+1) - 2),
-        proj2(X0 - 1, Y0 + 1, 2*(X0-1) + 2*(Y0+1) - 2)
-      ];
-      const path = `M ${corners[0].sx.toFixed(1)},${corners[0].sy.toFixed(1)} L ${corners[1].sx.toFixed(1)},${corners[1].sy.toFixed(1)} L ${corners[2].sx.toFixed(1)},${corners[2].sy.toFixed(1)} L ${corners[3].sx.toFixed(1)},${corners[3].sy.toFixed(1)} Z`;
-      document.getElementById('tangentPlane').setAttribute('d', path);
-      document.getElementById('tangentEdge').setAttribute('d', path);
-    }
-
-    function renderPoints() {
-      const x1 = X0 + currentDx, y1 = Y0 + currentDy;
-      const z1 = f(x1, y1);
-
-      // P₀ 在曲面上
-      const p0 = proj2(X0, Y0, Z0);
-      document.getElementById('p0Point').setAttribute('cx', p0.sx);
-      document.getElementById('p0Point').setAttribute('cy', p0.sy);
-      document.getElementById('p0Label').setAttribute('x', p0.sx - 18);
-      document.getElementById('p0Label').setAttribute('y', p0.sy - 10);
-      document.getElementById('p0Label').textContent = 'P₀';
-
-      // P₀ 的地平面投影
-      const p0ground = proj2(X0, Y0, 0);
-      document.getElementById('p0Proj').setAttribute('x1', p0ground.sx);
-      document.getElementById('p0Proj').setAttribute('y1', p0ground.sy);
-      document.getElementById('p0Proj').setAttribute('x2', p0.sx);
-      document.getElementById('p0Proj').setAttribute('y2', p0.sy);
-
-      // P₁ 在曲面上
-      const p1 = proj2(x1, y1, z1);
-      document.getElementById('p1Point').setAttribute('cx', p1.sx);
-      document.getElementById('p1Point').setAttribute('cy', p1.sy);
-      document.getElementById('p1Point').style.display = 'block';
-      document.getElementById('p1Label').setAttribute('x', p1.sx + 10);
-      document.getElementById('p1Label').setAttribute('y', p1.sy + 14);
-      document.getElementById('p1Label').textContent = 'P₁';
-      document.getElementById('p1Label').style.display = 'block';
-
-      // P₁ 的地平面投影
-      const p1ground = proj2(x1, y1, 0);
-      document.getElementById('p1Proj').setAttribute('x1', p1ground.sx);
-      document.getElementById('p1Proj').setAttribute('y1', p1ground.sy);
-      document.getElementById('p1Proj').setAttribute('x2', p1.sx);
-      document.getElementById('p1Proj').setAttribute('y2', p1.sy);
-
-      // ρ 箭头 (地平面上)
-      document.getElementById('rhoArrow').setAttribute('x1', p0ground.sx);
-      document.getElementById('rhoArrow').setAttribute('y1', p0ground.sy);
-      document.getElementById('rhoArrow').setAttribute('x2', p1ground.sx);
-      document.getElementById('rhoArrow').setAttribute('y2', p1ground.sy);
-
-      // 计算 Δz, dz, error
-      const dz = z1 - Z0;
-      const fx = 2 * X0, fy = 2 * Y0;
-      const linDz = fx * currentDx + fy * currentDy;
-      const error = dz - linDz;
-      const rho = Math.sqrt(currentDx*currentDx + currentDy*currentDy);
-
-      // 更新 liveVals (用安全的方式: 只在元素存在时更新)
-      const dxNumEl = document.getElementById('dxNum');
-      const dyNumEl = document.getElementById('dyNum');
-      const dzNumEl = document.getElementById('dzNum');
-      if (dxNumEl) dxNumEl.textContent = currentDx.toFixed(2);
-      if (dyNumEl) dyNumEl.textContent = currentDy.toFixed(2);
-      if (dzNumEl) dzNumEl.textContent = dz.toFixed(2);
-
-      // 根据当前 step 控制可见性
-      updateStepVisual(p0, p1, p0ground, p1ground, dz, linDz, error, rho);
-    }
-
-    function updateStepVisual(p0, p1, p0g, p1g, dz, linDz, error, rho) {
-      const dzSurfArrow = document.getElementById('dzSurfArrow');
-      const dzSurfLabel = document.getElementById('dzSurfLabel');
-      const dzPlaneArrow = document.getElementById('dzPlaneArrow');
-      const dzPlaneLabel = document.getElementById('dzPlaneLabel');
-      const errArrow = document.getElementById('errArrow');
-      const errLabel = document.getElementById('errLabel');
-
-      // 默认全部隐藏
-      [dzSurfArrow, dzSurfLabel, dzPlaneArrow, dzPlaneLabel, errArrow, errLabel].forEach(el => {
-        el.style.display = 'none';
-      });
-
-      if (currentStep >= 1) {
-        // Step 1: 显示 Δz 箭头 (曲面真实增量)
-        // 切平面上对应的 P₀' 点 (dz 在切平面上的垂直投影)
-        const p0OnPlane = proj2(X0, Y0, Z0); // 切平面在 P₀ 处接触曲面, 起点相同
-        dzSurfArrow.setAttribute('x1', p0.sx);
-        dzSurfArrow.setAttribute('y1', p0.sy);
-        dzSurfArrow.setAttribute('x2', p1.sx);
-        dzSurfArrow.setAttribute('y2', p1.sy);
-        dzSurfArrow.style.display = 'block';
-        dzSurfArrow.setAttribute('marker-end', 'url(#mAcc)');
-        dzSurfLabel.setAttribute('x', (p0.sx + p1.sx) / 2 + 10);
-        dzSurfLabel.setAttribute('y', (p0.sy + p1.sy) / 2 - 6);
-                dzSurfLabel.textContent = `Δz = ${dz.toFixed(2)}`;
-                dzSurfLabel.style.display = 'block';
-      }
-
-      if (currentStep >= 2) {
-        // Step 2: 显示 dz 箭头 (切平面增量)
-        // 切平面上 P₁ 对应的点
-        const x1 = X0 + currentDx, y1 = Y0 + currentDy;
-        const planeZ = 2*x1 + 2*y1 - 2;
-        const p1OnPlane = proj2(x1, y1, planeZ);
-
-        dzPlaneArrow.setAttribute('x1', p0.sx);
-        dzPlaneArrow.setAttribute('y1', p0.sy);
-        dzPlaneArrow.setAttribute('x2', p1OnPlane.sx);
-        dzPlaneArrow.setAttribute('y2', p1OnPlane.sy);
-        dzPlaneArrow.style.display = 'block';
-        dzPlaneArrow.setAttribute('marker-end', 'url(#mPlane)');
-        dzPlaneLabel.setAttribute('x', (p0.sx + p1OnPlane.sx) / 2 - 50);
-        dzPlaneLabel.setAttribute('y', (p0.sy + p1OnPlane.sy) / 2 + 4);
-        dzPlaneLabel.textContent = `dz = ${linDz.toFixed(2)}`;
-        dzPlaneLabel.style.display = 'block';
-      }
-
-      if (currentStep >= 3) {
-        // Step 3: 显示误差箭头 (切平面顶 → 曲面顶)
-        const x1 = X0 + currentDx, y1 = Y0 + currentDy;
-        const planeZ = 2*x1 + 2*y1 - 2;
-        const p1OnPlane = proj2(x1, y1, planeZ);
-        const p1OnSurf = proj2(x1, y1, f(x1, y1));
-
-        errArrow.setAttribute('x1', p1OnPlane.sx);
-        errArrow.setAttribute('y1', p1OnPlane.sy);
-        errArrow.setAttribute('x2', p1OnSurf.sx);
-        errArrow.setAttribute('y2', p1OnSurf.sy);
-        errArrow.style.display = 'block';
-        errArrow.setAttribute('marker-end', 'url(#mErr)');
-        errLabel.setAttribute('x', (p1OnPlane.sx + p1OnSurf.sx) / 2 + 14);
-        errLabel.setAttribute('y', (p1OnPlane.sy + p1OnSurf.sy) / 2 + 4);
-                errLabel.textContent = `Δz−dz = ${error.toFixed(2)}`;
-                errLabel.style.display = 'block';
-      }
-
-      if (currentStep >= 4) {
-        // Step 4: 已经在 step 3 基础上加上 ρ 箭头 (地平面上), 加注误差/ρ 比值
-        const ratio = rho > 0.001 ? (error / rho).toFixed(3) : '0/0 (极限形式)';
-        // 在 ρ 箭头附近标注比值
-        const p0g = proj2(X0, Y0, 0);
-        const p1g = proj2(X0 + currentDx, Y0 + currentDy, 0);
-        // 在 ρ 箭头旁边加文字
-        // (复用 errLabel 区域不合适, 加新元素)
-        // 简化: 在 liveVals 里更新比值
-        const live = document.getElementById('liveVals');
-        const ratioTxt = rho > 0.001
-          ? `<span class="warm">${(error/rho).toFixed(3)}</span>`
-          : `<span class="warm">0/0</span> <span style="color:var(--ink-3)">(看趋势)</span>`;
-        live.innerHTML = `
-          <span>$\\Delta x =$<span class="num">${currentDx.toFixed(2)}</span>, $\\Delta y =$<span class="num">${currentDy.toFixed(2)}</span></span><br>
-          $\\Delta z =$<span class="num">${dz.toFixed(2)}</span>, $dz =$<span class="cool">${linDz.toFixed(2)}</span>, 误差 $=$<span class="warm">${error.toFixed(3)}</span><br>
-          $\\rho = \\sqrt{\\Delta x^2+\\Delta y^2} =$<span class="num">${rho.toFixed(3)}</span>, 误差 / $\\rho =$ ${ratioTxt}
-        `;
+        for (let i = 1; i <= 4; i++) {
+          const gy = oy + (h * i / 4);
+          el('line', { x1: ox, y1: gy, x2: ox + w, y2: gy, class: 'grid-light' }, svg);
+        }
       }
     }
 
     // ============================================================
-    // Step 内容
+    // 统一模型: 曲面 z = x² + y², 在 P₀ = (1,1)
+    //   真实 Δz = 2Δx + 2Δy + Δx² + Δy²
+    //   切线 dz = 2Δx + 2Δy
+    //   误差 = Δx² + Δy²
+    //   ρ = √(Δx² + Δy²)
+    // ============================================================
+
+    // 俯视图基础: 画坐标系 + 网格 + 0点标记
+        function drawTopView(svg, dx, dy, opts = {}) {
+          const { ox = 80, oy = 360, plotW = 420, plotH = 280, xMax = 2.0, yMax = 2.0 } = opts;
+          const sx = plotW / xMax, sy = plotH / yMax;
+          drawAxes(svg, { ox, oy, w: plotW, h: plotH, xLabel: 'Δx', yLabel: 'Δy', showGrid: true });
+
+          // 真实曲面 Δz 的"高度"用颜色编码: 一组同心方块代替曲面 (类似等高线)
+          const levels = [0.25, 0.5, 1.0, 2.0, 4.0];
+          const colors = ['#dde4e9', '#c8d3db', '#a8c5d4', '#7a9eb0', '#5a7e90'];
+          for (let i = 0; i < levels.length; i++) {
+            const r = Math.sqrt(levels[i]);
+            if (r * sx > plotW * 0.9) continue;
+            el('rect', {
+              x: ox - r * sx, y: oy - r * sy, width: 2 * r * sx, height: 2 * r * sy,
+              fill: colors[i], opacity: '0.7', stroke: '#2f4858', 'stroke-width': '1', 'stroke-dasharray': '4,3'
+            }, svg);
+            el('text', { x: ox + r * sx + 6, y: oy - r * sy + 4, class: 'label-light', 'font-size': '10' }, svg).textContent = `Δz=${levels[i]}`;
+          }
+
+          // 切平面 dz = 2Δx + 2Δy 也用等高线: Δx + Δy = c/2 (一组平行线)
+          const tanLevels = [0.5, 1.0, 1.5, 2.0, 3.0];
+          for (let i = 0; i < tanLevels.length; i++) {
+            const c = tanLevels[i];
+            // 在画布上的直线: (Δx, Δy) 满足 Δx + Δy = c/2
+            // 端点 (Δx, c/2 - Δx) 和 (c/2 - Δy, Δy)
+            // 选在画布范围内的两端
+            let x1 = Math.max(0, Math.min(xMax, c/2 - yMax));
+            let y1 = c/2 - x1;
+            let x2 = Math.min(xMax, Math.max(0, c/2));
+            let y2 = c/2 - x2;
+            el('line', {
+              x1: ox + x1 * sx, y1: oy - y1 * sy,
+              x2: ox + x2 * sx, y2: oy - y2 * sy,
+              stroke: '#4a7a8c', 'stroke-width': '1.2', 'stroke-dasharray': '5,3'
+            }, svg);
+            // 标注
+            const lx = ox + (x1+x2)/2 * sx;
+            const ly = oy - (y1+y2)/2 * sy;
+            el('text', { x: lx + 6, y: ly - 4, class: 'label-tangent', 'font-size': '10' }, svg).textContent = `dz=${c}`;
+          }
+
+          // 切点 P₀ 标注
+          el('circle', { cx: ox, cy: oy, r: 5, fill: '#1e3445' }, svg);
+          el('text', { x: ox + 8, y: oy + 14, class: 'label-light', 'font-size': '10' }, svg).textContent = '切点 P₀';
+
+          return { ox, oy, sx, sy, xMax, yMax };
+        }
+
+        // ============================================================
+        // Step 1: 写 Δz (真实增量)
+        // ============================================================
+        function renderStep1() {
+          const svg = document.getElementById('visSvg');
+          clearSvg();
+
+          const dx = currentDx, dy = currentDy;
+          const realZ = 2*dx + 2*dy + dx*dx + dy*dy;
+
+          const { ox, oy, sx, sy } = drawTopView(svg, dx, dy);
+
+          // 当前点 (Δx, dy)
+          const currX = ox + dx * sx;
+          const currY = oy - dy * sy;
+          el('circle', { cx: currX, cy: currY, r: 8, class: 'point-real' }, svg);
+
+          // 引线从当前点拉到右上角空白处, 标注 Δz 数值
+          el('line', { x1: currX, y1: currY, x2: currX + 50, y2: currY - 35, stroke: '#9ca3af', 'stroke-width': '0.8', 'stroke-dasharray': '2,2' }, svg);
+          el('rect', { x: currX + 50, y: currY - 70, width: 110, height: 38, fill: '#ffffff', stroke: '#9ca3af', 'stroke-width': '1', rx: 3 }, svg);
+          el('text', { x: currX + 56, y: currY - 54, class: 'label-real', 'font-size': '11' }, svg).textContent = `当前点`;
+          el('text', { x: currX + 56, y: currY - 39, class: 'label-real', 'font-size': '13' }, svg).textContent = `Δz = ${realZ.toFixed(2)}`;
+
+          // 标题
+          el('text', { x: ox + 210, y: oy - 320, class: 'label-real', 'text-anchor': 'middle', 'font-size': '13', 'font-weight': '600' }, svg).textContent = `俯视图: 蓝色方框=真实曲面 Δz 的等高线`;
+        }
+
+        // ============================================================
+        // Step 2: 写 dz (切平面/线性近似)
+        // ============================================================
+        function renderStep2() {
+          const svg = document.getElementById('visSvg');
+          clearSvg();
+
+          const dx = currentDx, dy = currentDy;
+          const realZ = 2*dx + 2*dy + dx*dx + dy*dy;
+          const linZ = 2*dx + 2*dy;
+
+          const { ox, oy, sx, sy } = drawTopView(svg, dx, dy);
+
+          // 当前点
+          const currX = ox + dx * sx;
+          const currY = oy - dy * sy;
+          el('circle', { cx: currX, cy: currY, r: 8, class: 'point-real' }, svg);
+
+          // 引线
+          el('line', { x1: currX, y1: currY, x2: currX + 50, y2: currY - 35, stroke: '#9ca3af', 'stroke-width': '0.8', 'stroke-dasharray': '2,2' }, svg);
+          el('rect', { x: currX + 50, y: currY - 90, width: 130, height: 60, fill: '#ffffff', stroke: '#9ca3af', 'stroke-width': '1', rx: 3 }, svg);
+          el('text', { x: currX + 56, y: currY - 73, class: 'label-real', 'font-size': '11' }, svg).textContent = `真实 Δz = ${realZ.toFixed(2)}`;
+          el('text', { x: currX + 56, y: currY - 56, class: 'label-tangent', 'font-size': '11' }, svg).textContent = `切平面 dz = ${linZ.toFixed(2)}`;
+          el('text', { x: currX + 56, y: currY - 39, class: 'label-light', 'font-size': '10' }, svg).textContent = `两者只在切点重合`;
+
+          // 强调: 真实是方框 (深蓝), 切平面是斜线 (蓝色虚线)
+          el('text', { x: ox + 210, y: oy - 320, class: 'label-real', 'text-anchor': 'middle', 'font-size': '13', 'font-weight': '600' }, svg).textContent = `俯视图: 蓝色方框=真实 Δz 等高线, 蓝色虚线=切平面 dz`;
+        }
+
+        // ============================================================
+        // Step 3: 作差 Δz − dz (误差)
+        // ============================================================
+        function renderStep3() {
+          const svg = document.getElementById('visSvg');
+          clearSvg();
+
+          const dx = currentDx, dy = currentDy;
+          const realZ = 2*dx + 2*dy + dx*dx + dy*dy;
+          const linZ = 2*dx + 2*dy;
+          const err = dx*dx + dy*dy;
+
+          const { ox, oy, sx, sy } = drawTopView(svg, dx, dy);
+
+          // 当前点
+          const currX = ox + dx * sx;
+          const currY = oy - dy * sy;
+          el('circle', { cx: currX, cy: currY, r: 8, class: 'point-real' }, svg);
+
+          // 高亮"误差区域": 在 (Δx, Δy) 处的"高度差"
+          // 俯视图上, 误差 = Δx² + Δy² = ρ²
+          // 这就是当前点到原点的距离的平方
+          // 我们用一个橙色方框高亮"误差区"
+          const errRadius = Math.sqrt(err);
+          el('rect', {
+            x: ox - errRadius * sx, y: oy - errRadius * sy,
+            width: 2 * errRadius * sx, height: 2 * errRadius * sy,
+            fill: '#b87333', opacity: '0.18', stroke: '#b87333', 'stroke-width': '2.5', 'stroke-dasharray': '5,3'
+          }, svg);
+
+          // 误差标签
+          el('text', { x: ox - 8, y: oy - errRadius * sy + 12, class: 'label-err', 'font-size': '13', 'text-anchor': 'end' }, svg).textContent = `误差区`;
+          el('text', { x: ox - 8, y: oy - errRadius * sy + 28, class: 'label-err', 'font-size': '11', 'text-anchor': 'end' }, svg).textContent = `= Δx²+Δy²=${err.toFixed(2)}`;
+
+          // 引线: 标注 Δz, dz, 误差
+          el('line', { x1: currX, y1: currY, x2: currX + 50, y2: currY - 35, stroke: '#9ca3af', 'stroke-width': '0.8', 'stroke-dasharray': '2,2' }, svg);
+          el('rect', { x: currX + 50, y: currY - 110, width: 140, height: 80, fill: '#ffffff', stroke: '#9ca3af', 'stroke-width': '1', rx: 3 }, svg);
+          el('text', { x: currX + 56, y: currY - 93, class: 'label-real', 'font-size': '11' }, svg).textContent = `Δz = ${realZ.toFixed(2)}`;
+          el('text', { x: currX + 56, y: currY - 76, class: 'label-tangent', 'font-size': '11' }, svg).textContent = `dz = ${linZ.toFixed(2)}`;
+          el('text', { x: currX + 56, y: currY - 59, class: 'label-err', 'font-size': '11' }, svg).textContent = `Δz − dz = ${err.toFixed(2)}`;
+          el('text', { x: currX + 56, y: currY - 42, class: 'label-light', 'font-size': '10' }, svg).textContent = `(高阶, 平方级)`;
+
+          // 标题
+          el('text', { x: ox + 210, y: oy - 320, class: 'label-real', 'text-anchor': 'middle', 'font-size': '13', 'font-weight': '600' }, svg).textContent = `橙色方框=误差区 (Δz − dz 的几何)`;
+        }
+
+        // ============================================================
+        // Step 4: 取极限 (误差 / ρ)
+        //   关键洞察: 误差 = ρ², 所以 误差/ρ = ρ → 0
+        //   显示: 固定比例 (dy/dx), 误差/ρ 随 ρ 线性下降到 0
+        // ============================================================
+        function renderStep4() {
+          const svg = document.getElementById('visSvg');
+          clearSvg();
+
+          const dx = currentDx, dy = currentDy;
+          const err = dx*dx + dy*dy;
+          const rho = Math.sqrt(err);
+          const ratio = rho > 0.001 ? err / rho : 0;  // = ρ
+
+          const { ox, oy, sx, sy } = drawTopView(svg, dx, dy);
+
+          // 当前点
+          const currX = ox + dx * sx;
+          const currY = oy - dy * sy;
+          el('circle', { cx: currX, cy: currY, r: 8, class: 'point-real' }, svg);
+
+          // ρ 距离箭头 (从原点到当前点, 即误差方框的边角)
+          el('line', { x1: ox, y1: oy, x2: currX, y2: currY, stroke: '#1e3445', 'stroke-width': '2', 'marker-end': 'url(#mErr)' }, svg);
+
+          // ρ 标签 (沿对角线中段)
+          el('text', { x: (ox + currX)/2 - 14, y: (oy + currY)/2 + 4, class: 'label-real', 'font-size': '13', 'font-weight': '700' }, svg).textContent = `ρ = ${rho.toFixed(3)}`;
+
+          // 当前点的误差区
+          const errRadius = Math.sqrt(err);
+          el('rect', {
+            x: ox - errRadius * sx, y: oy - errRadius * sy,
+            width: 2 * errRadius * sx, height: 2 * errRadius * sy,
+            fill: '#b87333', opacity: '0.18', stroke: '#b87333', 'stroke-width': '2.5', 'stroke-dasharray': '5,3'
+          }, svg);
+
+          // 右下角: 误差/ρ 比值的醒目提示框
+          const boxX = 320, boxY = 50, boxW = 200, boxH = 100;
+          el('rect', { x: boxX, y: boxY, width: boxW, height: boxH, fill: '#fafbfc', stroke: '#b87333', 'stroke-width': '2', rx: 6 }, svg);
+          el('text', { x: boxX + 12, y: boxY + 22, class: 'label-err', 'font-size': '11', 'font-weight': '700', 'letter-spacing': '0.1em' }, svg).textContent = `误差 / ρ`;
+          el('text', { x: boxX + 12, y: boxY + 50, class: 'label-err', 'font-size': '24', 'font-weight': '700' }, svg).textContent = `= ${ratio.toFixed(3)}`;
+          el('text', { x: boxX + 12, y: boxY + 70, class: 'label-light', 'font-size': '10' }, svg).textContent = `当 ρ→0 时, 这个值 → 0`;
+          el('text', { x: boxX + 12, y: boxY + 85, class: 'label-real', 'font-size': '10', 'font-weight': '600' }, svg).textContent = `⇒ 可微 ✓`;
+
+          // 顶部提示
+          el('text', { x: ox + 210, y: oy - 320, class: 'label-real', 'text-anchor': 'middle', 'font-size': '13', 'font-weight': '600' }, svg).textContent = `对角线 = ρ 距离; 橙色方框 = 误差区`;
+        }
+
+    // ============================================================
+    // 内容配置
     // ============================================================
     const stepData = {
       1: {
-        title: '第 1 步: 写全增量 $\\Delta z$',
-        sub: 'REAL INCREMENT · 曲面真实增量',
+        title: '写全增量 Δz',
+        sub: 'REAL INCREMENT',
         eqLabel: '公式',
-        eqBody: '$$\\Delta z = f(x_0+\\Delta x,\\ y_0+\\Delta y) - f(x_0,\\ y_0)$$',
-        explainTitle: '这一步在做什么',
-        explain: `
-          <p>把新点 $(x_0+\\Delta x, y_0+\\Delta y)$ 代入函数, 减去原点的函数值, 得到<strong>曲面上两点的真实高度差</strong>.</p>
-          <p><strong>看图:</strong> 黑色箭头从 $P_0$ 垂直指向 $P_1$ 在曲面上的位置, 这就是 $\\Delta z$.</p>
-        `,
-        sliderHint: '拖动滑块看 $\\Delta z$ 箭头怎么变 (长度 = 数值)',
-        liveBase: ''
+        eqHtml: `曲面 <span style="font-family:'Geist Mono',monospace;">z = x² + y²</span> 在 P₀=(1,1) 处, 给增量 Δx、Δy:<br><br>
+          <span class="label-real" style="font-size:18px;">Δz = 2Δx + 2Δy + Δx² + Δy²</span><br><br>
+          线性主部 <span class="label-cool">2Δx + 2Δy</span> + 高阶小量 <span class="label-err">Δx² + Δy²</span>`,
+        explain: `<p>把新点代入函数, 减去原点函数值, 得到<strong>真实增量</strong>.</p>
+          <p><strong>俯视图</strong>: 横轴 Δx、纵轴 Δy, 蓝色同心方框是真实曲面 Δz 的<strong>等高线</strong> (高度相同的点连成的曲线).</p>
+          <p><strong>看图</strong>: 拖动滑块, 观察当前红点位置, 引线框实时显示 Δz 数值.</p>`,
+        sliderHint: '拖 Δx、Δy 看当前点位置和 Δz 数值怎么变',
+        live: () => {
+          const dx = currentDx, dy = currentDy;
+          const lin = 2*dx + 2*dy;
+          const hi = dx*dx + dy*dy;
+          return `Δx = <span class="num">${dx.toFixed(2)}</span>, Δy = <span class="num">${dy.toFixed(2)}</span><br>
+            线性主部 = <span class="cool">${lin.toFixed(2)}</span><br>
+            高阶小量 = Δx²+Δy² = <span class="warm">${hi.toFixed(3)}</span><br>
+            <span class="num" style="font-size:14px;">Δz = ${(lin+hi).toFixed(2)}</span>`;
+        }
       },
       2: {
-        title: '第 2 步: 写线性增量 $dz$',
-        sub: 'LINEAR INCREMENT · 切平面给出的理论增量',
+        title: '写线性增量 dz (切平面)',
+        sub: 'LINEAR INCREMENT',
         eqLabel: '公式',
-        eqBody: '$$dz = f_x(x_0,y_0) \\cdot \\Delta x + f_y(x_0,y_0) \\cdot \\Delta y$$',
-        explainTitle: '这一步在做什么',
-        explain: `
-          <p>先求偏导数, 再用偏导数作为系数拼出切平面给出的小幅增量.</p>
-          <p>对 $z = x^2+y^2$ 在 $(1,1)$ 处: $f_x = 2, f_y = 2$, 所以 $dz = 2\\Delta x + 2\\Delta y$.</p>
-          <p><strong>看图:</strong> 蓝色箭头表示切平面上 $P_0 \\to P_1$ 的纵向增量. 蓝箭头和黑箭头不一样长 —— 这就是我们要看的"误差".</p>
-        `,
-        sliderHint: '拖动滑块对比黑箭头 ($\\Delta z$) 和蓝箭头 ($dz$)',
-        liveBase: ''
+        eqHtml: `切平面在 P₀=(1,1) 处:<br><br>
+          <span class="label-tangent" style="font-size:18px;">dz = 2·Δx + 2·Δy</span><br><br>
+          系数是偏导数 f_x=f_y=2 (在 P₀ 处)<br>
+          dz 是切平面的"理论增量"`,
+        explain: `<p>先用定义法或公式法求<strong>偏导数</strong> f_x、f_y, 再用它们作系数拼出切平面的线性近似.</p>
+          <p><strong>俯视图</strong>: 蓝色虚线 (平行线) 是切平面 dz 的<strong>等高线</strong>, 蓝色方框是真实 Δz 等高线. 两者在原点 (切点 P₀) 重合, 越远偏离越大.</p>
+          <p><strong>看图</strong>: 切平面是线性的 (等高线是直线), 真实曲面是弯曲的 (等高线是同心方框).</p>`,
+        sliderHint: '拖 Δx、Δy 看蓝色虚线和蓝色方框哪个偏离原点更快',
+        live: () => {
+          const dx = currentDx, dy = currentDy;
+          const realZ = 2*dx + 2*dy + dx*dx + dy*dy;
+          const linZ = 2*dx + 2*dy;
+          return `Δx = <span class="num">${dx.toFixed(2)}</span>, Δy = <span class="num">${dy.toFixed(2)}</span><br>
+            真实 Δz = <span class="num">${realZ.toFixed(2)}</span><br>
+            切平面 dz = <span class="cool">${linZ.toFixed(2)}</span><br>
+            差距 (下一步看) = <span class="warm">${(realZ-linZ).toFixed(3)}</span>`;
+        }
       },
       3: {
-        title: '第 3 步: 作差 $\\Delta z - dz$',
-        sub: 'RESIDUAL · 曲面比切平面高出来的部分',
+        title: '作差 Δz − dz (误差)',
+        sub: 'RESIDUAL',
         eqLabel: '公式',
-        eqBody: '$$\\text{误差} = \\Delta z - dz$$',
-        explainTitle: '这一步在做什么',
-        explain: `
-          <p>用 $\\Delta z$ 减去 $dz$, 得到<strong>误差</strong> —— 即曲面比切平面"鼓出来"的部分.</p>
-          <p>对 $z = x^2+y^2$: 误差 = $\\Delta x^2 + \\Delta y^2$.</p>
-          <p><strong>看图:</strong> 橙色箭头从切平面顶部指向曲面顶部. 长度就是误差.</p>
-        `,
-        sliderHint: '拖动滑块看橙色误差箭头怎么变. 步子越大, 误差越大 (高阶)',
-        liveBase: ''
+        eqHtml: `误差 = 真实增量 − 切平面增量:<br><br>
+          <span class="label-err" style="font-size:18px;">误差 = Δz − dz</span><br><br>
+          对 z = x²+y²:<br>
+          误差 = <span class="warm">Δx² + Δy²</span> (高阶, 比 ρ 还小)`,
+        explain: `<p>真实曲面比切平面"高出来的部分"——这就是误差.</p>
+          <p><strong>俯视图</strong>: 橙色方框是<strong>误差区</strong>. 它的大小就是 Δx²+Δy² (注意: Δz 越大, 误差越大, 误差方向是远离原点).</p>
+          <p>对 z = x²+y²: 误差 = Δx²+Δy² = ρ² (距离的平方).</p>`,
+        sliderHint: '拖 Δx、Δy 看橙色误差方框变大/变小 (Δx²+Δy² 怎么变)',
+        live: () => {
+          const dx = currentDx, dy = currentDy;
+          const realZ = 2*dx + 2*dy + dx*dx + dy*dy;
+          const linZ = 2*dx + 2*dy;
+          const err = realZ - linZ;
+          return `Δx = <span class="num">${dx.toFixed(2)}</span>, Δy = <span class="num">${dy.toFixed(2)}</span><br>
+            Δz = <span class="num">${realZ.toFixed(2)}</span>, dz = <span class="cool">${linZ.toFixed(2)}</span><br>
+            <span class="warm">误差 = Δx²+Δy² = ${err.toFixed(3)}</span>`;
+        }
       },
       4: {
-        title: '第 4 步: 取极限 $\\lim \\dfrac{\\Delta z - dz}{\\rho}$',
-        sub: 'SCALE BY DISTANCE · 用距离归一化误差',
+        title: '取极限 (误差 / ρ)',
+        sub: 'SCALE BY DISTANCE',
         eqLabel: '公式',
-        eqBody: '$$\\lim_{\\rho \\to 0} \\frac{\\Delta z - dz}{\\rho} \\stackrel{?}{=} 0$$',
-        explainTitle: '这一步在做什么',
-        explain: `
-          <p>把误差除以距离 $\\rho$, 看极限是否 = 0.</p>
-          <p>对 $z = x^2+y^2$: 误差/$\\rho = \\rho$ (高阶). $\\rho \\to 0$ ⇒ 比值 $\\to 0$ ⇒ <strong>可微</strong>.</p>
-          <p><strong>看图:</strong> 地平面上黑色箭头是 $\\rho$, 右下角实时显示"误差/$\\rho$". 把滑块往 0 拖, 看比值变化.</p>
-        `,
-        sliderHint: '关键操作: 把 $\\Delta x$、$\\Delta y$ 都拖到接近 0, 观察"误差/$\\rho$"的变化'
+        eqHtml: `用距离 ρ 归一化误差:<br><br>
+          <span style="font-size:18px;color:var(--accent-emph);font-weight:700;">lim<sub>ρ→0</sub> (Δz − dz) / ρ = ?</span><br><br>
+          ρ = √(Δx² + Δy²)`,
+        explain: `<p>光看"误差 → 0"不够, 必须看<strong>误差比距离消失得快不快</strong>.</p>
+          <p>对 z = x²+y²: 误差 = ρ², 所以 误差/ρ = ρ. 当 ρ→0 时, 误差/ρ → 0 (线性下降到 0).</p>
+          <p><strong>看图</strong>: 拖动 Δx、Δy 到接近 0, 看右下角"误差 / ρ"——它会<strong>跟着 ρ 缩小</strong>.</p>
+          <p><strong>结论</strong>: 误差/ρ → 0 ⇒ <span style="color:var(--accent-emph);font-weight:700;">可微 ✓</span>.</p>`,
+        sliderHint: '关键: 把 Δx、Δy 都拖到接近 0, 观察"误差/ρ"是否 → 0',
+        live: () => {
+          const dx = currentDx, dy = currentDy;
+          const err = dx*dx + dy*dy;
+          const rho = Math.sqrt(err);
+          const ratio = rho > 0.001 ? err / rho : 0;
+          return `Δx = <span class="num">${dx.toFixed(2)}</span>, Δy = <span class="num">${dy.toFixed(2)}</span><br>
+            误差 = Δx²+Δy² = <span class="warm">${err.toFixed(4)}</span><br>
+            ρ = √(Δx²+Δy²) = <span class="num">${rho.toFixed(4)}</span><br>
+            <span style="font-size:14px;font-weight:700;color:var(--accent-emph);">误差 / ρ = ${ratio.toFixed(4)} (= ρ)</span>`;
+        }
       }
     };
 
+    // ============================================================
+    // UI 更新
+    // ============================================================
     function updateStepUI(step) {
       const data = stepData[step];
-      document.getElementById('stepTitle').innerHTML = `<span class="num">STEP ${String(step).padStart(2, '0')}</span>${data.title}`;
+      document.getElementById('stepTitle').innerHTML = `<span class="num">STEP 0${step}</span>${data.title}`;
       document.getElementById('stepSub').textContent = data.sub;
       document.getElementById('eqLabel').textContent = data.eqLabel;
-      document.getElementById('eqBody').innerHTML = data.eqBody;
-      document.getElementById('explain').innerHTML = `<h4><span class="tag">${data.explainTitle}</span></h4>${data.explain}`;
+      document.getElementById('eqBody').innerHTML = data.eqHtml;
+      document.getElementById('explain').innerHTML = data.explain;
       document.getElementById('sliderHint').textContent = data.sliderHint;
-      document.getElementById('svgCap').textContent = `图 · ${data.title.replace(/\$.*?\$/g, '').trim()}`;
+      document.getElementById('liveVals').innerHTML = data.live();
+      document.getElementById('svgCap').textContent = getSvgCap(step);
 
-      // 更新 liveVals (step 4 特殊)
-      if (step !== 4) {
-        const dz = f(X0 + currentDx, Y0 + currentDy) - Z0;
-        const linDz = 2 * X0 * currentDx + 2 * Y0 * currentDy;
-        const error = dz - linDz;
-        const rho = Math.sqrt(currentDx*currentDx + currentDy*currentDy);
-        document.getElementById('liveVals').innerHTML = `
-          <span>$\\Delta x =$<span class="num">${currentDx.toFixed(2)}</span>, $\\Delta y =$<span class="num">${currentDy.toFixed(2)}</span></span><br>
-          $\\Delta z =$<span class="num">${dz.toFixed(2)}</span>${step >= 2 ? `, $dz =$<span class="cool">${linDz.toFixed(2)}</span>` : ''}${step >= 3 ? `, 误差 $=$<span class="warm">${error.toFixed(2)}</span>` : ''}${step >= 4 ? `<br>$\\rho =$<span class="num">${rho.toFixed(3)}</span>, 误差/$\\rho =$<span class="warm">${(error/rho).toFixed(3)}</span>` : ''}
-        `;
-      }
-
-      // 按钮状态
+      // 按钮
       document.getElementById('prevBtn').disabled = (step === 1);
       document.getElementById('nextBtn').disabled = (step === 4);
-      if (step === 4) {
-        document.getElementById('nextBtn').textContent = '已到最后一步';
-      } else {
-        document.getElementById('nextBtn').textContent = '下一步 →';
-      }
+      document.getElementById('nextBtn').textContent = (step === 4) ? '已到最后一步' : '下一步 →';
 
-      // Tab 状态
+      // Tab
       document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
       document.querySelector(`.tab[data-step="${step}"]`).classList.add('active');
 
-      renderAll();
+      // 图例 (根据 step 切换)
+      const legends = {
+        1: { real: '真实曲面 Δz 等高线', tan: '切平面 dz 等高线 (隐藏, 下一步)', err: '高阶小量 Δx²+Δy² (隐藏)' },
+        2: { real: '真实曲面 Δz 等高线', tan: '切平面 dz 等高线', err: '高阶小量 (下一步)' },
+        3: { real: '真实曲面 Δz 等高线', tan: '切平面 dz 等高线', err: '误差区 Δx²+Δy²' },
+        4: { real: '真实曲面 Δz 等高线', tan: '切平面 dz 等高线', err: '误差区 = ρ², 距离 ρ' }
+      };
+      document.getElementById('legendReal').textContent = legends[step].real;
+      document.getElementById('legendTan').textContent = legends[step].tan;
+      document.getElementById('legendErr').textContent = legends[step].err;
+
+      // 渲染 SVG
+      currentStep = step;
+      renderStep();
     }
 
-    function renderAll() {
-      renderSurface();
-      renderTangentPlane();
-      renderPoints();
+    function getSvgCap(step) {
+      return {
+        1: '图 1 · 矩形面积的全增量分解',
+        2: '图 2 · 真实增量 Δz vs 切线增量 dz',
+        3: '图 3 · 作差 = 误差 Δz − dz',
+        4: '图 4 · 误差 / 距离 ρ (看 ρ→0 时比值如何)'
+      }[step];
+    }
+
+    function renderStep() {
+      // 添加 marker 定义 (每次重画前)
+      const svg = document.getElementById('visSvg');
+      const defs = document.createElementNS(NS, 'defs');
+      defs.innerHTML = `
+        <marker id="mErr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+          <path d="M 0,0 L 10,5 L 0,10 z" fill="#b87333"/>
+        </marker>
+        <marker id="mReal" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+          <path d="M 0,0 L 10,5 L 0,10 z" fill="#2f4858"/>
+        </marker>
+      `;
+      svg.appendChild(defs);
+
+      if (currentStep === 1) renderStep1();
+      else if (currentStep === 2) renderStep2();
+      else if (currentStep === 3) renderStep3();
+      else if (currentStep === 4) renderStep4();
     }
 
     // ============================================================
-    // 事件绑定
+    // KaTeX 手动渲染
     // ============================================================
-    document.querySelectorAll('.tab').forEach(tab => {
-      tab.addEventListener('click', () => {
-        currentStep = parseInt(tab.dataset.step);
-        updateStepUI(currentStep);
-        renderMath();
-      });
-    });
-
-    document.getElementById('prevBtn').addEventListener('click', () => {
-      if (currentStep > 1) {
-        currentStep--;
-        updateStepUI(currentStep);
-        renderMath();
-      }
-    });
-
-    document.getElementById('nextBtn').addEventListener('click', () => {
-      if (currentStep < 4) {
-        currentStep++;
-        updateStepUI(currentStep);
-        renderMath();
-      }
-    });
-
-    const dxSlider = document.getElementById('dxSlider');
-    const dySlider = document.getElementById('dySlider');
-    const dxVal = document.getElementById('dxVal');
-    const dyVal = document.getElementById('dyVal');
-
-    dxSlider.addEventListener('input', () => {
-      currentDx = parseFloat(dxSlider.value);
-      dxVal.textContent = currentDx.toFixed(2);
-      updateStepUI(currentStep);
-      renderMath();
-    });
-
-    dySlider.addEventListener('input', () => {
-      currentDy = parseFloat(dySlider.value);
-      dyVal.textContent = currentDy.toFixed(2);
-      updateStepUI(currentStep);
-      renderMath();
-    });
-
-    // KaTeX 手动渲染: 处理指定元素内的 $...$ 和 $$...$$ 标记
     function renderMathIn(el) {
       if (!el || typeof katex === 'undefined') return;
-      // 找到所有 text node, 检查是否含 $...$
       const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, null, false);
       const textNodes = [];
       let node;
       while (node = walker.nextNode()) {
-        // 跳过已经在 katex 元素内的文本
         if (node.parentElement && node.parentElement.closest('.katex')) continue;
         if (node.nodeValue.includes('$')) textNodes.push(node);
       }
       textNodes.forEach(textNode => {
         const text = textNode.nodeValue;
-        // 处理 $$...$$ (display) 和 $...$ (inline)
         const parts = [];
         let lastIdx = 0;
         const regex = /(\$\$([^$]+)\$\$)|(\$([^$\n]+)\$)/g;
@@ -960,7 +864,6 @@
         }
         if (!hasMatch) return;
         if (lastIdx < text.length) parts.push({type: 'text', content: text.substring(lastIdx)});
-
         const frag = document.createDocumentFragment();
         parts.forEach(p => {
           if (p.type === 'text') {
@@ -989,31 +892,52 @@
       renderMathIn(document.getElementById('stepTitle'));
       renderMathIn(document.getElementById('stepSub'));
       renderMathIn(document.getElementById('sliderHint'));
-      // 滑块 label
       document.querySelectorAll('.slider-row .label').forEach(el => renderMathIn(el));
-      // 滑块右侧 val (纯数字, 不需要渲染)
       document.querySelectorAll('.takeaway p').forEach(p => renderMathIn(p));
       renderMathIn(document.querySelector('.pull'));
     }
 
-    // 等待 KaTeX 真正可用再初始化
-    function waitForKaTeX(retries = 50) {
-      if (typeof renderMathInElement === 'function') {
-        // KaTeX 可用, 先做基础渲染 (页面里已经有 $...$ 静态内容)
+    // ============================================================
+    // 事件
+    // ============================================================
+    document.querySelectorAll('.tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        updateStepUI(parseInt(tab.dataset.step));
         renderMath();
-        // 然后初始化 step UI (会动态改 DOM)
+      });
+    });
+
+    document.getElementById('prevBtn').addEventListener('click', () => {
+      if (currentStep > 1) { updateStepUI(currentStep - 1); renderMath(); }
+    });
+    document.getElementById('nextBtn').addEventListener('click', () => {
+      if (currentStep < 4) { updateStepUI(currentStep + 1); renderMath(); }
+    });
+
+    document.getElementById('dxSlider').addEventListener('input', e => {
+      currentDx = parseFloat(e.target.value);
+      document.getElementById('dxVal').textContent = currentDx.toFixed(2);
+      updateStepUI(currentStep);
+      renderMath();
+    });
+    document.getElementById('dySlider').addEventListener('input', e => {
+      currentDy = parseFloat(e.target.value);
+      document.getElementById('dyVal').textContent = currentDy.toFixed(2);
+      updateStepUI(currentStep);
+      renderMath();
+    });
+
+    function waitForKaTeX(retries = 50) {
+      if (typeof katex !== 'undefined') {
         updateStepUI(1);
-        // 再渲染一次
         renderMath();
       } else if (retries > 0) {
         setTimeout(() => waitForKaTeX(retries - 1), 100);
       } else {
-        console.error('KaTeX failed to load after 5s');
-        updateStepUI(1); // 至少先更新 UI
+        updateStepUI(1);
       }
     }
 
-    // 初始化
     if (document.readyState === 'loading') {
       document.addEventListener('DOMContentLoaded', () => waitForKaTeX());
     } else {
