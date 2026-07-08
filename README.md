@@ -1,5 +1,6 @@
 # Obsidian Math 考研数学笔记
 
+# star 此仓者，皆斩 150
 基于 [BlandAlpha/obsidian_math](https://github.com/BlandAlpha/obsidian_math) 二次整理与扩展的 Obsidian 数学知识库。
 
 本仓库在原项目框架基础上，主要补充了习题的内容：
@@ -71,6 +72,7 @@
 - 已启用的部分插件包含：
   - Excalidraw(必须要有)
   - Mehrmaid(必须要有)
+  - Image Converter (必须要有)
   - LaTeX Suite
   - Outliner
 ## 更新时间
