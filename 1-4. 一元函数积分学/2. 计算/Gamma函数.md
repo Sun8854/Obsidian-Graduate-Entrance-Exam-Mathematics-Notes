@@ -47,8 +47,19 @@ $$\Gamma \left(\frac{1}{2}\right) = \sqrt{\pi}$$
 
 $$\Rightarrow \Gamma \left(\frac{5}{2}\right)= \frac{3}{2} \cdot \frac{1}{2} \cdot \Gamma \left(\frac{1}{2}\right)= \frac{3}{4} \sqrt{\pi}$$
 
-## 定义域
+> [!note] 详细推导
+> 用递推式 $\Gamma(\alpha+1)=\alpha\,\Gamma(\alpha)$ 降阶,从 $5/2$ 一路削到 $1/2$。
+>
+> 第 1 遍(把 $\alpha=3/2$ 代入):
+> $$\Gamma\!\left(\frac{5}{2}\right)=\frac{3}{2}\,\Gamma\!\left(\frac{3}{2}\right)$$
+>
+> 第 2 遍(把 $\alpha=1/2$ 代入):
+> $$\Gamma\!\left(\frac{3}{2}\right)=\frac{1}{2}\,\Gamma\!\left(\frac{1}{2}\right)$$
+>
+> 拼起来,代入金标 $\Gamma(1/2)=\sqrt\pi$:
+> $$\Gamma\!\left(\frac{5}{2}\right)=\frac{3}{2}\cdot\frac{1}{2}\,\Gamma\!\left(\frac{1}{2}\right)=\frac{3}{4}\sqrt{\pi}$$
 
+## 定义域
 > [!question] 
 > $\Gamma$ 函数的定义域？
 >
