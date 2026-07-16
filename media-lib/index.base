@@ -1,0 +1,24 @@
+formulas:
+  duration: duration(duration + 's')
+  subtitle: "[album, creator].filter(value.isTruthy()).join(' - ')"
+properties:
+  formula.duration:
+    displayName: 时长
+views:
+  - type: mx-media-lib
+    name: 媒体库
+    filters:
+      and:
+        - '!note["mx-uid"].isEmpty()'
+    order:
+      - mx-uid
+      - title
+      - media
+      - video
+      - audio
+      - formula.subtitle
+      - formula.duration
+    sort:
+      - property: file.ctime
+        direction: DESC
+    subtitleSource: formula.subtitle
