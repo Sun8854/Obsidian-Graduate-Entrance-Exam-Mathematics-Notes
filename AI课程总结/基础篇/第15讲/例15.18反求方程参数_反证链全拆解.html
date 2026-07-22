@@ -1,0 +1,848 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>例 15.18 · 反求方程参数 · 假设反证链全拆解</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500;600&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" />
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+<style>
+  :root {
+    --ink: #1d2530;
+    --ink-soft: #4a5566;
+    --ink-faint: #7a8699;
+    --line: #e4e8ee;
+    --line-soft: #f0f3f7;
+    --bg: #fbfbfc;
+    --bg-card: #ffffff;
+    --accent: #2f4858;
+    --accent-deep: #1e3445;
+    --accent-tint: #eef2f5;
+    --warn: #b1502e;
+    --warn-tint: #fbf2eb;
+    --ok: #2f6a4a;
+    --ok-tint: #eef5f0;
+  }
+  *, *::before, *::after { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: "Geist", "Noto Sans SC", "PingFang SC", "Hiragino Sans GB",
+                 "Microsoft YaHei", "Source Han Sans CN", system-ui, -apple-system, sans-serif;
+    font-size: 15.5px;
+    line-height: 1.78;
+    color: var(--ink);
+    background: var(--bg);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  .shell {
+    max-width: 760px;
+    margin: 2.8rem auto 5rem;
+    padding: 0 1.2rem;
+  }
+  @media (max-width: 800px) { .shell { padding: 0 1rem; } }
+
+  /* ----- header ----- */
+  .crumbs {
+    font-family: "Geist Mono", "Geist", monospace;
+    font-size: 12px;
+    color: var(--ink-faint);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    margin-bottom: 1.4rem;
+  }
+  h1 {
+    font-size: 30px;
+    font-weight: 600;
+    line-height: 1.3;
+    color: var(--ink);
+    margin: 0 0 0.5rem;
+    letter-spacing: -0.01em;
+  }
+  .lede {
+    font-size: 15px;
+    color: var(--ink-soft);
+    margin: 0 0 2.4rem;
+    line-height: 1.7;
+  }
+  .lede b { color: var(--ink); font-weight: 500; }
+
+  /* ----- section base ----- */
+  section { margin-top: 3.2rem; }
+  h2 {
+    font-size: 20px;
+    font-weight: 600;
+    margin: 0 0 0.6rem;
+    color: var(--ink);
+    letter-spacing: -0.005em;
+  }
+  h3 {
+    font-size: 16.5px;
+    font-weight: 600;
+    margin: 1.6rem 0 0.5rem;
+    color: var(--ink);
+  }
+  p { margin: 0.7rem 0; }
+
+  /* ----- meta strip (problem recap) ----- */
+  .prob {
+    background: var(--bg-card);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 1.2rem 1.3rem;
+    margin: 1.4rem 0 1.6rem;
+  }
+  .prob .label {
+    font-family: "Geist Mono", monospace;
+    font-size: 11.5px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin-bottom: 0.5rem;
+  }
+
+  /* ----- equation block ----- */
+  .eq {
+    background: var(--accent-tint);
+    border-left: 3px solid var(--accent);
+    padding: 0.9rem 1.1rem;
+    margin: 1rem 0;
+    border-radius: 0 6px 6px 0;
+    overflow-x: auto;
+  }
+  .eq .eq-label {
+    font-family: "Geist Mono", monospace;
+    font-size: 11.5px;
+    color: var(--accent);
+    letter-spacing: 0.04em;
+    margin-bottom: 0.3rem;
+    display: block;
+  }
+
+  /* ----- callouts ----- */
+  .callout {
+    border-radius: 8px;
+    padding: 1rem 1.2rem;
+    margin: 1.2rem 0;
+    font-size: 14.5px;
+    line-height: 1.7;
+  }
+  .callout .ct {
+    font-family: "Geist Mono", monospace;
+    font-size: 11.5px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-bottom: 0.4rem;
+    font-weight: 600;
+  }
+  .callout.tip   { background: var(--accent-tint); border: 1px solid #d6dee5; }
+  .callout.tip .ct   { color: var(--accent-deep); }
+  .callout.warn  { background: var(--warn-tint);  border: 1px solid #ecd8c9; }
+  .callout.warn .ct  { color: var(--warn); }
+  .callout.ok    { background: var(--ok-tint);    border: 1px solid #cfdfd5; }
+  .callout.ok .ct    { color: var(--ok); }
+
+  /* ----- step card ----- */
+  .step {
+    background: var(--bg-card);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 1.1rem 1.3rem 1.3rem;
+    margin: 1rem 0;
+    position: relative;
+  }
+  .step .badge {
+    position: absolute;
+    top: -10px;
+    left: 1rem;
+    background: var(--accent);
+    color: #fff;
+    font-family: "Geist Mono", monospace;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 9px;
+    border-radius: 4px;
+    letter-spacing: 0.04em;
+  }
+  .step h3 { margin-top: 0.4rem; }
+  .step .reason {
+    margin-top: 0.6rem;
+    padding: 0.6rem 0.9rem;
+    background: var(--accent-tint);
+    border-radius: 5px;
+    font-size: 14px;
+    color: var(--ink-soft);
+  }
+  .step .reason b { color: var(--accent-deep); font-weight: 500; }
+
+  /* ----- 4 cases table ----- */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1rem 0;
+    font-size: 14px;
+  }
+  th, td {
+    text-align: left;
+    padding: 0.6rem 0.8rem;
+    border-bottom: 1px solid var(--line);
+    vertical-align: top;
+  }
+  th {
+    font-weight: 500;
+    color: var(--ink-soft);
+    font-size: 12px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    border-bottom: 1.5px solid var(--line);
+    background: var(--line-soft);
+  }
+  tr:last-child td { border-bottom: none; }
+  td code, th code {
+    font-family: "Geist Mono", monospace;
+    font-size: 13px;
+    background: var(--accent-tint);
+    padding: 1px 5px;
+    border-radius: 3px;
+    color: var(--accent-deep);
+  }
+
+  /* ----- diagrams (SVG wrappers) ----- */
+  .fig {
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 1rem 1.2rem 0.8rem;
+    margin: 1.2rem 0;
+    background: var(--bg-card);
+  }
+  .fig .cap {
+    font-family: "Geist Mono", monospace;
+    font-size: 11.5px;
+    color: var(--ink-faint);
+    letter-spacing: 0.04em;
+    margin-bottom: 0.5rem;
+    display: block;
+  }
+  svg { max-width: 100%; height: auto; display: block; }
+
+  /* ----- flow cards ----- */
+  .flow {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 0.6rem;
+    margin: 1.2rem 0;
+  }
+  @media (max-width: 720px) { .flow { grid-template-columns: repeat(2, 1fr); } }
+  .flow .node {
+    background: var(--bg-card);
+    border: 1px solid var(--line);
+    border-radius: 7px;
+    padding: 0.7rem 0.5rem;
+    text-align: center;
+    font-size: 13px;
+    color: var(--ink-soft);
+    position: relative;
+  }
+  .flow .node .n {
+    font-family: "Geist Mono", monospace;
+    font-size: 11px;
+    color: var(--accent);
+    display: block;
+    margin-bottom: 0.2rem;
+    font-weight: 600;
+  }
+  .flow .node.hit {
+    background: var(--accent-tint);
+    border-color: var(--accent);
+    color: var(--accent-deep);
+  }
+  .flow .node.bad {
+    background: var(--warn-tint);
+    border-color: #d6a988;
+    color: var(--warn);
+  }
+  .flow .node.ok {
+    background: var(--ok-tint);
+    border-color: #95b8a3;
+    color: var(--ok);
+  }
+
+  /* ----- final answer ----- */
+  .final {
+    background: var(--accent-deep);
+    color: #fff;
+    border-radius: 8px;
+    padding: 1.2rem 1.4rem;
+    margin: 1.4rem 0;
+  }
+  .final .ft {
+    font-family: "Geist Mono", monospace;
+    font-size: 11.5px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    opacity: 0.72;
+    margin-bottom: 0.4rem;
+  }
+  .final .ans { font-size: 16.5px; line-height: 1.6; }
+
+  /* ----- pull ----- */
+  .pull {
+    border-top: 2px solid var(--accent);
+    border-bottom: 2px solid var(--accent);
+    padding: 1.1rem 0;
+    margin: 1.6rem 0 0.8rem;
+    text-align: center;
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--accent-deep);
+    line-height: 1.5;
+  }
+
+  /* ----- pitfalls ----- */
+  .pit-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.9rem;
+    margin: 1.2rem 0;
+  }
+  @media (max-width: 720px) { .pit-grid { grid-template-columns: 1fr; } }
+  .pit {
+    background: var(--bg-card);
+    border: 1px solid var(--line);
+    border-radius: 7px;
+    padding: 0.9rem 1rem;
+    font-size: 13.5px;
+    line-height: 1.65;
+  }
+  .pit .pname {
+    font-family: "Geist Mono", monospace;
+    font-size: 11.5px;
+    color: var(--warn);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    margin-bottom: 0.3rem;
+    font-weight: 600;
+  }
+  .pit b { color: var(--ink); }
+
+  /* ----- footer ----- */
+  .foot {
+    margin-top: 4rem;
+    padding-top: 1.4rem;
+    border-top: 1px solid var(--line);
+    font-size: 12.5px;
+    color: var(--ink-faint);
+    line-height: 1.7;
+  }
+
+  /* a11y / motion */
+  @media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; animation: none !important; }
+  }
+</style>
+</head>
+<body>
+<main class="shell">
+
+<div class="crumbs">第 15 讲 · 第六节 · 例 15.18 · 反求方程参数</div>
+
+<h1>"x·e<sup>x</sup> 是齐次解"为什么推出 "r=1 至少二重根"</h1>
+
+<p class="lede">一个题目如果直接正面判不出来,我们用反证法:<b>假设 → 推矛盾 → 推翻假设</b>。 这道题一共三步反证,绕了三个弯才把 <code>y</code><sup>*</sup> 拆清楚,最后才"翻译"成根的结构。本文把整条反证链<b>逐句拆开</b>,让你看到每一步为什么这么想、推出什么、为什么够了。</p>
+
+<!-- ============ §1 题目复述 ============ -->
+<section>
+  <h2>1. 题目复述</h2>
+
+  <div class="prob">
+    <div class="label">EX 15.18 · 教材 full.md:89</div>
+    设二阶常系数线性微分方程
+    $$y'' + \alpha\, y' + \beta\, y = \gamma \mathrm{e}^{x}$$
+    的一个特解为
+    $$y^{*} = \mathrm{e}^{2x} + (1+x)\mathrm{e}^{x}$$
+    确定常数 <code>α</code>, <code>β</code>, <code>γ</code>,并求该方程的通解。
+  </div>
+
+  <p>题目的"已知信息"看起来就两个:方程右边长什么样 + 一个特解。三个未知数全藏在特解的拆分里。</p>
+
+  <p>老王原话:<i>"这个对大家的解的结构要求是很高的,请大家认真把这个题目理解透彻。"</i></p>
+</section>
+
+<!-- ============ §2 三个工具箱 ============ -->
+<section>
+  <h2>2. 拆题之前,你需要的三件工具</h2>
+
+  <p>反证链里所有推理都靠这三条结论撑起来。先把工具摆出来,后面推理时直接用。</p>
+
+  <div class="step">
+    <div class="badge">TOOL 1</div>
+    <h3>"特解之差 = 齐次解"</h3>
+    <p>若 <code>y₁</code><sup>*</sup>, <code>y₂</code><sup>*</sup> 都是同一个非齐方程的特解, 则
+    $$\;y_1^{*} - y_2^{*}\;\text{满足对应的齐次方程}\;y'' + \alpha y' + \beta y = 0$$</p>
+    <div class="reason"><b>为什么?</b> 两个都满足 <code>y''+αy'+βy=γe<sup>x</sup></code>, 相减时左边是线性的(差)而右边 <code>γe<sup>x</sup> - γe<sup>x</sup> = 0</code>。</div>
+  </div>
+
+  <div class="step">
+    <div class="badge">TOOL 2</div>
+    <h3>齐次方程的解有可加性</h3>
+    <p>齐次方程是线性方程: <code>y₁, y₂</code> 都是解 → <code>y₁ + y₂</code> 也是解。所以 <b>复合的齐次解可以拆开</b>,每一份也都是齐次解。</p>
+    <div class="reason"><b>反过来说:</b> 如果你知道 <code>y₁ + y₂</code> 是齐次解, 拆出的 <code>y₁, y₂</code> 也<b>不一定是</b> 齐次解, 因为它们可能还要满足别的方程。但在本节里, 我们只用 <b>"特解之差" 的方向</b>, 不需要走这一条。</div>
+  </div>
+
+  <div class="step">
+    <div class="badge">TOOL 3</div>
+    <h3>特征根 ↔ 通解结构对应表(上一节讲的)</h3>
+    <p>二阶齐次方程 <code>y'' + αy' + βy = 0</code> 的特征根决定通解长什么样,只有以下 3 种可能:</p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>特征根</th>
+          <th>通解形式</th>
+          <th>解空间里有谁</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>两个<b>不等</b>实根 <code>r₁ ≠ r₂</code></td>
+          <td><code>C₁e<sup>r₁x</sup> + C₂e<sup>r₂x</sup></code></td>
+          <td>只有 <code>e<sup>r₁x</sup></code> 和 <code>e<sup>r₂x</sup></code></td>
+        </tr>
+        <tr>
+          <td><b>二重</b>实根 <code>r₁ = r₂ = r</code></td>
+          <td><code>(C₁ + C₂x) e<sup>rx</sup></code></td>
+          <td><code>e<sup>rx</sup></code> <b>和</b> <code>x·e<sup>rx</sup></code> 都出现</td>
+        </tr>
+        <tr>
+          <td>共轭复根 <code>α ± βi</code></td>
+          <td><code>e<sup>αx</sup>(C₁cos βx + C₂sin βx)</code></td>
+          <td>两个三角函数</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="callout tip">
+      <div class="ct">秒杀观察</div>
+      上表里<b>只有第 2 种</b>会让齐次解里同时出现 <code>e<sup>rx</sup></code> <b>和</b> <code>x·e<sup>rx</sup></code>。 所以<b>反过来</b>:齐次解里一旦有 <code>x·e<sup>rx</sup></code> 露面 → <code>r</code> 至少是二重根。这是后面整节的核心。
+    </div>
+  </div>
+</section>
+
+<!-- ============ §3 反证链总览 ============ -->
+<section>
+  <h2>3. 反证链总览(全图先看一眼)</h2>
+
+  <p>整条推理分三段反证,每段都是"<b>假设 → 推矛盾</b>",完了再回到正确方向。最后一步才"翻译"成根的结构。</p>
+
+  <div class="flow">
+    <div class="node">
+      <span class="n">STEP 0</span>
+      先拆 y<sup>*</sup>
+    </div>
+    <div class="node bad">
+      <span class="n">STEP 1</span>
+      假设 e<sup>2x</sup> 是非齐特解 → 推出根冲突 → 矛盾
+    </div>
+    <div class="node bad">
+      <span class="n">STEP 2</span>
+      假设 e<sup>x</sup> 是非齐特解 → x·e<sup>x</sup> 是齐次解 → 推出 3 个线性无关解 → 矛盾
+    </div>
+    <div class="node ok">
+      <span class="n">STEP 3</span>
+      唯一可能: e<sup>x</sup> 也是齐次解 → 写出特征方程 → 定参数
+    </div>
+    <div class="node hit">
+      <span class="n">RETURN</span>
+      翻译成根结构
+    </div>
+  </div>
+
+  <p>下面挨个拆开。</p>
+</section>
+
+<!-- ============ §4 STEP 0 ============ -->
+<section>
+  <h2>4. STEP 0 · 把 y<sup>*</sup> 拆成三段</h2>
+
+  <p>第一件事不是判别,是先把 <code>y</code><sup>*</sup> 写顺:</p>
+
+  <div class="eq">
+    <span class="eq-label">拆分</span>
+    $$y^{*} = \mathrm{e}^{2x} + \mathrm{e}^{x} + x\mathrm{e}^{x}$$
+  </div>
+
+  <p>三段分别是:</p>
+  <ul>
+    <li><code>e<sup>2x</sup></code> · 单指数,系数 1</li>
+    <li><code>e<sup>x</sup></code> · 单指数,系数 1</li>
+    <li><code>x·e<sup>x</sup></code> · 指数乘 <code>x</code> 的一次项</li>
+  </ul>
+
+  <p class="lede" style="margin:0">问题:这三个东西,哪些是齐次解,哪个是非齐特解?</p>
+</section>
+
+<!-- ============ §5 STEP 1 · 第一段反证 ============ -->
+<section>
+  <h2>5. STEP 1 · 反证 e<sup>2x</sup> 是非齐特解</h2>
+
+  <div class="step">
+    <div class="badge">假设</div>
+    <h3>假设 e<sup>2x</sup> 是非齐特解</h3>
+    <p>那意味着 <code>e<sup>2x</sup></code> 代进方程 <code>y''+αy'+βy=γe<sup>x</sup></code>,右边必须等于 <code>γe<sup>x</sup></code>。</p>
+    <p>但 <code>e<sup>2x</sup></code> 代入后左边是某个 <code>·e<sup>2x</sup></code>,指数是 2,<b>不可能</b> 配出右边 <code>e<sup>x</sup></code>(指数是 1)。所以假设不成立。</p>
+
+    <div class="reason">
+      <b>直观解释:</b> 自由项是 <code>γe<sup>x</sup></code>, 形式上只有 <code>e<sup>x</sup></code> 和 <code>x·e<sup>x</sup></code>, <code>x²e<sup>x</sup></code>, ... 这些项有资格进非齐特解(由待定系数法的设定)。指数 2 不在这个名单里, 所以 <code>e<sup>2x</sup></code> 只能是齐次解。
+    </div>
+  </div>
+
+  <div class="callout ok">
+    <div class="ct">结论</div>
+    <code>e<sup>2x</sup></code> 是齐次方程的解 → <code>r = 2</code> 是特征根。
+  </div>
+</section>
+
+<!-- ============ §6 STEP 2 · 第二段反证 ============ -->
+<section>
+  <h2>6. STEP 2 · 反证 e<sup>x</sup> 是非齐特解(整道题最难的一段)</h2>
+
+  <p>这一段是反证链的<b>核心</b>。先把整个推理画出来,然后逐句讲。</p>
+
+  <!-- 反证链流程图 -->
+  <div class="fig">
+    <span class="cap">图 1 · 反证链流程图 · 从假设到矛盾</span>
+    <svg viewBox="0 0 720 360" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="反证链流程图">
+      <defs>
+        <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+          <path d="M0,0 L10,5 L0,10 z" fill="#7a8699" />
+        </marker>
+        <marker id="arr-warn" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+          <path d="M0,0 L10,5 L0,10 z" fill="#b1502e" />
+        </marker>
+      </defs>
+
+      <!-- 假设 -->
+      <rect x="20" y="20" width="220" height="50" rx="6" fill="#fbf2eb" stroke="#b1502e" stroke-width="1.5"/>
+      <text x="130" y="40" text-anchor="middle" font-family="Geist Mono, monospace" font-size="11" fill="#b1502e" font-weight="600">STEP A · 假设</text>
+      <text x="130" y="58" text-anchor="middle" font-family="Noto Sans SC, sans-serif" font-size="13" fill="#1d2530">假设 e<tspan baseline-shift="super" font-size="9">x</tspan> 是非齐特解</text>
+
+      <!-- arrow -->
+      <line x1="240" y1="45" x2="290" y2="45" stroke="#7a8699" stroke-width="1.5" marker-end="url(#arr)" />
+
+      <!-- 推导 1 -->
+      <rect x="295" y="20" width="220" height="50" rx="6" fill="#eef2f5" stroke="#2f4858" stroke-width="1.5"/>
+      <text x="405" y="40" text-anchor="middle" font-family="Geist Mono, monospace" font-size="11" fill="#2f4858" font-weight="600">STEP B · 推 1</text>
+      <text x="405" y="58" text-anchor="middle" font-family="Noto Sans SC, sans-serif" font-size="13" fill="#1d2530">y<tspan baseline-shift="sub" font-size="9">*</tspan> − e<tspan baseline-shift="super" font-size="9">x</tspan> 也是非齐特解</text>
+
+      <!-- arrow -->
+      <line x1="515" y1="45" x2="565" y2="45" stroke="#7a8699" stroke-width="1.5" marker-end="url(#arr)" />
+
+      <!-- 推导 2 -->
+      <rect x="570" y="20" width="130" height="50" rx="6" fill="#eef2f5" stroke="#2f4858" stroke-width="1.5"/>
+      <text x="635" y="40" text-anchor="middle" font-family="Geist Mono, monospace" font-size="11" fill="#2f4858" font-weight="600">STEP C</text>
+      <text x="635" y="58" text-anchor="middle" font-family="Noto Sans SC, sans-serif" font-size="13" fill="#1d2530">→ e<tspan baseline-shift="super" font-size="9">2x</tspan>+x·e<tspan baseline-shift="super" font-size="9">x</tspan> 是齐次解</text>
+
+      <!-- 第二行: 从 C 到 D,再到矛盾 -->
+      <line x1="635" y1="80" x2="635" y2="115" stroke="#7a8699" stroke-width="1.5" marker-end="url(#arr)" />
+
+      <!-- 推导 3: 拆解 -->
+      <rect x="295" y="120" width="220" height="50" rx="6" fill="#eef2f5" stroke="#2f4858" stroke-width="1.5"/>
+      <text x="405" y="140" text-anchor="middle" font-family="Geist Mono, monospace" font-size="11" fill="#2f4858" font-weight="600">STEP D · 拆</text>
+      <text x="405" y="158" text-anchor="middle" font-family="Noto Sans SC, sans-serif" font-size="13" fill="#1d2530">→ x·e<tspan baseline-shift="super" font-size="9">x</tspan> 是齐次解</text>
+
+      <line x1="295" y1="145" x2="240" y2="145" stroke="#7a8699" stroke-width="1.5" marker-end="url(#arr)" />
+
+      <!-- 推导 4: 翻译 -->
+      <rect x="20" y="120" width="220" height="50" rx="6" fill="#eef2f5" stroke="#2f4858" stroke-width="1.5"/>
+      <text x="130" y="140" text-anchor="middle" font-family="Geist Mono, monospace" font-size="11" fill="#2f4858" font-weight="600">STEP E · 翻译</text>
+      <text x="130" y="158" text-anchor="middle" font-family="Noto Sans SC, sans-serif" font-size="13" fill="#1d2530">→ r = 1 至少是二重根</text>
+
+      <line x1="130" y1="180" x2="130" y2="215" stroke="#b1502e" stroke-width="1.5" marker-end="url(#arr-warn)" />
+
+      <!-- 矛盾 -->
+      <rect x="20" y="220" width="690" height="100" rx="6" fill="#fbf2eb" stroke="#b1502e" stroke-width="1.5"/>
+      <text x="365" y="240" text-anchor="middle" font-family="Geist Mono, monospace" font-size="11" fill="#b1502e" font-weight="600">CONTRADICTION · 矛盾</text>
+      <text x="365" y="262" text-anchor="middle" font-family="Noto Sans SC, sans-serif" font-size="13" fill="#1d2530">二阶齐次方程已经有 3 个线性无关的解:</text>
+      <text x="365" y="280" text-anchor="middle" font-family="Geist Mono, monospace" font-size="13" fill="#1d2530">e<tspan baseline-shift="super" font-size="9">2x</tspan>,  e<tspan baseline-shift="super" font-size="9">x</tspan>,  x·e<tspan baseline-shift="super" font-size="9">x</tspan></text>
+      <text x="365" y="302" text-anchor="middle" font-family="Noto Sans SC, sans-serif" font-size="13" fill="#b1502e" font-weight="600">但二阶方程的线性无关解最多 2 个 → 矛盾!</text>
+
+      <!-- 标号: 来自 STEP 1 的"e^(2x) 是齐次解" -->
+      <text x="635" y="200" text-anchor="middle" font-family="Noto Sans SC, sans-serif" font-size="11.5" fill="#7a8699">(e<tspan baseline-shift="super" font-size="8">2x</tspan> 来自 STEP 1)</text>
+    </svg>
+  </div>
+
+  <!-- 反证链逐句拆解 -->
+  <div class="step">
+    <div class="badge">A</div>
+    <h3>假设: e<sup>x</sup> 是非齐方程 <code>y''+αy'+βy=γe<sup>x</sup></code> 的特解</h3>
+    <p>这就是我们要反的东西。开始反。</p>
+  </div>
+
+  <div class="step">
+    <div class="badge">B</div>
+    <h3>推导 1: y<sup>*</sup> − e<sup>x</sup> 也是非齐方程的特解</h3>
+    <p>两个东西都是<b>非齐</b>方程的特解(题设 <code>y</code><sup>*</sup> 是,假设里 <code>e<sup>x</sup></code> 也是),所以相减还是非齐特解。</p>
+    <div class="reason">
+      <b>用 TOOL 1:</b> 两个非齐特解作差 → <b>右边</b> <code>γe<sup>x</sup> − γe<sup>x</sup> = 0</code> → 满足的是<b>齐次方程</b>。 所以 <code>y</code><sup>*</sup> − <code>e<sup>x</sup></code> 是齐次解(不是非齐特解,刚才那句话写得不准确,这里纠正一下)。
+    </div>
+  </div>
+
+  <div class="callout warn">
+    <div class="ct">重要更正</div>
+    <b>正确叙述:</b> 题设 <code>y</code><sup>*</sup> 是非齐特解(整条),我们假设 <code>e<sup>x</sup></code> 也是非齐特解。两者作差 <code>y</code><sup>*</sup> − <code>e<sup>x</sup></code> = <code>e<sup>2x</sup></code> + <code>x·e<sup>x</sup></code>, <b>满足齐次方程</b>(右边 <code>γe<sup>x</sup> - γe<sup>x</sup> = 0</code>)。所以 <code>e<sup>2x</sup></code> + <code>x·e<sup>x</sup></code> 是<b>齐次解</b>。
+  </div>
+
+  <div class="step">
+    <div class="badge">C</div>
+    <h3>推导 2: x·e<sup>x</sup> 也是齐次解</h3>
+    <p>已知 <code>e<sup>2x</sup></code> + <code>x·e<sup>x</sup></code> 是齐次解,<code>e<sup>2x</sup></code> 也是齐次解(STEP 1 推出来的)。</p>
+    <p>把两个齐次解 <b>作差</b>:<code>(e<sup>2x</sup> + x·e<sup>x</sup>) − e<sup>2x</sup></code> = <code>x·e<sup>x</sup></code>。 齐次方程对"差"也封闭,所以 <code>x·e<sup>x</sup></code> 满足齐次方程。</p>
+    <div class="reason">
+      <b>关键观察:</b> 这次是用"齐次解对减法封闭"(它本身就是线性的)。这比 TOOL 2 的"可加性"更直接。
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="badge">D</div>
+    <h3>推导 3: 用 TOOL 3 反查根 → r = 1 至少二重根</h3>
+    <p>现在齐次方程的解空间里<b>同时出现</b>了 <code>e<sup>x</sup></code> 和 <code>x·e<sup>x</sup></code>。</p>
+    <p>查 TOOL 3 的对应表:<b>只有"二重实根"</b>这种情况才会让 <code>e<sup>rx</sup></code> 和 <code>x·e<sup>rx</sup></code> 同时出现。所以 <code>r = 1</code> 至少是二重根。</p>
+    <div class="reason">
+      <b>"至少"的含义:</b> 不一定是恰好二重根,也可能是三重、四重,但至少是二重。这里因为是二阶方程,所以"至少二重"= "恰好二重"。
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="badge">E</div>
+    <h3>推导 4: 跟 STEP 1 的 <code>r = 2</code> 矛盾</h3>
+    <p>二阶齐次方程的特征方程是 <b>一元二次</b>,最多 2 个根(按重数计)。</p>
+    <p>现在它已经"占据"了:</p>
+    <ul>
+      <li><code>r = 2</code> 占 1 个名额(来自 <code>e<sup>2x</sup></code> 是齐次解)</li>
+      <li><code>r = 1</code> 占 <b>2</b> 个名额(因为至少二重根)</li>
+    </ul>
+    <p>总数 <code>1 + 2 = 3 > 2</code>, 装不下!</p>
+
+    <div class="callout warn">
+      <div class="ct">矛盾确认</div>
+      假设 "e<sup>x</sup> 是非齐特解" 推出 r=1 至少二重,跟 r=2 同时出现在二阶方程里名额冲突 → 假设不成立。
+    </div>
+  </div>
+</section>
+
+<!-- ============ §7 STEP 3 · 翻译 ============ -->
+<section>
+  <h2>7. STEP 3 · 反过来: e<sup>x</sup> 必是齐次解</h2>
+
+  <p>STEP 2 推翻了假设,所以 <b>e<sup>x</sup> 不是非齐特解</b>。</p>
+
+  <p>那它是什么?回到 <code>y</code><sup>*</sup> 的拆分:</p>
+  <div class="eq">
+    <span class="eq-label">y* = 三段</span>
+    $$\underbrace{\mathrm{e}^{2x}}_{\text{齐次解(STEP 1)}} + \underbrace{\mathrm{e}^{x}}_{?} + \underbrace{x\mathrm{e}^{x}}_{\text{非齐特解(STEP 2 推出的唯一选项)}}$$
+  </div>
+
+  <p>整个 <code>y</code><sup>*</sup> 是非齐特解,拆开的三段里:</p>
+  <ul>
+    <li><code>e<sup>2x</sup></code> 已是齐次解</li>
+    <li><code>x·e<sup>x</sup></code> 只能是<b>非齐特解</b>(如果它也是齐次,那 y<sup>*</sup> 整个退化成齐次解,矛盾)</li>
+    <li>剩下的 <code>e<sup>x</sup></code> 不是非齐特解(刚证了) → 它<b>也只能</b>是齐次解</li>
+  </ul>
+
+  <div class="callout ok">
+    <div class="ct">结论</div>
+    齐次方程的两个线性无关解已经确定:
+    $$\overline{y} = C_1 \mathrm{e}^{x} + C_2 \mathrm{e}^{2x}$$
+    对应特征根 <code>r₁ = 1</code>, <code>r₂ = 2</code>, 特征方程
+    $$(r-1)(r-2) = r^2 - 3r + 2 = 0$$
+  </div>
+</section>
+
+<!-- ============ §8 回代定 α, β, γ ============ -->
+<section>
+  <h2>8. 回代定 α, β, γ</h2>
+
+  <p>特征方程出来了,跟标准型 <code>y'' + αy' + βy = 0</code> 对比:</p>
+
+  <div class="eq">
+    <span class="eq-label">系数对比</span>
+    $$y'' \;\underbrace{- 3}_{α}\; y' \;\underbrace{+ 2}_{β}\; y = 0 \;\;\Longleftrightarrow\;\; y'' + α\, y' + β\, y = 0$$
+  </div>
+
+  <p>所以 <code>α = −3</code>, <code>β = 2</code>。</p>
+
+  <p>非齐方程现在是 <code>y'' − 3y' + 2y = γe<sup>x</sup></code>。把非齐特解 <code>x·e<sup>x</sup></code> 代进去:</p>
+
+  <div class="eq">
+    <span class="eq-label">代入特解</span>
+    $$(x+2)\mathrm{e}^{x} - 3(x+1)\mathrm{e}^{x} + 2x\mathrm{e}^{x} = \gamma \mathrm{e}^{x}$$
+  </div>
+
+  <p>左边化简:</p>
+  <div class="eq">
+    <span class="eq-label">化简</span>
+    $$[(x + 2) - 3(x + 1) + 2x]\mathrm{e}^{x} = \gamma \mathrm{e}^{x}$$
+    $$[x + 2 - 3x - 3 + 2x]\mathrm{e}^{x} = \gamma \mathrm{e}^{x}$$
+    $$-\mathrm{e}^{x} = \gamma \mathrm{e}^{x}$$
+  </div>
+
+  <p>所以 <code>γ = −1</code>。</p>
+</section>
+
+<!-- ============ §9 最终答案 ============ -->
+<section>
+  <h2>9. 最终答案</h2>
+
+  <div class="final">
+    <div class="ft">原方程</div>
+    <div class="ans">
+      $$y'' - 3y' + 2y = -\mathrm{e}^{x}$$
+    </div>
+  </div>
+
+  <div class="final">
+    <div class="ft">通解</div>
+    <div class="ans">
+      $$\boxed{\;y = C_1 \mathrm{e}^{x} + C_2 \mathrm{e}^{2x} + x\mathrm{e}^{x}\;}$$
+    </div>
+  </div>
+
+  <p>其中 <code>C₁, C₂</code> 为任意常数。</p>
+</section>
+
+<!-- ============ §10 整条链再看一眼 ============ -->
+<section>
+  <h2>10. 整条反证链回头看</h2>
+
+  <div class="fig">
+    <span class="cap">图 2 · 全链鸟瞰 · 假设 → 反推 → 矛盾 → 推翻</span>
+    <svg viewBox="0 0 720 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="整条反证链鸟瞰图">
+      <defs>
+        <marker id="arr2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+          <path d="M0,0 L10,5 L0,10 z" fill="#7a8699" />
+        </marker>
+        <marker id="arr3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+          <path d="M0,0 L10,5 L0,10 z" fill="#2f6a4a" />
+        </marker>
+      </defs>
+
+      <!-- 假设 -->
+      <rect x="10" y="60" width="120" height="50" rx="6" fill="#fbf2eb" stroke="#b1502e" stroke-width="1.5"/>
+      <text x="70" y="82" text-anchor="middle" font-family="Noto Sans SC, sans-serif" font-size="12" fill="#1d2530">假设:</text>
+      <text x="70" y="100" text-anchor="middle" font-family="Noto Sans SC, sans-serif" font-size="12" fill="#1d2530">e<tspan baseline-shift="super" font-size="9">x</tspan> 是非齐特解</text>
+
+      <line x1="135" y1="85" x2="170" y2="85" stroke="#7a8699" stroke-width="1.5" marker-end="url(#arr2)" />
+
+      <!-- 链1: x·e^x 是齐次解 -->
+      <rect x="175" y="60" width="130" height="50" rx="6" fill="#eef2f5" stroke="#2f4858" stroke-width="1.5"/>
+      <text x="240" y="82" text-anchor="middle" font-family="Noto Sans SC, sans-serif" font-size="12" fill="#1d2530">特解之差</text>
+      <text x="240" y="100" text-anchor="middle" font-family="Noto Sans SC, sans-serif" font-size="12" fill="#1d2530">→ x·e<tspan baseline-shift="super" font-size="9">x</tspan> 是齐次解</text>
+
+      <line x1="310" y1="85" x2="345" y2="85" stroke="#7a8699" stroke-width="1.5" marker-end="url(#arr2)" />
+
+      <!-- 链2: 翻译成根 -->
+      <rect x="350" y="60" width="130" height="50" rx="6" fill="#eef2f5" stroke="#2f4858" stroke-width="1.5"/>
+      <text x="415" y="82" text-anchor="middle" font-family="Noto Sans SC, sans-serif" font-size="12" fill="#1d2530">查根-通解表</text>
+      <text x="415" y="100" text-anchor="middle" font-family="Noto Sans SC, sans-serif" font-size="12" fill="#1d2530">→ r=1 至少二重根</text>
+
+      <line x1="485" y1="85" x2="520" y2="85" stroke="#7a8699" stroke-width="1.5" marker-end="url(#arr2)" />
+
+      <!-- 矛盾 -->
+      <rect x="525" y="60" width="80" height="50" rx="6" fill="#fbf2eb" stroke="#b1502e" stroke-width="1.5"/>
+      <text x="565" y="82" text-anchor="middle" font-family="Noto Sans SC, sans-serif" font-size="12" fill="#b1502e" font-weight="600">矛盾</text>
+      <text x="565" y="100" text-anchor="middle" font-family="Noto Sans SC, sans-serif" font-size="11" fill="#b1502e">名额冲突</text>
+
+      <line x1="608" y1="85" x2="643" y2="85" stroke="#7a8699" stroke-width="1.5" marker-end="url(#arr2)" />
+
+      <!-- 推翻 -->
+      <rect x="648" y="40" width="60" height="30" rx="4" fill="#eef5f0" stroke="#2f6a4a" stroke-width="1.5"/>
+      <text x="678" y="58" text-anchor="middle" font-family="Noto Sans SC, sans-serif" font-size="11" fill="#2f6a4a">推翻</text>
+
+      <!-- 真正结论 -->
+      <rect x="648" y="95" width="60" height="30" rx="4" fill="#eef5f0" stroke="#2f6a4a" stroke-width="1.5"/>
+      <text x="678" y="113" text-anchor="middle" font-family="Noto Sans SC, sans-serif" font-size="11" fill="#2f6a4a">e<tspan baseline-shift="super" font-size="8">x</tspan> 是齐次</text>
+
+      <!-- 顶部标记 -->
+      <text x="70" y="40" text-anchor="middle" font-family="Geist Mono, monospace" font-size="11" fill="#b1502e" font-weight="600">假设</text>
+      <text x="240" y="40" text-anchor="middle" font-family="Geist Mono, monospace" font-size="11" fill="#2f4858" font-weight="600">TOOL 1 + 3</text>
+      <text x="415" y="40" text-anchor="middle" font-family="Geist Mono, monospace" font-size="11" fill="#2f4858" font-weight="600">TOOL 3</text>
+      <text x="565" y="40" text-anchor="middle" font-family="Geist Mono, monospace" font-size="11" fill="#b1502e" font-weight="600">矛盾</text>
+      <text x="678" y="25" text-anchor="middle" font-family="Geist Mono, monospace" font-size="11" fill="#2f6a4a" font-weight="600">✓</text>
+
+      <!-- 底部:整条链标题 -->
+      <text x="360" y="170" text-anchor="middle" font-family="Noto Sans SC, sans-serif" font-size="12" fill="#7a8699">整条链: 假设 → 反推 → 翻译 → 矛盾 → 推翻 → 真相</text>
+      <text x="360" y="188" text-anchor="middle" font-family="Noto Sans SC, sans-serif" font-size="11" fill="#7a8699">关键工具: "特解之差 = 齐次解" + "根-通解对应表"</text>
+    </svg>
+  </div>
+</section>
+
+<!-- ============ §11 一句话总结 ============ -->
+<section>
+  <div class="pull">
+    看到齐次解里有 <code>x<sup>k-1</sup>·e<sup>rx</sup></code> → 直接说 "<code>r</code> 至少 <code>k</code> 重实根"。<br>
+    反证法只在不能直接判时才用, 大多数情况<b>一眼翻译</b>就够。
+  </div>
+</section>
+
+<!-- ============ §12 易错点 ============ -->
+<section>
+  <h2>11. 易错点(踩坑汇总)</h2>
+
+  <div class="pit-grid">
+    <div class="pit">
+      <div class="pname">PIT 1 · "作差"的两个方向</div>
+      <b>非齐特解作差</b>(右边抵消) → 得到的是<b>齐次解</b>。 <b>齐次解作差</b>(还是齐次) → 还是齐次解。本题里 STEP 2 的关键一步是<b>非齐作差</b>,不是齐次作差。
+    </div>
+    <div class="pit">
+      <div class="pname">PIT 2 · "至少"不等于"恰好"</div>
+      <code>x·e<sup>x</sup></code> 露面 → <code>r=1</code> 至少二重根。 可能是三重、四重等,只是<b>下限</b>。只有在确定总名额后才能升级到"恰好"。
+    </div>
+    <div class="pit">
+      <div class="pname">PIT 3 · 二阶方程最多 2 个根</div>
+      <code>n</code> 阶常系数齐次方程最多 <code>n</code> 个根(按重数计)。 二阶 → 至多 2 个 → 这是名额冲突的来源。 算之前先数清"已占多少名额"。
+    </div>
+    <div class="pit">
+      <div class="pname">PIT 4 · 反证假设设错对象</div>
+      本题反的是 "<code>e<sup>x</sup></code> 是非齐特解",<b>不是</b>反结论。 反证法要反的是"中间命题",不是"最终结论"(反最终结论会推出题目矛盾)。
+    </div>
+    <div class="pit">
+      <div class="pname">PIT 5 · 没翻译到根结构就停</div>
+      反证链走完只能确定"哪些是齐次解"。要定 <code>α, β, γ</code> 还得<b>翻译成特征方程</b>再<b>代入</b>。反证只是开胃菜,完整答案是"反证 + 翻译 + 代入"三段。
+    </div>
+    <div class="pit">
+      <div class="pname">PIT 6 · 把"非齐特解"和"非齐通解"搞混</div>
+      <code>y</code><sup>*</sup> 是非齐的<b>特解</b>(一个具体的函数, 不带任意常数)。 <code>y</code> = 齐通解 + 非齐特解 是非齐的<b>通解</b>(带任意常数)。混了会以为 "<code>y</code><sup>*</sup> 代进去算不出 <code>γ</code>"。
+    </div>
+  </div>
+</section>
+
+<!-- ============ footer ============ -->
+<footer class="foot">
+  <div>本讲解页覆盖 <b>15讲第6节 例 15.18 反求方程</b> 的反证法全链拆解, 配套 vault 笔记: <code>AI课程总结/基础篇/第15讲/高阶常系数齐次线性微分方程(n大于2阶)与反求方程.md</code></div>
+  <div style="margin-top:0.5rem">信源: 教材 <code>导出页面自 305-478.md:89-111</code> + 启航 AI 助学文稿(2026-07-22)</div>
+</footer>
+
+</main>
+
+<script>
+  window.addEventListener("load", function () {
+    if (typeof renderMathInElement === "function") {
+      renderMathInElement(document.body, {
+        delimiters: [
+          { left: "$$", right: "$$", display: true },
+          { left: "$", right: "$", display: false },
+          { left: "\\(", right: "\\)", display: false },
+          { left: "\\[", right: "\\]", display: true }
+        ],
+        throwOnError: false
+      });
+    }
+  });
+</script>
+
+</body>
+</html>
