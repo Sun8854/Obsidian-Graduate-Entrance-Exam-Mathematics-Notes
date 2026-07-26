@@ -1,5 +1,13 @@
 # Obsidian Math 考研数学笔记
 
+[![Discussions](https://img.shields.io/badge/Discussions-Open-blue?logo=github)](https://github.com/Sun8854/Obsidian-Graduate-Entrance-Exam-Mathematics-Notes/discussions)
+
+> [!IMPORTANT]
+> 🎉 **Discussions 现已开放！**
+>
+> 欢迎提出问题、分享想法、展示作品或参与讨论。
+>
+> 👉 **点击仓库顶部的 Discussions 标签页即可参与！**
 # star 此仓者，皆斩 150
 基于 [BlandAlpha/obsidian_math](https://github.com/BlandAlpha/obsidian_math) 二次整理与扩展的 Obsidian 数学知识库。
 
@@ -100,5 +108,4 @@
 
 ## 错误反馈
 
-如果你发现任何错误或问题，欢迎提交 Issue 或 Pull Request。
-联系方式：QQ:1633807607
+如果你发现任何错误或问题，欢迎提交 Issue、Pull Request 或在讨论区进行讨论。
