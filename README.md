@@ -58,7 +58,7 @@
 <p align="center">
   <img width="80%" alt="笔记预览" src="https://github.com/user-attachments/assets/1b5d9dc0-e577-4bdf-bf26-4a15a34fdfac" />
   <br/>
-  <em>图 1: 知识图谱视图 — 知识点之间的双链关系</em>
+  <em>图 1: 题目解答</em>
 </p>
 
 ---
