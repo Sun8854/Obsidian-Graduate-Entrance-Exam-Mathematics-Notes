@@ -149,11 +149,11 @@ cd Obsidian-Graduate-Entrance-Exam-Mathematics-Notes
 
 ### 必需插件(没有几乎无法正常浏览)
 
-| 插件 | 作用 |
-|:---|:---|
-| **Excalidraw** | 渲染手写解答的 `.excalidraw` 与导出的 SVG |
-| **Mehrmaid** | 渲染 Mermaid 流程图/时序图 |
-| **Image Converter** | 处理高分辨率手写图片的缩放与排版 |
+| 插件                  | 作用                             |
+| :------------------ | :----------------------------- |
+| **Excalidraw**      | 渲染手写解答的 `.excalidraw` 与导出的 SVG |
+| **Mehrmaid**        | 渲染 Mermaid 流程图/时序图             |
+| **Image Converter** | 处理高分辨率手写图片的缩放与排版               |
 
 ### 推荐启用
 
