@@ -154,7 +154,10 @@ cd Obsidian-Graduate-Entrance-Exam-Mathematics-Notes
 | **Excalidraw**      | 渲染手写解答的 `.excalidraw` 与导出的 SVG |
 | **Mehrmaid**        | 渲染 Mermaid 流程图/时序图             |
 | **Image Converter** | 处理高分辨率手写图片的缩放与排版               |
-
+> [!attention] 
+> Image Converter 目前还存在一些 bug，如：图片居中设置在下次打开时会消失
+> 目前已提交 PR，正在等待作者合并，想要抢先体验的话可以去https://github.com/Sun8854/obsidian-image-converter/releases 下载
+> 若发现仍存在问题，可提交 issue
 ### 推荐启用
 
 | 插件 | 作用 |
