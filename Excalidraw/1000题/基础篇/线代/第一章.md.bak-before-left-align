@@ -1,0 +1,73 @@
+---
+
+excalidraw-plugin: parsed
+tags: [excalidraw]
+
+---
+==⚠  Switch to EXCALIDRAW VIEW in the MORE OPTIONS menu of this document. ⚠== You can decompress Drawing data with the command palette: 'Decompress current Excalidraw file'. For more info check in plugin settings under 'Saving'
+
+# Excalidraw Data
+
+## Text Elements
+## Embedded Files
+80d2140d7873f52e374c64341b060b5ab9fadb17: $$\begin{gathered}
+\text{1．设 } a,b,c \text{ 是方程 } x^3-2x+4=0 \text{ 的三个不同的根，则行列式 } \begin{vmatrix}a&b&c\\ b&c&a\\ c&a&b\end{vmatrix} \text{ 的值等于（ ）}\\[10pt]
+\text{(A) 1}\qquad \text{(B) 0}\qquad \text{(C) -1}\qquad \text{(D) -2}
+\end{gathered}$$
+
+73799773435968be814a6e41a20a06cd9d2405b9: $$\begin{gathered}
+\text{2．行列式 } \begin{vmatrix}x&1&0&1\\0&1&x&1\\1&x&1&0\\1&0&1&x\end{vmatrix} \text{ 展开式中的常数项为（ ）}\\[10pt]
+\text{(A) 4}\qquad \text{(B) 2}\qquad \text{(C) 1}\qquad \text{(D) 0}
+\end{gathered}$$
+
+afd02c9157da1703867eec6a8093d3ef65064094: $$\begin{gathered}
+\text{3．设 } D=\begin{vmatrix}5x&1&2&3\\x&x&1&2\\1&2&x&3\\x&1&2&2x\end{vmatrix} \text{，则 } D \text{ 的展开式中 } x^3 \text{ 的系数与 } x^4 \text{ 的系数分别为（ ）}\\[10pt]
+\text{(A) -5,10}\qquad \text{(B) -5,-10}\qquad \text{(C) 5,-10}\qquad \text{(D) 5,10}
+\end{gathered}$$
+
+6613acfe36557a344a0902b4849b8ef40b4ee830: $$\begin{gathered}
+\text{4．不恒为零的函数 } f(x)=\begin{vmatrix}a_1+x&b_1+x&c_1+x\\a_2+x&b_2+x&c_2+x\\a_3+x&b_3+x&c_3+x\end{vmatrix} \text{（ ）}\\[10pt]
+\text{(A) 没有零点}\qquad \text{(B) 至多有1个零点}\qquad \text{(C) 恰有2个零点}\qquad \text{(D) 恰有3个零点}
+\end{gathered}$$
+
+297454f234ab0bec6f063cfc08846c39c60acb37: $$\begin{gathered}
+\text{5．若 } f(x)=\begin{vmatrix}3x+1&x+11&x-2\\x+1&x+4&-1\\x&7&x-1\end{vmatrix} \text{，则曲线 } y=f(x) \text{ 的拐点为（ ）}\\[10pt]
+\text{(A) (1,7)}\qquad \text{(B) (-1,-1)}\qquad \text{(C) (0,0)}\qquad \text{(D) (-2,-2)}
+\end{gathered}$$
+
+b340566367c9863dbadb341a5042c2442df6d2af: $$\begin{gathered}
+\text{6．设 } n \text{ 阶行列式 } D_n=\begin{vmatrix}2&1&0&\cdots&0\\1&2&1&\cdots&0\\0&1&2&\cdots&0\\\vdots&\vdots&\vdots&\ddots&\vdots\\0&0&0&\cdots&2\end{vmatrix} \text{，则（ ）}\\[10pt]
+\text{(A) $D_1,D_2,\cdots,D_n$ 为等比数列}\qquad \text{(B) $D_1,D_2,\cdots,D_n$ 为等差数列}\qquad \text{(C) $D_n$ 为范德蒙德行列式}\qquad \text{(D) $D_n=n$}
+\end{gathered}$$
+
+0e89719add33cf1179059a1ad4b9ffb3734e6a34: $$\begin{gathered}
+\text{7．已知 } A,B \text{ 均为4阶矩阵，} r(AA^T)=3 \text{，} |AB|=\begin{vmatrix}2&a&0&-a\\-a&2&-5&b\\b&0&b&-2\\0&-2&4&0\end{vmatrix} \text{，且 } \begin{vmatrix}2&a&-a\\-a&2&b\\b&0&-2\end{vmatrix}=5 \text{，则 } \begin{vmatrix}-a&-5&b\\2&0&-a\\b&b&-2\end{vmatrix}=\underline{\hspace{2cm}} \text{.}\\[10pt]
+
+\end{gathered}$$
+
+e0e38242afa5a7afdafc2b5361b83a4aac0302de: $$\begin{gathered}
+\text{8．} \begin{vmatrix}2&1&0&-1\\-1&2&-5&3\\3&0&a&b\\1&-3&5&0\end{vmatrix}-\begin{vmatrix}2&1&0&-1\\-1&2&-5&3\\3&0&a&b\\1&-1&1&0\end{vmatrix}=\underline{\hspace{2cm}} \text{.}\\[10pt]
+
+\end{gathered}$$
+
+399e33a214d9063e402714098ee7ce6329986aae: $$\begin{gathered}
+\text{9．设行列式 } D=\begin{vmatrix}2&0&-1&1\\3&1&0&1\\4&1&1&0\\5&-1&0&a\end{vmatrix} \text{，} A_{ij} \text{ 表示元素 } a_{ij}(i,j=1,2,3,4) \text{ 的代数余子式。若 } A_{11}-A_{21}+A_{41}=4 \text{，则 } a=\underline{\hspace{2cm}} \text{.}\\[10pt]
+
+\end{gathered}$$
+
+cc94d3c87e94ff5fbc75963c8064cb953f48b761: $$\begin{gathered}
+\text{10．设 } x\ne0 \text{，则 } D_4=\begin{vmatrix}x&x&0&0\\1&1+2x&2x&0\\0&2&2+3x&3x\\0&0&3&3+4x\end{vmatrix}=\underline{\hspace{2cm}} \text{.}\\[10pt]
+
+\end{gathered}$$
+
+3de68b49778d480532e7de3aec0b44daeb1da288: $$\begin{gathered}
+\text{11．设 } A \text{ 是3阶矩阵，} \alpha_1,\alpha_2,\alpha_3 \text{ 是3维线性无关向量，且满足 } A\alpha_1=\alpha_1+2\alpha_2+\alpha_3 \text{，} A\alpha_2=2\alpha_1+\alpha_2+\alpha_3 \text{，} A\alpha_3=\alpha_1+\alpha_2+2\alpha_3 \text{，则 } |A|=\underline{\hspace{2cm}} \text{.}\\[10pt]
+
+\end{gathered}$$
+
+%%
+## Drawing
+```compressed-json
+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
+```
+%%
