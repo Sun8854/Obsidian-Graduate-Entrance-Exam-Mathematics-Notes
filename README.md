@@ -166,7 +166,12 @@ cd Obsidian-Graduate-Entrance-Exam-Mathematics-Notes
 | **Outliner**    | 大纲视图折叠导航                |
 
 ---
+## 🔧其他
+obsidian_math-master\Excalidraw\Scripts 文件夹中有一些 vba coding 的插件
+如 Paste Text With LaTeX，
 
+
+---
 ## 📅 更新计划
 
 - **固定更新时间**: 每周一
