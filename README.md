@@ -171,6 +171,10 @@ obsidian_math-master\Excalidraw\Scripts 文件夹中有一些 vba coding 的插�
 如 Paste Text With LaTeX，
 
 
+https://github.com/user-attachments/assets/5300f8e6-1517-4c1d-bf5e-a78a462a21bd
+
+
+
 ---
 ## 📅 更新计划
 
