@@ -149,21 +149,23 @@ cd Obsidian-Graduate-Entrance-Exam-Mathematics-Notes
 
 ### 必需插件(没有几乎无法正常浏览)
 
-| 插件                  | 作用                    |
-| :------------------ | :-------------------- |
-| **Excalidraw**      | 渲染手写解答的 `.excalidraw` |
-| **Mehrmaid**        | 渲染 Mermaid 流程图/时序图    |
-| **Image Converter** | 图片处理插件                |
+| 插件             | 作用                    |
+| :------------- | :-------------------- |
+| **Excalidraw** | 渲染手写解答的 `.excalidraw` |
+| **Mehrmaid**   | 渲染 Mermaid 流程图/时序图    |
+
+### 推荐启用
+
+| 插件                  | 作用                      |
+| :------------------ | :---------------------- |
+| **LaTeX Suite**     | 行内/块级 LaTeX 编辑增强(片段、补全) |
+| **Outliner**        | 大纲视图折叠导航                |
+| **Image Converter** | 图片处理插件                  |
 > [!attention] 
 > Image Converter 目前还存在一些 bug，如：图片居中设置在下次打开时会消失
 > 目前已提交 PR，正在等待作者合并，想要抢先体验的话可以去https://github.com/Sun8854/obsidian-image-converter/releases 下载
 > 若发现仍存在问题，可提交 issue
-### 推荐启用
 
-| 插件              | 作用                      |
-| :-------------- | :---------------------- |
-| **LaTeX Suite** | 行内/块级 LaTeX 编辑增强(片段、补全) |
-| **Outliner**    | 大纲视图折叠导航                |
 
 ---
 ## 🔧其他
