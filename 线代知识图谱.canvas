@@ -1,0 +1,70 @@
+{
+	"nodes": [
+		{
+			"id": "cd644dc9298ad930",
+			"type": "group",
+			"x": -140,
+			"y": -120,
+			"width": 460,
+			"height": 240,
+			"label": "线性关系"
+		},
+		{
+			"id": "b282d6ca85f91e3f",
+			"type": "text",
+			"text": "<center>任一向量均不能由其余向量线性表示</center>",
+			"x": 360,
+			"y": -80,
+			"width": 250,
+			"height": 60
+		},
+		{
+			"id": "f76c89722dab7840",
+			"x": 200,
+			"y": -10,
+			"width": 100,
+			"height": 120,
+			"type": "text",
+			"text": "<center>判别线性相关性的七大定理</center>"
+		},
+		{
+			"id": "6ef44bd0697acba7",
+			"type": "text",
+			"text": "列向量组线性相关",
+			"styleAttributes": {
+				"textAlign": "center"
+			},
+			"x": -80,
+			"y": 20,
+			"width": 250,
+			"height": 60
+		},
+		{
+			"id": "d77851a6184f3ec3",
+			"type": "text",
+			"text": "列向量组线性无关",
+			"styleAttributes": {
+				"textAlign": "center"
+			},
+			"x": -80,
+			"y": -80,
+			"width": 250,
+			"height": 60
+		}
+	],
+	"edges": [
+		{
+			"id": "d2e8626ad075a24b",
+			"fromNode": "d77851a6184f3ec3",
+			"fromSide": "right",
+			"toNode": "b282d6ca85f91e3f",
+			"toSide": "left",
+			"fromEnd": "arrow"
+		}
+	],
+	"metadata": {
+		"version": "1.0-1.0",
+		"frontmatter": {},
+		"startNode": "f75e9b77415d4c7d"
+	}
+}
