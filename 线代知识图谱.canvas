@@ -1,20 +1,14 @@
 {
 	"nodes":[
+		{"id":"cd644dc9298ad930","type":"group","x":-140,"y":-120,"width":460,"height":386,"label":"线性关系"},
 		{"id":"c210d67c14c2e723","type":"group","x":-580,"y":-120,"width":340,"height":426,"label":"方程组的解"},
-		{"id":"cd644dc9298ad930","type":"group","x":-140,"y":-120,"width":460,"height":240,"label":"线性关系"},
 		{"id":"f6044a81fe3dd5a9","type":"group","x":-110,"y":-420,"width":280,"height":200,"label":"方阵"},
 		{"id":"b282d6ca85f91e3f","type":"text","text":"<center>任一向量均不能由其余向量线性表示</center>","x":360,"y":-80,"width":250,"height":60},
 		{"id":"f76c89722dab7840","type":"text","text":"<center>判别线性相关性的七大定理</center>","x":200,"y":-10,"width":100,"height":120},
-		{
-			"id":"6ef44bd0697acba7",
-			"type":"text",
-			"text":"列向量组线性相关",
-			"styleAttributes":{"textAlign":"center"},
-			"x":-80,
-			"y":20,
-			"width":250,
-			"height":60
-		},
+		{"id":"20e441d438842246","type":"text","text":"齐次方程组只有零解\n(AX=0, A 为列向量组)","x":-539,"y":-80,"width":250,"height":60},
+		{"id":"ddcb45048ba48665","type":"text","text":"<center>列不满秩</center>","x":-740,"y":-300,"width":116,"height":60,"color":"2"},
+		{"id":"638752ca1879cc13","type":"text","text":"$r(A)=r([A,\\beta])$","x":-773,"y":110,"width":149,"height":60,"color":"2"},
+		{"id":"722eb99ebceaf370","type":"text","text":"$r([A,\\beta]) = r(A) + 1$","x":-797,"y":206,"width":173,"height":60,"color":"2"},
 		{
 			"id":"d77851a6184f3ec3",
 			"type":"text",
@@ -25,20 +19,27 @@
 			"width":250,
 			"height":60
 		},
-		{"id":"c86f6334361f98d8","type":"text","text":"胖矩阵","x":-140,"y":200,"width":96,"height":60},
-		{"id":"18fe51890c70148a","type":"text","text":"<center>向量组中含有 0 向量或有成比例的向量</center>","x":-18,"y":260,"width":188,"height":91},
-		{"id":"5a7711e85f731797","type":"text","text":"<center>至少有一个向量可由其余向量线性表示</center>","x":200,"y":200,"width":200,"height":66},
 		{"id":"6a2d75a351840019","type":"text","text":"<center>方阵且|A|=0</center>","x":-40,"y":-400,"width":138,"height":60},
 		{"id":"5c4ed28dc875c0e0","type":"text","text":"方阵且|A| $\\neq$ 0","x":-40,"y":-300,"width":160,"height":60},
 		{"id":"a4c00ae50ffbdc3a","type":"text","text":"<center>矩阵可逆</center>","x":250,"y":-300,"width":125,"height":60},
 		{"id":"a32bd20710402451","type":"text","text":"非齐次方程组无解\n(AX= $\\beta$ )","x":-539,"y":206,"width":250,"height":60},
-		{"id":"20e441d438842246","type":"text","text":"齐次方程组只有零解\n(AX=0, A 为列向量组)","x":-539,"y":-80,"width":250,"height":60},
 		{"id":"4e4ad2cee02668dd","type":"text","text":"齐次方程组有非零解\n(AX=0, A 为列向量组)","x":-539,"y":20,"width":250,"height":60},
 		{"id":"601bbdf785b9395c","type":"text","text":"非齐次方程组有解\n(AX=$\\beta$  )","x":-539,"y":110,"width":250,"height":60},
 		{"id":"97240d3f59f6bc8f","type":"text","text":"<center>列满秩矩阵</center>","x":-487,"y":-300,"width":145,"height":60,"color":"2"},
-		{"id":"ddcb45048ba48665","type":"text","text":"<center>列不满秩</center>","x":-740,"y":-300,"width":116,"height":60,"color":"2"},
-		{"id":"638752ca1879cc13","x":-773,"y":110,"width":149,"height":60,"color":"2","type":"text","text":"$r(A)=r([A,\\beta])$"},
-		{"id":"722eb99ebceaf370","x":-797,"y":206,"width":173,"height":60,"color":"2","type":"text","text":"$r([A,\\beta]) = r(A) + 1$"}
+		{"id":"a63a051de5e8fc23","type":"text","text":"<center>任一部分向量组线性无关</center>","x":313,"y":-200,"width":250,"height":60},
+		{"id":"5a7711e85f731797","type":"text","text":"<center>至少有一个向量可由其余向量线性表示</center>","x":213,"y":360,"width":200,"height":66},
+		{"id":"18fe51890c70148a","type":"text","text":"<center>向量组中含有 0 向量或有成比例的向量</center>","x":-5,"y":420,"width":188,"height":91},
+		{"id":"c86f6334361f98d8","type":"text","text":"胖矩阵","x":-127,"y":360,"width":96,"height":60},
+		{
+			"id":"6ef44bd0697acba7",
+			"type":"text",
+			"text":"列向量组线性相关",
+			"styleAttributes":{"textAlign":"center"},
+			"x":-80,
+			"y":140,
+			"width":250,
+			"height":60
+		}
 	],
 	"edges":[
 		{"id":"d2e8626ad075a24b","fromNode":"d77851a6184f3ec3","fromSide":"right","toNode":"b282d6ca85f91e3f","toSide":"left","fromEnd":"arrow"},
@@ -54,7 +55,9 @@
 		{"id":"f99745c97e73a159","fromNode":"6a2d75a351840019","fromSide":"left","toNode":"ddcb45048ba48665","toSide":"top"},
 		{"id":"89f937813f8f5503","fromNode":"ddcb45048ba48665","fromSide":"bottom","toNode":"4e4ad2cee02668dd","toSide":"left","fromEnd":"arrow"},
 		{"id":"bad4e8954a57007c","fromNode":"601bbdf785b9395c","fromSide":"left","toNode":"638752ca1879cc13","toSide":"right","fromEnd":"arrow"},
-		{"id":"7d680d1e6e41fd0a","fromNode":"a32bd20710402451","fromSide":"left","toNode":"722eb99ebceaf370","toSide":"right","fromEnd":"arrow"}
+		{"id":"7d680d1e6e41fd0a","fromNode":"a32bd20710402451","fromSide":"left","toNode":"722eb99ebceaf370","toSide":"right","fromEnd":"arrow"},
+		{"id":"0fc5b808561b3c36","fromNode":"d77851a6184f3ec3","fromSide":"right","toNode":"a63a051de5e8fc23","toSide":"left"},
+		{"id":"74cacc297fb75099","fromNode":"d77851a6184f3ec3","fromSide":"bottom","toNode":"6ef44bd0697acba7","toSide":"top"}
 	],
 	"metadata":{
 		"version":"1.0-1.0",
