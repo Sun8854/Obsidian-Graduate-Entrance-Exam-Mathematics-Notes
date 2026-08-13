@@ -3,8 +3,7 @@
 		{"id":"c210d67c14c2e723","type":"group","x":-580,"y":-120,"width":340,"height":426,"label":"方程组的解"},
 		{"id":"cd644dc9298ad930","type":"group","x":-140,"y":-120,"width":460,"height":240,"label":"线性关系"},
 		{"id":"f6044a81fe3dd5a9","type":"group","x":-110,"y":-420,"width":280,"height":200,"label":"方阵"},
-		{"id":"b282d6ca85f91e3f","type":"text","text":"<center>任一向量均不能由其余向量线性表示</center>","x":360,"y":-80,"width":250,"height":60},
-		{"id":"f76c89722dab7840","type":"text","text":"<center>判别线性相关性的七大定理</center>","x":200,"y":-10,"width":100,"height":120},
+		{"id":"2c19420546fb99b3","type":"group","x":-266,"y":500,"width":182,"height":208,"label":"等价"},
 		{"id":"18fe51890c70148a","type":"text","text":"<center>向量组中含有 0 向量或有成比例的向量</center>","x":-18,"y":260,"width":188,"height":91},
 		{"id":"5a7711e85f731797","type":"text","text":"<center>至少有一个向量可由其余向量线性表示</center>","x":200,"y":200,"width":200,"height":66},
 		{"id":"20e441d438842246","type":"text","text":"齐次方程组只有零解\n(AX=0, A 为列向量组)","x":-539,"y":-80,"width":250,"height":60},
@@ -14,7 +13,7 @@
 		{
 			"id":"6ef44bd0697acba7",
 			"type":"text",
-			"text":"列向量组线性相关",
+			"text":"<center>列向量组线性相关</center>",
 			"styleAttributes":{"textAlign":"center"},
 			"x":-80,
 			"y":20,
@@ -24,7 +23,7 @@
 		{
 			"id":"d77851a6184f3ec3",
 			"type":"text",
-			"text":"列向量组线性无关",
+			"text":"<center>列向量组线性无关</center>",
 			"styleAttributes":{"textAlign":"center"},
 			"x":-80,
 			"y":-80,
@@ -39,7 +38,19 @@
 		{"id":"601bbdf785b9395c","type":"text","text":"非齐次方程组有解\n(AX=$\\beta$  )","x":-539,"y":110,"width":250,"height":60},
 		{"id":"97240d3f59f6bc8f","type":"text","text":"<center>列满秩矩阵</center>","x":-487,"y":-300,"width":145,"height":60,"color":"2"},
 		{"id":"c86f6334361f98d8","type":"text","text":"胖矩阵","x":-140,"y":200,"width":96,"height":60},
-		{"id":"a63a051de5e8fc23","x":313,"y":-200,"width":250,"height":60,"type":"text","text":"<center>任一部分向量组线性无关</center>"}
+		{"id":"a63a051de5e8fc23","type":"text","text":"<center>任一部分向量组线性无关</center>","x":313,"y":-200,"width":250,"height":60},
+		{"id":"0413a3720b7f2dae","type":"text","text":"三秩相等：$r(S_1)=r(S_2)=r(S_1,S_2)$","x":-4,"y":620,"width":291,"height":75},
+		{"id":"14c06b3c389c55fa","type":"text","text":"<center>等价向量组</center>","x":-246,"y":628,"width":142,"height":60},
+		{"id":"be3395b404de826a","type":"text","text":"<center>两个同维向量组可以相互表示</center>","x":-539,"y":628,"width":192,"height":60},
+		{"id":"821b8a92e510f2d7","type":"text","text":"$S_1\\text{ 可由 }S_2\\text{ 表示}$ 且 $r(S_1)=r(S_2)$","x":-316,"y":781,"width":283,"height":60},
+		{"id":"50fd62276978fabc","type":"text","text":"<center>矩阵等价</center>","x":-236,"y":520,"width":123,"height":60},
+		{"id":"c922a7e8499208aa","type":"text","text":"两矩阵同型且 $r(A)=r(B)$","x":-4,"y":520,"width":250,"height":60},
+		{"id":"b282d6ca85f91e3f","type":"text","text":"<center>任一向量均不能由其余向量线性表示</center>","x":375,"y":-80,"width":250,"height":60},
+		{"id":"f76c89722dab7840","type":"text","text":"<center>判别线性相关性的七大定理</center>","x":200,"y":-10,"width":100,"height":120},
+		{"id":"5581cf486ccd6e02","type":"text","text":"<center>初等行变换</center>","x":-797,"y":440,"width":140,"height":60},
+		{"id":"4b3345ed2359ea9b","type":"text","text":"<center>变换前后行向量组</center>","x":-568,"y":490,"width":111,"height":60},
+		{"id":"bcf57d738a4c421f","type":"text","text":"<center>变换前后相应部分列向量组</center>","x":-425,"y":380,"width":156,"height":60},
+		{"id":"eac1b8e1160abef1","type":"text","text":"<center>极大无关组</center>","x":400,"y":321,"width":134,"height":60}
 	],
 	"edges":[
 		{"id":"d2e8626ad075a24b","fromNode":"d77851a6184f3ec3","fromSide":"right","toNode":"b282d6ca85f91e3f","toSide":"left","fromEnd":"arrow"},
@@ -56,7 +67,17 @@
 		{"id":"89f937813f8f5503","fromNode":"ddcb45048ba48665","fromSide":"bottom","toNode":"4e4ad2cee02668dd","toSide":"left","fromEnd":"arrow"},
 		{"id":"bad4e8954a57007c","fromNode":"601bbdf785b9395c","fromSide":"left","toNode":"638752ca1879cc13","toSide":"right","fromEnd":"arrow"},
 		{"id":"7d680d1e6e41fd0a","fromNode":"a32bd20710402451","fromSide":"left","toNode":"722eb99ebceaf370","toSide":"right","fromEnd":"arrow"},
-		{"id":"0fc5b808561b3c36","fromNode":"d77851a6184f3ec3","fromSide":"right","toNode":"a63a051de5e8fc23","toSide":"left"}
+		{"id":"0fc5b808561b3c36","fromNode":"d77851a6184f3ec3","fromSide":"right","toNode":"a63a051de5e8fc23","toSide":"left"},
+		{"id":"1bda6530802eaf9c","fromNode":"be3395b404de826a","fromSide":"right","toNode":"14c06b3c389c55fa","toSide":"left","fromEnd":"arrow"},
+		{"id":"76e0de1f63683598","fromNode":"14c06b3c389c55fa","fromSide":"right","toNode":"0413a3720b7f2dae","toSide":"left","fromEnd":"arrow"},
+		{"id":"c63e2df82012c80e","fromNode":"821b8a92e510f2d7","fromSide":"top","toNode":"14c06b3c389c55fa","toSide":"bottom","fromEnd":"arrow"},
+		{"id":"939e4a0c24d9702f","fromNode":"50fd62276978fabc","fromSide":"right","toNode":"c922a7e8499208aa","toSide":"left"},
+		{"id":"6110c1bcb33742e3","fromNode":"eac1b8e1160abef1","fromSide":"left","toNode":"d77851a6184f3ec3","toSide":"bottom","toEnd":"none"},
+		{"id":"e9aafde70a58e17e","fromNode":"5581cf486ccd6e02","fromSide":"right","toNode":"4b3345ed2359ea9b","toSide":"left","toEnd":"none"},
+		{"id":"a50d6f2f626e4459","fromNode":"5581cf486ccd6e02","fromSide":"right","toNode":"bcf57d738a4c421f","toSide":"left","toEnd":"none"},
+		{"id":"71a7ab534e2d6b38","fromNode":"4b3345ed2359ea9b","fromSide":"right","toNode":"14c06b3c389c55fa","toSide":"left"},
+		{"id":"f13c9a1efbb85f60","fromNode":"bcf57d738a4c421f","fromSide":"right","toNode":"cd644dc9298ad930","toSide":"left","label":"相同"},
+		{"id":"fa86990d470072ff","fromNode":"eac1b8e1160abef1","fromSide":"bottom","toNode":"bcf57d738a4c421f","toSide":"right","toEnd":"none"}
 	],
 	"metadata":{
 		"version":"1.0-1.0",
