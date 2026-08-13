@@ -60,6 +60,12 @@
   <em>图 1: 题目解答</em>
 </p>
 
+<p align="center">
+<img width="1502" height="839" alt="屏幕截图 2026-08-13 111914" src="https://github.com/user-attachments/assets/4714eca5-6676-4d17-880c-238b4854a71b" />
+  <br/>
+  <em>图 2: 知识图谱</em>
+</p>
+
 ---
 
 ## 📚 内容范围
