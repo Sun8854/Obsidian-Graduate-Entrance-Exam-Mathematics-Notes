@@ -1,8 +1,10 @@
 <div align="center">
 
-# 🎯 star 此仓者，皆斩 150
-
-### Obsidian Math 考研数学笔记
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="./assets/readme/title-dark.gif">
+  <source media="(prefers-color-scheme: light)" srcset="./assets/readme/title-light.gif">
+  <img width="900" alt="Obsidian考研数学笔记 — 🎯 star 此仓者，皆斩 150" src="./assets/readme/title-light.gif">
+</picture>
 
 **基于 Obsidian 构建的考研数学二知识库 · 题目、总结、AI 笔记全覆盖**
 
