@@ -1,0 +1,31 @@
+{
+	"nodes": [
+		{
+			"id": "4462f849dcd6f350",
+			"x": -500,
+			"y": -79,
+			"width": 60,
+			"height": 60,
+			"type": "text",
+			"text": "$x^{x}$"
+		},
+		{
+			"id": "a0ecd1446b57ebc4",
+			"x": -337,
+			"y": -78,
+			"width": 77,
+			"height": 60,
+			"type": "text",
+			"text": "$e^{x\\ln x}$"
+		}
+	],
+	"edges": [
+		{
+			"id": "c29371f6c4f0d97c",
+			"fromNode": "4462f849dcd6f350",
+			"fromSide": "right",
+			"toNode": "a0ecd1446b57ebc4",
+			"toSide": "left"
+		}
+	]
+}
